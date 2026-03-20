@@ -3,65 +3,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Contrôleur de Ronde - RATP Dev</title>
-    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/RATP_Dev_logo.svg/1200px-RATP_Dev_logo.svg.png">
+    <title>Contrôleur de Ronde - RATP Dev Casablanca</title>
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/elargoub1979/ronde-casa/main/logo_ratp_dev_casa.png">
     
     <style>
+        /* Définition des couleurs RATP/Casa pour une interface cohérente */
         :root {
-            --ratp-green-btn: #009688; 
-            --ratp-blue-ui: #0055A4;  
-            --bg-page: #f4f7f6;      
-            --bg-card: #ffffff;      
-            --text-main: #333333;
-            --border-form: #cccccc;   
+            --casa-orange: #f37021;  /* Orange du logo Casa */
+            --ratp-teal: #009688;    /* Vert d'eau RATP Dev */
+            --ratp-blue: #0055A4;    /* Bleu RATP */
+            --bg-gray: #f4f7f6;      /* Fond de page gris très clair */
+            --white: #ffffff;        /* Fond de la carte blanc pur */
+            --text-color: #333333;
+            --border-color: #cccccc;  /* Couleur des bordures de formulaire */
         }
 
+        /* Style de base pour la page */
         body {
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-page);
+            background-color: var(--bg-gray);
             margin: 0;
             display: flex;
             justify-content: center;
-            min-height: 100vh;
+            align-items: center; /* Centre verticalement */
+            min-height: 100vh; /* Prend toute la hauteur de l'écran */
             padding: 10px;
         }
 
+        /* Style de la carte principale qui contient l'application */
         .card {
-            background: var(--bg-card);
+            background: var(--white);
             width: 100%;
-            max-width: 480px;
-            border-radius: 15px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
-            overflow: hidden;
-            border-top: 5px solid var(--ratp-blue-ui); 
-            align-self: center;
+            max-width: 480px; /* Largeur maximale pour les grands écrans */
+            border-radius: 15px; /* Coins arrondis professionnels */
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); /* Ombre légère pour le relief */
+            overflow: hidden; /* Empêche le contenu de déborder */
+            border-top: 5px solid var(--ratp-blue); /* Fine bande bleue RATP en haut */
         }
 
+        /* Style de l'en-tête contenant les logos */
         .header {
             text-align: center;
             padding: 25px 20px 15px 20px;
             display: flex;
-            flex-direction: column;
+            flex-direction: column; /* Aligne les éléments verticalement */
             align-items: center;
-            border-bottom: 1px solid #eee; 
+            border-bottom: 1px solid #eee; /* Ligne de séparation fine */
         }
 
-        /* --- LOGOS RÉELS : REPRODUCTION EXACTE DE LA DISPOSITION --- */
-        .logo-casa-group {
-            max-width: 170px; /* Groupe logos authentique Casa Tram/Bus */
+        /* Style pour les logos */
+        .logo-casa {
+            max-width: 180px; /* Taille optimale du bloc Casa Tram/Bus */
             height: auto;
-            margin-bottom: 18px; 
+            margin-bottom: 20px; /* Espace avant le logo RATP Dev */
         }
 
         .logo-ratp-dev {
-            max-width: 190px; /* Logo haute définition RATP Dev */
+            max-width: 190px; /* Taille optimale du logo RATP Dev Casablanca */
             height: auto;
             margin-bottom: 5px;
         }
-        /* ----------------------------------------------------------- */
 
+        /* Style du titre de l'application */
         h2.main-title {
-            color: var(--ratp-blue-ui);
+            color: var(--ratp-blue);
             font-size: 1.2rem;
             text-align: center;
             text-transform: uppercase;
@@ -69,17 +74,20 @@
             margin: 0;
             letter-spacing: 1px;
             font-weight: bold;
-            background-color: #f9f9f9; 
+            background-color: #f9f9f9; /* Fond légèrement gris pour le titre */
         }
 
+        /* Style du conteneur de formulaire */
         .container {
             padding: 25px;
         }
 
+        /* Style de chaque groupe de formulaire (label + select) */
         .form-group {
             margin-bottom: 20px;
         }
 
+        /* Style des étiquettes (labels) */
         label {
             display: block;
             font-weight: 700;
@@ -88,28 +96,32 @@
             color: #444;
         }
 
+        /* Style des listes déroulantes (select) */
         select {
             width: 100%;
             padding: 14px 16px;
-            border: 1px solid var(--border-form); 
-            border-radius: 10px; 
+            border: 1px solid var(--border-color); 
+            border-radius: 10px; /* Coins arrondis comme dans le modèle */
             font-size: 1rem;
             background-color: #ffffff;
-            color: #333;
+            color: var(--text-color);
             outline: none;
             transition: all 0.2s;
-            appearance: none; 
+            appearance: none; /* Cache la flèche par défaut */
+            /* Ajoute une flèche de sélection personnalisée */
             background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
             background-repeat: no-repeat;
             background-position: right 14px center;
             background-size: 1.1em;
         }
 
+        /* Effet au focus sur un select */
         select:focus {
-            border-color: var(--ratp-blue-ui);
+            border-color: var(--ratp-blue);
             box-shadow: 0 0 0 4px rgba(0, 85, 164, 0.1);
         }
 
+        /* Style pour l'indicateur de statut GPS */
         #status-gps {
             font-size: 0.8rem;
             text-align: center;
@@ -119,9 +131,10 @@
             min-height: 1rem;
         }
 
+        /* Style du bouton principal "TAGUER" */
         .btn-taguer {
             width: 100%;
-            background-color: var(--ratp-green-btn); 
+            background-color: var(--ratp-green-btn); /* Vert RATP */
             color: white;
             border: none;
             padding: 20px;
@@ -134,12 +147,14 @@
             transition: all 0.2s ease;
         }
 
+        /* Effet au clic sur le bouton */
         .btn-taguer:active {
             transform: scale(0.97);
             filter: brightness(0.9);
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
+        /* Style du bouton quand il est désactivé (pendant la recherche GPS) */
         .btn-taguer:disabled {
             background-color: #bdc3c7;
             box-shadow: none;
@@ -150,9 +165,9 @@
 
 <div class="card">
     <div class="header">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Logo_Casa_Tram_Bus.png/1200px-Logo_Casa_Tram_Bus.png" alt="Logo officiel Casa Tram/Bus" class="logo-casa-group">
+        <img src="https://raw.githubusercontent.com/elargoub1979/ronde-casa/main/logo_casa_group.png" alt="Casa Tramway / Casa Busway" class="logo-casa">
         
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/RATP_Dev_logo.svg/1200px-RATP_Dev_logo.svg.png" alt="Logo officiel RATP Dev" class="logo-ratp-dev">
+        <img src="https://raw.githubusercontent.com/elargoub1979/ronde-casa/main/logo_ratp_dev_casa.png" alt="RATP Dev Casablanca" class="logo-ratp-dev">
     </div>
 
     <h2 class="main-title">CONTRÔLEUR DE RONDE</h2>
@@ -193,18 +208,21 @@
 
 <script>
     // --- DONNÉES DES STATIONS (Inchangées) ---
+    // Vous pouvez modifier cette liste pour chaque ligne
     const data = {
-        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohamed Zefzaf", "Centre Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachefine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Les Anciens Abattoirs", "Ba Hmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place Des Nations Unies", "Place Mohamed 5", "Avenue Hassan 2", "Wafasalaf", "Faculté De Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
-        "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare de Ain Sbaa", "Préfecture Ain Sbaa", "AL Amane", "Wifaq", "Dar Laman", "Carrières centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Club", "Place financière", "Abdellah Ben Cherif", "Cité de L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"],
-        "T3": ["Casa Port Terminus", "Mohammed Smiha", "Place De La victoir", "Mohamed Zerktouni", "Habous", "Garage allal", "Derb Tolba", "Derb Chorfa", "Abou Couaib Doukali", "Afriquia", "Dar Attouzani", "BD Mohammed VI", "6 NOUVEMBRE", "Abdessalam Ennaciri", "Jardin Alesco", "Hay Lalla Mariem", "Idriss El Allam", "Abdelkader Essahraoui", "10 Mars", "Hay Alwahda Terminus"],
-        "T4": ["Mohammed Erradi Terminus", "Zone Industrielle", "Moulay Rachid", "Mohammed Joudar", "Faculté Ben Msik", "Hay El Falah", "Driss El Harti", "Mohammed Bouziane", "Hay Assalama", "Nil", "Jardin Chtaiba", "Hay Tissir", "Gare Oulad Ziane", "In Borja", "Ifni", "La Girande", "Jabir Ibn Hayane", "Mers Sultan", "Parc De La Ligue Arabe Terminus"],
-        "BW1": ["Salmia 2 Terminus", "Sbata", "Stade Tessema", "Al Joulane", "Lahrizi", "Jardin Sunday", "Amgala", "Al Qods", "Sefrou", "Taza", "Al Inara", "Oulad Haddou", "Hay Chrifa", "Taddart", "Azzohour", "Californie", "Casa Nearshore", "Al Moustakbal", "Sidi Maarouf", "Omar Al Khayam Terminus"],
-        "BW2": ["Oulmes Terminus", "Yaacoub Al Mansour", "C.I.L.", "Aéropostale", "Les musées", "Oued Oum Rabia", "Oued Laou", "Oued Beht", "Moulouya", "Haj Fateh", "Essafa", "Moulay Thami", "Abouab Oulfa", "La Rocade", "La Perception", "Les Jardins D’Errahma", "Errahma", "Oued Sbou", "Les Ecoles", "Ouled Ahmed", "La Ferme", "Ouled Azzouz Terminus"]
+        "T1": ["Sidi Moumen Terminus", "Casa Voyageurs", "Place Mohamed V", "Facultés", "Lissasfa Terminus"],
+        "T2": ["Sidi Bernoussi Terminus", "2 Mars", "Riviera", "Ain Diab Plage Terminus"],
+        "T3": ["Casa Port Terminus", "Derb Sultan", "Hay Alwahda Terminus"],
+        "T4": ["Mohammed Erradi Terminus", "Mers Sultan", "Parc De La Ligue Arabe Terminus"],
+        "BW1": ["Salmia 2 Terminus", "Oulad Haddou", "Omar Al Khayam Terminus"],
+        "BW2": ["Oulmes Terminus", "Errahma", "Ouled Azzouz Terminus"]
     };
 
+    // --- LISTE DES CHEFS DE ZONE ---
+    // Vous pouvez modifier cette liste en ajoutant ou supprimant des noms
     const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
 
-    // Initialisation
+    // Initialisation : trie les chefs par ordre alphabétique et remplit le select
     window.onload = function() {
         const chefSelect = document.getElementById('chef');
         chefs.sort().forEach(c => {
@@ -214,11 +232,14 @@
         });
     };
 
+    // Met à jour la liste des stations quand une ligne est choisie
     function updateStations() {
         const ligne = document.getElementById('ligne').value;
         const sSelect = document.getElementById('station');
+        // Réinitialise la liste des stations
         sSelect.innerHTML = '<option value="">-- Sélectionner Station --</option>';
-        if (ligne) {
+        // Remplit la liste avec les stations de la ligne choisie
+        if (ligne && data[ligne]) {
             data[ligne].forEach(s => {
                 let o = document.createElement('option');
                 o.value = s; o.text = s;
@@ -227,11 +248,14 @@
         }
     }
 
+    // Fonction principale déclenchée au clic sur "TAGUER"
     function lancerAction() {
+        // Récupération des valeurs du formulaire
         const l = document.getElementById('ligne').value;
         const s = document.getElementById('station').value;
         const c = document.getElementById('chef').value;
 
+        // Vérification que tous les champs sont remplis
         if (!l || !s || !c) {
             alert("⚠️ Veuillez remplir tous les champs !");
             return;
@@ -240,34 +264,46 @@
         const btn = document.getElementById('btn-main');
         const status = document.getElementById('status-gps');
         
+        // Désactive le bouton et affiche le statut de recherche GPS
         btn.disabled = true;
         btn.innerHTML = "LOCALISATION...";
         status.innerHTML = "🛰️ Recherche GPS en cours...";
-        status.style.color = "#f39c12";
+        status.style.color = "#f39c12"; // Orange d'avertissement
 
+        // Vérifie si la géolocalisation est disponible
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition(
+                // Cas de succès
                 (pos) => {
-                    const lat = pos.coords.latitude.toFixed(6);
+                    const lat = pos.coords.latitude.toFixed(6); // 6 décimales pour la précision
                     const lon = pos.coords.longitude.toFixed(6);
                     const h = new Date().toLocaleTimeString('fr-FR', {hour: '2-digit', minute:'2-digit'});
                     
+                    // Met à jour le statut
                     status.innerHTML = "✅ POSITION CAPTURÉE";
                     status.style.color = "var(--ratp-green-btn)";
                     
+                    // Affiche le message de confirmation avec les coordonnées GPS
                     alert(`✅ RONDE VALIDÉE\n\n👤 Chef: ${c}\n📍 Station: ${s}\n⏰ Heure: ${h}\n🌍 GPS: ${lat}, ${lon}`);
                     
+                    // Réactive le bouton
                     btn.disabled = false;
                     btn.innerHTML = "TAGUER";
                 },
+                // Cas d'erreur (GPS désactivé, refus d'autorisation, etc.)
                 (err) => {
                     alert("❌ Erreur GPS : Vérifiez que la localisation est activée.");
                     btn.disabled = false;
                     btn.innerHTML = "TAGUER";
                     status.innerHTML = "❌ GPS ÉCHOUÉ";
+                    status.style.color = "#e74c3c"; // Rouge d'erreur
                 },
-                { enableHighAccuracy: true, timeout: 10000 }
+                // Paramètres de géolocalisation pour plus de précision
+                { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
             );
+        } else {
+            alert("❌ Géolocalisation non disponible sur ce navigateur.");
+            btn.disabled = false;
         }
     }
 </script>
