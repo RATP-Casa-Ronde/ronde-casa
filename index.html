@@ -24,83 +24,91 @@
 
         .card {
             background: white;
-            width: 90%;
-            max-width: 400px;
+            width: 95%;
+            max-width: 420px;
             border-radius: 15px;
             box-shadow: 0 8px 20px rgba(0,0,0,0.1);
             border-top: 6px solid var(--ratp-blue);
             overflow: hidden;
-            margin: 20px 0;
+            margin: 10px 0;
         }
 
-        .header { padding: 20px; text-align: center; border-bottom: 1px solid #eee; }
-        .logo-casa { width: 150px; height: auto; margin-bottom: 10px; }
-        .logo-ratp { width: 160px; height: auto; }
+        .header { padding: 15px; text-align: center; border-bottom: 1px solid #eee; }
+        .logo-casa { width: 140px; height: auto; margin-bottom: 8px; }
+        .logo-ratp { width: 150px; height: auto; }
 
         h2 {
             color: var(--ratp-blue);
-            font-size: 1rem;
+            font-size: 0.95rem;
             margin: 0;
-            padding: 15px;
+            padding: 12px;
             background: #f9f9f9;
             text-transform: uppercase;
             text-align: center;
             font-weight: bold;
         }
 
-        .container { padding: 20px; }
+        .container { padding: 15px; }
 
         label {
             display: block;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
             color: #444;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
         }
 
         select {
             width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
+            padding: 10px;
+            margin-bottom: 12px;
             border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
+            border-radius: 6px;
+            font-size: 0.95rem;
             background-color: #fff;
         }
 
-        .btn-group {
+        /* --- Organisation des Boutons --- */
+        .btn-group-top {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 12px;
-            margin-top: 10px;
+            grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+            gap: 10px;
+            margin-bottom: 10px; /* Espace avant le bouton Taguer */
         }
 
         .btn {
-            width: 100%;
             color: white;
             border: none;
-            padding: 18px;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            padding: 16px;
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
             transition: 0.2s;
+            width: 100%;
         }
 
-        /* --- Couleurs demandées --- */
+        /* Couleurs demandées */
         .btn-prise { background-color: var(--ratp-green); } /* VERT */
         .btn-fin { background-color: var(--ratp-red); }     /* ROUGE */
-        .btn-taguer { background-color: var(--ratp-blue); }  /* BLEU */
+        
+        /* Bouton Taguer en dessous, pleine largeur */
+        .btn-taguer { 
+            background-color: var(--ratp-blue); /* BLEU */
+            width: 100%; 
+            padding: 20px; /* Un peu plus grand */
+            font-size: 1.1rem;
+        }
 
         .btn:active { transform: scale(0.96); filter: brightness(0.9); }
 
         #status {
             text-align: center;
-            font-size: 0.85rem;
-            margin-top: 15px;
+            font-size: 0.8rem;
+            margin-top: 10px;
             font-weight: bold;
-            min-height: 1.2rem;
+            min-height: 1.1rem;
         }
     </style>
 </head>
@@ -153,17 +161,19 @@
             <option value="">-- Sélectionner Chef --</option>
         </select>
 
-        <div class="btn-group">
+        <div class="btn-group-top">
             <button class="btn btn-prise" onclick="valider('PRISE DE SERVICE')">Prise de Service</button>
-            <button class="btn btn-taguer" onclick="valider('TAGUER (CONTRÔLE)')">Taguer</button>
             <button class="btn btn-fin" onclick="valider('FIN DE SERVICE')">Fin de Service</button>
         </div>
+        
+        <button class="btn btn-taguer" onclick="valider('TAGUER (CONTRÔLE)')">Taguer</button>
         
         <div id="status"></div>
     </div>
 </div>
 
 <script>
+    // --- MÊME LOGIQUE DE DONNÉES ET D'ENVOI ---
     const data = {
         "Dépôt Hantat": ["Loge de Sécurité", "Atelier", "Bureaux Administratifs", "Parking"],
         "Dépôt Sidi Moumen": ["Loge de Sécurité", "Atelier", "PCC", "Parking"],
@@ -232,7 +242,11 @@
                 })
             }).then(() => {
                 status.innerHTML = "✅ ENREGISTRÉ : " + typeAction;
-                status.style.color = (typeAction === 'FIN DE SERVICE') ? 'red' : 'green';
+                // Changement de couleur du statut selon l'action
+                if (typeAction === 'FIN DE SERVICE') status.style.color = 'red';
+                else if (typeAction === 'PRISE DE SERVICE') status.style.color = 'green';
+                else status.style.color = 'var(--ratp-blue)';
+                
                 alert("✅ Confirmé : " + typeAction);
             }).catch(() => alert("❌ Erreur d'envoi"));
 
