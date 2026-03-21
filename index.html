@@ -6,8 +6,9 @@
     <title>RATP Dev Casablanca - Contrôle</title>
     <style>
         :root {
-            --ratp-blue: #0055A4;
-            --ratp-green: #009688;
+            --ratp-blue: #0055A4;    /* Bleu pour Taguer */
+            --ratp-green: #28a745;   /* Vert pour Prise de Service */
+            --ratp-red: #dc3545;     /* Rouge pour Fin de Service */
             --bg-gray: #f4f7f6;
         }
 
@@ -32,43 +33,37 @@
             margin: 20px 0;
         }
 
-        .header {
-            padding: 20px;
-            text-align: center;
-            border-bottom: 1px solid #eee;
-        }
-
-        .logo-casa { width: 170px; height: auto; margin-bottom: 15px; }
-        .logo-ratp { width: 180px; height: auto; }
+        .header { padding: 20px; text-align: center; border-bottom: 1px solid #eee; }
+        .logo-casa { width: 150px; height: auto; margin-bottom: 10px; }
+        .logo-ratp { width: 160px; height: auto; }
 
         h2 {
             color: var(--ratp-blue);
-            font-size: 1.1rem;
+            font-size: 1rem;
             margin: 0;
             padding: 15px;
             background: #f9f9f9;
             text-transform: uppercase;
             text-align: center;
             font-weight: bold;
-            line-height: 1.4;
         }
 
-        .container { padding: 25px; }
+        .container { padding: 20px; }
 
         label {
             display: block;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             color: #444;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
 
         select {
             width: 100%;
-            padding: 14px;
-            margin-bottom: 20px;
+            padding: 12px;
+            margin-bottom: 15px;
             border: 1px solid #ccc;
-            border-radius: 10px;
+            border-radius: 8px;
             font-size: 1rem;
             background-color: #fff;
         }
@@ -76,27 +71,29 @@
         .btn-group {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 12px;
+            margin-top: 10px;
         }
 
         .btn {
             width: 100%;
             color: white;
             border: none;
-            padding: 20px;
+            padding: 18px;
             border-radius: 10px;
             font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
-            transition: 0.3s;
+            transition: 0.2s;
         }
 
-        .btn-prise { background-color: var(--ratp-blue); }
-        .btn-taguer { background-color: var(--ratp-green); }
+        /* --- Couleurs demandées --- */
+        .btn-prise { background-color: var(--ratp-green); } /* VERT */
+        .btn-fin { background-color: var(--ratp-red); }     /* ROUGE */
+        .btn-taguer { background-color: var(--ratp-blue); }  /* BLEU */
 
-        .btn:active { transform: scale(0.97); filter: brightness(0.9); }
+        .btn:active { transform: scale(0.96); filter: brightness(0.9); }
 
         #status {
             text-align: center;
@@ -116,7 +113,7 @@
         <img src="logo_ratp_dev_casa.png" alt="Logo RATP Dev" class="logo-ratp">
     </div>
 
-    <h2>CONTRÔLEUR DE RONDE /<br>PRISE DE SERVICE</h2>
+    <h2>CONTRÔLEUR DE RONDE / SERVICE</h2>
 
     <div class="container">
         <label>Service</label>
@@ -159,6 +156,7 @@
         <div class="btn-group">
             <button class="btn btn-prise" onclick="valider('PRISE DE SERVICE')">Prise de Service</button>
             <button class="btn btn-taguer" onclick="valider('TAGUER (CONTRÔLE)')">Taguer</button>
+            <button class="btn btn-fin" onclick="valider('FIN DE SERVICE')">Fin de Service</button>
         </div>
         
         <div id="status"></div>
@@ -210,12 +208,12 @@
         const s = document.getElementById('station').value;
         const c = document.getElementById('chef').value;
         
-        // URL SCRIPT GOOGLE
+        // --- LIEN GOOGLE SCRIPT ---
         const urlScript = "https://script.google.com/macros/s/AKfycbwteA6ZOpZPUA_-T7QkYqIRUVH3_t4EDCmAlRpemSUEfrs0EtYJtrrYy7JUQA-ARP-NpQ/exec";
 
-        if(!v || !l || !s || !c) { alert("⚠️ Veuillez remplir tous les champs !"); return; }
+        if(!v || !l || !s || !c) { alert("⚠️ Remplir tous les champs !"); return; }
 
-        status.innerHTML = "🛰️ Recherche GPS & Envoi...";
+        status.innerHTML = "🛰️ Envoi en cours...";
         status.style.color = "orange";
 
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -233,12 +231,12 @@
                     gps: gpsStr 
                 })
             }).then(() => {
-                status.innerHTML = "✅ RÉUSSI : " + typeAction;
-                status.style.color = "green";
-                alert("✅ Données envoyées : " + typeAction);
+                status.innerHTML = "✅ ENREGISTRÉ : " + typeAction;
+                status.style.color = (typeAction === 'FIN DE SERVICE') ? 'red' : 'green';
+                alert("✅ Confirmé : " + typeAction);
             }).catch(() => alert("❌ Erreur d'envoi"));
 
-        }, () => alert("❌ GPS désactivé !"));
+        }, () => alert("❌ Activez le GPS !"));
     }
 </script>
 
