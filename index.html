@@ -39,17 +39,16 @@
 
         h2 {
             color: var(--ratp-blue);
-            /* --- MODIFICATION DE LA TAILLE DE POLICE DU TITRE --- */
-            font-size: 0.85rem; /* Ajustez cette valeur pour faire tenir sur une ligne */
+            font-size: 0.85rem;
             margin: 0;
             padding: 12px;
             background: #f9f9f9;
             text-transform: uppercase;
             text-align: center;
             font-weight: bold;
-            white-space: nowrap; /* Empêche le retour à la ligne */
-            overflow: hidden; /* Cache le texte qui dépasse */
-            text-overflow: ellipsis; /* Ajoute des points de suspension si nécessaire */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .container { padding: 15px; }
@@ -72,12 +71,12 @@
             background-color: #fff;
         }
 
-        /* --- Organisation des Boutons --- */
+        /* --- CORRECTION DE L'ALIGNEMENT DES BOUTONS --- */
         .btn-group-top {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* Deux colonnes égales */
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-bottom: 10px; /* Espace avant le bouton Taguer */
+            margin-bottom: 10px;
         }
 
         .btn {
@@ -85,12 +84,19 @@
             border: none;
             padding: 16px;
             border-radius: 8px;
-            font-size: 1rem;
+            /* --- Nouvelle taille de police pour les boutons du haut --- */
+            font-size: 0.9rem; 
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
             transition: 0.2s;
             width: 100%;
+            
+            /* --- Alignement vertical du texte --- */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 50px; /* Force une hauteur commune pour l'alignement */
         }
 
         /* Couleurs demandées */
@@ -101,8 +107,9 @@
         .btn-taguer { 
             background-color: var(--ratp-blue); /* BLEU */
             width: 100%; 
-            padding: 20px; /* Un peu plus grand */
+            padding: 20px;
             font-size: 1.1rem;
+            height: auto; /* Laisse le bouton Taguer s'adapter */
         }
 
         .btn:active { transform: scale(0.96); filter: brightness(0.9); }
@@ -220,39 +227,23 @@
         const l = document.getElementById('ligne').value;
         const s = document.getElementById('station').value;
         const c = document.getElementById('chef').value;
-        
-        // --- LIEN GOOGLE SCRIPT ---
         const urlScript = "https://script.google.com/macros/s/AKfycbwteA6ZOpZPUA_-T7QkYqIRUVH3_t4EDCmAlRpemSUEfrs0EtYJtrrYy7JUQA-ARP-NpQ/exec";
-
         if(!v || !l || !s || !c) { alert("⚠️ Remplir tous les champs !"); return; }
-
         status.innerHTML = "🛰️ Envoi en cours...";
         status.style.color = "orange";
-
         navigator.geolocation.getCurrentPosition((pos) => {
             const gpsStr = pos.coords.latitude + ", " + pos.coords.longitude;
-            
             fetch(urlScript, {
                 method: 'POST',
                 mode: 'no-cors',
-                body: JSON.stringify({ 
-                    type: typeAction,
-                    service: v, 
-                    ligne: l, 
-                    station: s, 
-                    chef: c, 
-                    gps: gpsStr 
-                })
+                body: JSON.stringify({type: typeAction,service: v, ligne: l, station: s, chef: c, gps: gpsStr })
             }).then(() => {
                 status.innerHTML = "✅ ENREGISTRÉ : " + typeAction;
-                // Changement de couleur du statut selon l'action
                 if (typeAction === 'FIN DE SERVICE') status.style.color = 'red';
                 else if (typeAction === 'PRISE DE SERVICE') status.style.color = 'green';
                 else status.style.color = 'var(--ratp-blue)';
-                
                 alert("✅ Confirmé : " + typeAction);
             }).catch(() => alert("❌ Erreur d'envoi"));
-
         }, () => alert("❌ Activez le GPS !"));
     }
 </script>
