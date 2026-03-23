@@ -71,7 +71,6 @@
             background-color: #fff;
         }
 
-        /* --- CORRECTION DE L'ALIGNEMENT DES BOUTONS --- */
         .btn-group-top {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -84,32 +83,27 @@
             border: none;
             padding: 16px;
             border-radius: 8px;
-            /* --- Nouvelle taille de police pour les boutons du haut --- */
             font-size: 0.9rem; 
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
             transition: 0.2s;
             width: 100%;
-            
-            /* --- Alignement vertical du texte --- */
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 50px; /* Force une hauteur commune pour l'alignement */
+            height: 50px;
         }
 
-        /* Couleurs demandées */
-        .btn-prise { background-color: var(--ratp-green); } /* VERT */
-        .btn-fin { background-color: var(--ratp-red); }     /* ROUGE */
+        .btn-prise { background-color: var(--ratp-green); }
+        .btn-fin { background-color: var(--ratp-red); }
         
-        /* Bouton Taguer en dessous, pleine largeur */
         .btn-taguer { 
-            background-color: var(--ratp-blue); /* BLEU */
+            background-color: var(--ratp-blue);
             width: 100%; 
             padding: 20px;
             font-size: 1.1rem;
-            height: auto; /* Laisse le bouton Taguer s'adapter */
+            height: auto;
         }
 
         .btn:active { transform: scale(0.96); filter: brightness(0.9); }
@@ -140,7 +134,6 @@
             <option value="">-- Choisir le service --</option>
             <option value="Matin">Matin</option>
             <option value="Mixte">Mixte</option>
-            <option value="Soir">Soir</option>
         </select>
 
         <label>Dépôt / Réseau / Ligne</label>
