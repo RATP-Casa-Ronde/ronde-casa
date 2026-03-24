@@ -51,7 +51,7 @@
 
         .modal-content {
             background: white; width: 92%; max-width: 380px; border-radius: 25px;
-            padding: 25px; position: relative; max-height: 80vh; overflow-y: auto;
+            padding: 25px; position: relative; max-height: 85vh; overflow-y: auto;
             animation: slideUp 0.3s ease-out;
         }
 
@@ -135,20 +135,23 @@
     };
 
     const stationsData = { 
-        "Dépôt Hantat": ["Loge", "Atelier", "Bureaux"], "Dépôt Sidi Moumen": ["Loge", "Atelier", "PCC"], "Dépôt CDR": ["Loge", "Atelier"], "Dépôt Sidi Bernoussi": ["Loge", "Atelier"],
+        "Dépôt Hantat": ["Loge", "Atelier", "Bureaux"], 
+        "Dépôt Sidi Moumen": ["Loge", "Atelier", "PCC"], 
+        "Dépôt CDR": ["Loge", "Atelier"], 
+        "Dépôt Sidi Bernoussi": ["Loge", "Atelier"],
         "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
         "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare De Ain Sbaa", "Préfecture Ain Sbaa", "Al Amane", "Al wifaq", "Dar Laman", "Carrières Centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Clubs", "Anfa Park", "Place Financière", "Abdellah Ben Cherif", "Cité De L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"],
-        "T3": ["Gare Casa Port", "Place de la Victoire", "Boulevard Mohammed VI", "Ouled Ziane", "Derb Kabir", "Al Fedouaze", "Hay El Farah", "Driss El Harti", "Sidi Othmane", "Facultés Ain Chock"],
-        "T4": ["Parc de la Ligue Arabe", "Anoual", "Mers Sultan", "Place de la Victoire", "Boulevard Nil", "Idriss El Allam", "Sidi Othmane", "Moulay Rachid"],
-        "BW1": ["Quartier Al Laymoun", "Boulevard Al Qods", "Boulevard Mohammed VI", "Salmia", "Lissasfa"],
-        "BW2": ["Ain Chock", "Boulevard Fès", "Boulevard Ghandi", "Errahma"]
+        "T3": ["Casa Port Terminus", "Mohammed Smiha", "Place De La victoir", "Mohamed Zerktouni", "Habous", "Garage allal", "Derb Tolba", "Derb Chorfa", "Abou Couaib Doukali", "Afriquia", "Dar Attouzani", "BD Mohammed VI", "6 NOUVEMBRE", "Abdessalam Ennaciri", "Jardin Alesco", "Hay Lalla Mariem", "Idriss El Allam", "Abdelkader Essahraoui", "10 Mars", "Hay Alwahda Terminus"],
+        "T4": ["Mohammed Erradi Terminus", "Zone Industrielle", "Moulay Rachid", "Mohammed Joudar", "Faculté Ben Msik", "Hay El Falah", "Driss El Harti", "Mohammed Bouziane", "Hay Assalama", "Nil", "Jardin Chtaiba", "Hay Tissir", "Gare Oulad Ziane", "In Borja", "Ifni", "La Girande", "Jabir Ibn Hayane", "Mers Sultan", "Parc De La Ligue Arabe Terminus"],
+        "BW1": ["Salmia 2 Terminus", "Sbata", "Stade Tessema", "Al Joulane", "Lahrizi", "Jardin Sunday", "Amgala", "Al Qods", "Sefrou", "Taza", "Al Inara", "Oulad Haddou", "Hay Chrifa", "Taddart", "Azzohour", "Californie", "Casa Nearshore", "Al Moustakbal", "Sidi Maarouf", "Omar Al Khayam Terminus"],
+        "BW2": ["Oulmes Terminus", "Yaacoub Al Mansour", "C.I.L.", "Aéropostale", "Les musées", "Oued Oum Rabia", "Oued Laou", "Oued Beht", "Moulouya", "Haj Fateh", "Essafa", "Moulay Thami", "Abouab Oulfa", "La Rocade", "La Perception", "Les Jardins D’Errahma", "Errahma", "Oued Sbou", "Les Ecoles", "Ouled Ahmed", "La Ferme", "Ouled Azzouz Terminus"]
     };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function checkPassword() {
-        let p = prompt("Code d'accès :");
+        let p = prompt("Saisir le mot de passe Historique :");
         if (p === PASSWORD_ADMIN) { showHistory(); } 
         else if (p !== null) { alert("Code incorrect !"); }
     }
@@ -156,7 +159,7 @@
     function showHistory() {
         const list = document.getElementById('history-list');
         const data = JSON.parse(localStorage.getItem('ronde_logs') || '[]');
-        if (data.length === 0) { list.innerHTML = "Aucun historique."; }
+        if (data.length === 0) { list.innerHTML = "Aucun historique local."; }
         else {
             list.innerHTML = data.map(i => `<div class="hist-item"><div class="hist-date">${i.date}</div><span class="hist-type">${i.type}</span><div class="hist-detail">${i.station} - ${i.ligne}</div></div>`).join('');
         }
@@ -183,7 +186,7 @@
     function valider(btn, type) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, service = m.querySelector('.sel-service').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        if(!chef || !service || !ligne || !station) return alert("Remplir tous les champs !");
+        if(!chef || !service || !ligne || !station) return alert("Veuillez remplir tous les champs !");
         
         document.getElementById('status-bar').innerText = "🛰️ Localisation...";
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -192,11 +195,11 @@
                 body: JSON.stringify({ type, chef, service, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
             }).then(() => {
                 saveToLocal(type, station, ligne);
+                document.getElementById('status-bar').innerText = "✅ Succès";
                 alert("✅ Enregistré !");
                 closeModal(btn.closest('.modal').id);
-                document.getElementById('status-bar').innerText = "✅ Succès";
             });
-        }, () => alert("GPS requis"), {enableHighAccuracy:true});
+        }, () => alert("GPS obligatoire"), {enableHighAccuracy:true});
     }
 </script>
 </body>
