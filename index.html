@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GESTION TERRITOIRE</title>
+    <title>GESTION TERRETOIRE</title>
     <style>
         :root {
             --ratp-blue: #0055A4;
@@ -20,36 +20,28 @@
             display: flex; flex-direction: column; align-items: center;
         }
 
-        /* En-tête blanc pour logos visibles */
         .header { 
-            text-align: center; 
-            margin-bottom: 30px; 
-            width: 100%; 
-            max-width: 400px; 
-            background: white; 
-            padding: 20px 0;
-            border-radius: 15px;
+            text-align: center; margin-bottom: 25px; width: 100%; max-width: 400px; 
+            background: white; padding: 20px 0; border-radius: 15px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
         }
-        .logo-casa { width: 110px; margin-bottom: 5px; }
-        .logo-ratp { width: 130px; }
-        h1 { color: var(--ratp-blue); font-size: 1rem; text-transform: uppercase; margin-top: 15px; font-weight: 900; letter-spacing: 1px; }
+        .logo-casa { width: 100px; margin-bottom: 5px; }
+        .logo-ratp { width: 120px; }
+        h1 { color: var(--ratp-blue); font-size: 1.1rem; text-transform: uppercase; margin-top: 15px; font-weight: 900; }
 
-        /* Menu Principal */
-        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 400px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; max-width: 400px; }
 
         .menu-card {
-            background: white; padding: 40px 20px; border-radius: 20px;
+            background: white; padding: 35px 20px; border-radius: 20px;
             text-align: center; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            cursor: pointer; transition: 0.2s; border-left: 8px solid var(--ratp-blue);
+            cursor: pointer; transition: 0.2s; border-left: 10px solid var(--ratp-blue);
         }
-        .menu-card:active { transform: scale(0.98); background-color: #f0f0f0; }
-        
+        .menu-card:active { transform: scale(0.98); }
         .card-controleur { border-left-color: var(--dark-blue); }
+        .card-history { border-left: none; padding: 15px; background: #eee; margin-top: 10px; }
 
-        .card-title { font-weight: 800; font-size: 1.2rem; color: #333; text-transform: uppercase; letter-spacing: 0.5px; }
+        .card-title { font-weight: 800; font-size: 1rem; color: #333; text-transform: uppercase; }
 
-        /* Modal / Fenêtres */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;
@@ -57,35 +49,26 @@
 
         .modal-content {
             background: white; width: 92%; max-width: 380px; border-radius: 25px;
-            padding: 25px; position: relative; animation: slideUp 0.3s ease-out;
+            padding: 25px; position: relative; max-height: 80vh; overflow-y: auto;
         }
-
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
         .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2rem; color: #ccc; cursor: pointer; }
-        .modal-h2 { color: var(--ratp-blue); font-size: 1.1rem; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; text-transform: uppercase; font-weight: 800; }
+        .modal-h2 { color: var(--ratp-blue); font-size: 1rem; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; text-transform: uppercase; font-weight: 800; }
 
-        label { display: block; font-weight: bold; font-size: 0.85rem; margin: 15px 0 5px; color: #555; }
-        select {
-            width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px;
-            font-size: 1rem; background: #fafafa; margin-bottom: 5px; color: #333;
-            appearance: none;
-        }
+        label { display: block; font-weight: bold; font-size: 0.8rem; margin: 15px 0 5px; color: #555; }
+        select { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 0.95rem; background: #fafafa; }
 
-        .btn-action {
-            width: 100%; padding: 18px; border: none; border-radius: 15px;
-            color: white; font-weight: 900; font-size: 1.2rem; cursor: pointer; margin-top: 25px;
-            text-transform: uppercase;
-        }
-
+        .btn-action { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 900; font-size: 1.2rem; cursor: pointer; margin-top: 20px; }
         .btn-tag { background: var(--ratp-blue); }
-        .btn-prise { background: var(--ratp-green); margin-bottom: 12px; font-size: 1rem; }
+        .btn-prise { background: var(--ratp-green); margin-bottom: 10px; font-size: 1rem; }
         .btn-fin { background: var(--ratp-red); font-size: 1rem; }
 
-        #status-bar {
-            position: fixed; bottom: 0; width: 100%; background: white; color: #333;
-            text-align: center; padding: 12px; font-size: 0.8rem; font-weight: bold; border-top: 1px solid #eee;
-        }
+        /* Style Historique */
+        .hist-item { border-bottom: 1px solid #eee; padding: 10px 0; font-size: 0.85rem; }
+        .hist-date { color: #888; font-size: 0.75rem; }
+        .hist-type { font-weight: bold; color: var(--ratp-blue); }
+
+        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; color: #333; text-align: center; padding: 10px; font-size: 0.75rem; border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -93,7 +76,7 @@
 <div class="header">
     <img src="logo_casa_group.png" alt="Logo" class="logo-casa"><br>
     <img src="logo_ratp_dev_casa.png" alt="Logo" class="logo-ratp">
-    <h1>CONTRÔLEUR DE RONDE</h1>
+    <h1>GESTION TERRETOIRE</h1>
 </div>
 
 <div class="menu-grid">
@@ -104,112 +87,102 @@
     <div class="menu-card card-controleur" onclick="openModal('modalTerrain')">
         <span class="card-title">CONTRÔLEUR DE RONDE</span>
     </div>
-</div>
 
-<div id="modalPresence" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modalPresence')">&times;</span>
-        <div class="modal-h2">PRÉSENCE</div>
-        
-        <label>Chef de Zone</label>
-        <select class="sel-chef"><option value="">-- Sélectionner --</option></select>
-        
-        <label>Service</label>
-        <select class="sel-service">
-            <option value="">-- Choisir --</option>
-            <option value="Matin">Matin</option>
-            <option value="Mixte">Mixte</option>
-        </select>
-
-        <label>Ligne / Dépôt</label>
-        <select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
-
-        <label>Station / Lieu</label>
-        <select class="sel-station"><option value="">-- Sélectionner --</option></select>
-
-        <button class="btn-action btn-prise" onclick="valider(this, 'PRISE DE SERVICE')">PRISE DE SERVICE</button>
-        <button class="btn-action btn-fin" onclick="valider(this, 'FIN DE SERVICE')">FIN DE SERVICE</button>
+    <div class="menu-card card-history" onclick="checkPassword()">
+        <span class="card-title" style="font-size: 0.8rem;">📂 VOIR L'HISTORIQUE</span>
     </div>
 </div>
 
-<div id="modalTerrain" class="modal">
-    <div class="modal-content">
-        <span class="close-btn" onclick="closeModal('modalTerrain')">&times;</span>
-        <div class="modal-h2">CONTRÔLEUR DE RONDE</div>
+<div id="modalPresence" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modalPresence')">&times;</span>
+    <div class="modal-h2">PRÉSENCE</div>
+    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
+    <label>Service</label><select class="sel-service"><option value="">-- Choisir --</option><option value="Matin">Matin</option><option value="Mixte">Mixte</option></select>
+    <label>Ligne / Dépôt</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
+    <label>Station / Lieu</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
+    <button class="btn-action btn-prise" onclick="valider(this, 'PRISE DE SERVICE')">PRISE DE SERVICE</button>
+    <button class="btn-action btn-fin" onclick="valider(this, 'FIN DE SERVICE')">FIN DE SERVICE</button>
+</div></div>
 
-        <label>Chef de Zone</label>
-        <select class="sel-chef"><option value="">-- Sélectionner --</option></select>
+<div id="modalTerrain" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modalTerrain')">&times;</span>
+    <div class="modal-h2">CONTRÔLEUR DE RONDE</div>
+    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
+    <label>Service</label><select class="sel-service"><option value="">-- Choisir --</option><option value="Matin">Matin</option><option value="Mixte">Mixte</option></select>
+    <label>Ligne / Réseau</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
+    <label>Station / Lieu</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
+    <button class="btn-action btn-tag" onclick="valider(this, 'TAGUER')">TAGUER</button>
+</div></div>
 
-        <label>Service</label>
-        <select class="sel-service">
-            <option value="">-- Choisir --</option>
-            <option value="Matin">Matin</option>
-            <option value="Mixte">Mixte</option>
-        </select>
+<div id="modalHistory" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modalHistory')">&times;</span>
+    <div class="modal-h2">Derniers Pointages</div>
+    <div id="history-list">Aucun historique disponible.</div>
+</div></div>
 
-        <label>Ligne / Réseau</label>
-        <select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
-
-        <label>Station / Lieu</label>
-        <select class="sel-station"><option value="">-- Sélectionner --</option></select>
-
-        <button class="btn-action btn-tag" onclick="valider(this, 'TAGUER')">TAGUER</button>
-    </div>
-</div>
-
-<div id="status-bar">Système prêt</div>
+<div id="status-bar">Prêt</div>
 
 <script>
-    // Les données (chefs, stationsData, coordsGPS, etc.) restent identiques à votre version précédente
+    const PASSWORD_ADMIN = "1234"; // MODIFIEZ VOTRE CODE ICI
     const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir HARIRI", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
     const structureData = { "Dépôts": ["Dépôt Hantat", "Dépôt Sidi Moumen", "Dépôt CDR", "Dépôt Sidi Bernoussi"], "Lignes": ["T1", "T2", "T3", "T4", "BW1", "BW2"] };
-    const stationsData = { 
-        "Dépôt Hantat": ["Loge", "Atelier", "Bureaux"], "Dépôt Sidi Moumen": ["Loge", "Atelier", "PCC"], "Dépôt CDR": ["Loge", "Atelier"], "Dépôt Sidi Bernoussi": ["Loge", "Atelier"],
-        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
-        "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare De Ain Sbaa", "Préfecture Ain Sbaa", "Al Amane", "Al wifaq", "Dar Laman", "Carrières Centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Clubs", "Anfa Park", "Place Financière", "Abdellah Ben Cherif", "Cité De L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"]
-    };
+    const stationsData = { "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"], "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare De Ain Sbaa", "Préfecture Ain Sbaa", "Al Amane", "Al wifaq", "Dar Laman", "Carrières Centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Clubs", "Anfa Park", "Place Financière", "Abdellah Ben Cherif", "Cité De L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"] };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
+    function checkPassword() {
+        let p = prompt("Veuillez saisir le code d'accès :");
+        if (p === PASSWORD_ADMIN) { showHistory(); } 
+        else if (p !== null) { alert("Code incorrect !"); }
+    }
+
+    function showHistory() {
+        const list = document.getElementById('history-list');
+        const data = JSON.parse(localStorage.getItem('ronde_logs') || '[]');
+        if (data.length === 0) { list.innerHTML = "Aucun enregistrement."; }
+        else {
+            list.innerHTML = data.map(i => `
+                <div class="hist-item">
+                    <div class="hist-date">${i.date}</div>
+                    <div class="hist-type">${i.type}</div>
+                    <div>${i.station} (${i.ligne})</div>
+                </div>
+            `).join('');
+        }
+        openModal('modalHistory');
+    }
+
+    function saveToLocal(type, station, ligne) {
+        let logs = JSON.parse(localStorage.getItem('ronde_logs') || '[]');
+        logs.unshift({ type, station, ligne, date: new Date().toLocaleString('fr-FR') });
+        localStorage.setItem('ronde_logs', JSON.stringify(logs.slice(0, 10)));
+    }
+
     window.onload = function() {
-        document.querySelectorAll('.sel-chef').forEach(s => {
-            chefs.sort().forEach(c => { let o = document.createElement('option'); o.value = o.text = c; s.appendChild(o); });
-        });
-        document.querySelectorAll('.sel-ligne').forEach(s => {
-            for (let cat in structureData) {
-                let g = document.createElement('optgroup'); g.label = cat;
-                structureData[cat].forEach(l => { let o = document.createElement('option'); o.value = o.text = l; g.appendChild(o); });
-                s.appendChild(g);
-            }
-        });
+        document.querySelectorAll('.sel-chef').forEach(s => { chefs.sort().forEach(c => { let o = document.createElement('option'); o.value = o.text = c; s.appendChild(o); }); });
+        document.querySelectorAll('.sel-ligne').forEach(s => { for (let cat in structureData) { let g = document.createElement('optgroup'); g.label = cat; structureData[cat].forEach(l => { let o = document.createElement('option'); o.value = o.text = l; g.appendChild(o); }); s.appendChild(g); } });
     };
 
     function updateStations(el) {
-        const modal = el.closest('.modal-content');
-        const sSelect = modal.querySelector('.sel-station');
-        const l = el.value;
+        const sSelect = el.closest('.modal-content').querySelector('.sel-station');
         sSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
-        if (l && stationsData[l]) { stationsData[l].forEach(st => { let o = document.createElement('option'); o.value = o.text = st; sSelect.appendChild(o); }); }
+        if (stationsData[el.value]) { stationsData[el.value].forEach(st => { let o = document.createElement('option'); o.value = o.text = st; sSelect.appendChild(o); }); }
     }
 
     function valider(btn, type) {
-        const modal = btn.closest('.modal-content');
-        const chef = modal.querySelector('.sel-chef').value;
-        const service = modal.querySelector('.sel-service').value;
-        const ligne = modal.querySelector('.sel-ligne').value;
-        const station = modal.querySelector('.sel-station').value;
-        if(!chef || !service || !ligne || !station) { alert("⚠️ Veuillez remplir tous les champs."); return; }
+        const m = btn.closest('.modal-content');
+        const chef = m.querySelector('.sel-chef').value, service = m.querySelector('.sel-service').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
+        if(!chef || !service || !ligne || !station) return alert("Champs vides !");
         
-        document.getElementById('status-bar').innerText = "🛰️ Localisation...";
         navigator.geolocation.getCurrentPosition((pos) => {
             fetch("https://script.google.com/macros/s/AKfycbwteA6ZOpZPUA_-T7QkYqIRUVH3_t4EDCmAlRpemSUEfrs0EtYJtrrYy7JUQA-ARP-NpQ/exec", {
                 method: 'POST', mode: 'no-cors',
-                body: JSON.stringify({ type: type, chef: chef, service: service, ligne: ligne, station: station, gps: pos.coords.latitude+","+pos.coords.longitude })
+                body: JSON.stringify({ type, chef, service, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
             }).then(() => {
-                alert("✅ Enregistré !");
+                saveToLocal(type, station, ligne);
+                alert("Enregistré !");
                 closeModal(btn.closest('.modal').id);
-                document.getElementById('status-bar').innerText = "✅ Succès";
             });
         }, () => alert("GPS requis"), {enableHighAccuracy:true});
     }
