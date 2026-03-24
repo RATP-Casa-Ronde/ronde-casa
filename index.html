@@ -6,9 +6,9 @@
     <title>RATP Dev Casablanca - Contrôle</title>
     <style>
         :root {
-            --ratp-blue: #0055A4;    /* Bleu pour Taguer */
-            --ratp-green: #28a745;   /* Vert pour Prise de Service */
-            --ratp-red: #dc3545;     /* Rouge pour Fin de Service */
+            --ratp-blue: #0055A4;
+            --ratp-green: #28a745;
+            --ratp-red: #dc3545;
             --bg-gray: #f4f7f6;
         }
 
@@ -81,9 +81,9 @@
         .btn {
             color: white;
             border: none;
-            padding: 16px;
+            padding: 10px; /* Réduit pour laisser de la place au texte */
             border-radius: 8px;
-            font-size: 0.9rem; 
+            font-size: 0.75rem; /* Ajusté pour que "Service Mixte" tienne bien */
             font-weight: bold;
             cursor: pointer;
             text-transform: uppercase;
@@ -92,7 +92,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 50px;
+            text-align: center;
+            height: 60px; /* Légèrement augmenté pour le texte sur deux lignes */
         }
 
         .btn-prise { background-color: var(--ratp-green); }
@@ -166,8 +167,8 @@
         </select>
 
         <div class="btn-group-top">
-            <button class="btn btn-prise" onclick="valider('PRISE DE SERVICE')">Prise de Service</button>
-            <button class="btn btn-fin" onclick="valider('FIN DE SERVICE')">Fin de Service</button>
+            <button class="btn btn-prise" onclick="valider('PRISE DE SERVICE')">Prise de Service<br>(Service Mixte)</button>
+            <button class="btn btn-fin" onclick="valider('FIN DE SERVICE')">Fin de Service<br>(Service Matin)</button>
         </div>
         
         <button class="btn btn-taguer" onclick="valider('TAGUER (CONTRÔLE)')">Taguer</button>
@@ -177,11 +178,12 @@
 </div>
 
 <script>
+    // La logique JavaScript reste identique pour assurer la stabilité du transfert vers Google Sheets
     const data = {
-        "Dépôt Hantat": ["Poste de garde"],
-        "Dépôt Sidi Moumen": ["Poste de garde"],
-        "Dépôt CDR": ["Poste de garde"],
-        "Dépôt Sidi Bernoussi": ["Poste de garde"],
+        "Dépôt Hantat": ["Loge de Sécurité", "Atelier", "Bureaux Administratifs", "Parking"],
+        "Dépôt Sidi Moumen": ["Loge de Sécurité", "Atelier", "PCC", "Parking"],
+        "Dépôt CDR": ["Loge de Sécurité", "Atelier", "Bureaux"],
+        "Dépôt Sidi Bernoussi": ["Loge de Sécurité", "Atelier", "Parking"],
         "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohamed Zefzaf", "Centre Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachefine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Les Anciens Abattoirs", "Ba Hmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place Des Nations Unies", "Place Mohamed 5", "Avenue Hassan 2", "Wafasalaf", "Faculté De Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
         "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare de Ain Sbaa", "Préfecture Ain Sbaa", "AL Amane", "Wifaq", "Dar Laman", "Carrières centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Club", "Place financière", "Abdellah Ben Cherif", "Cité de L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"],
         "T3": ["Casa Port Terminus", "Mohammed Smiha", "Place De La victoir", "Mohamed Zerktouni", "Habous", "Garage allal", "Derb Tolba", "Derb Chorfa", "Abou Couaib Doukali", "Afriquia", "Dar Attouzani", "BD Mohammed VI", "6 NOUVEMBRE", "Abdessalam Ennaciri", "Jardin Alesco", "Hay Lalla Mariem", "Idriss El Allam", "Abdelkader Essahraoui", "10 Mars", "Hay Alwahda Terminus"],
