@@ -14,7 +14,7 @@
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 20px; display: flex; flex-direction: column; align-items: center; }
         .header { text-align: center; margin-bottom: 25px; width: 100%; max-width: 400px; background: white; padding: 20px 0; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .logo-casa { width: 80px; } .logo-ratp { width: 100px; }
+        .logo-casa { width: 60px; } .logo-ratp { width: 80px; }
         h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-blue); font-size: 1.1rem; text-transform: uppercase; margin: 10px 0 5px; letter-spacing: 2px; font-weight: 900; }
         .sub-title { font-family: 'Montserrat', sans-serif; font-size: 0.8rem; color: #7f8c8d; font-weight: 700; text-transform: uppercase; letter-spacing: 3px; }
         
@@ -23,8 +23,8 @@
         
         .card-presence { background: var(--blue-fiance); border-left: 12px solid #2980b9; }
         .card-controleur { background: var(--yellow-gold); border-left: 12px solid #f39c12; }
-        .card-eval { background: var(--eval-orange); border-left: 12px solid #d35400; }
         .card-daily { background: var(--ctrl-blue); border-left: 12px solid #1a252f; }
+        .card-eval { background: var(--eval-orange); border-left: 12px solid #d35400; }
         .card-history { background: var(--dark-green); border-left: 12px solid #0a3d0d; }
 
         .card-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.9rem; color: white; text-transform: uppercase; }
@@ -49,8 +49,8 @@
 <body>
 
 <div class="header">
-    <img src="logo_casa_group.png" alt="Logo" class="logo-casa" style="width:60px;"><br>
-    <img src="logo_ratp_dev_casa.png" alt="Logo" class="logo-ratp" style="width:80px;">
+    <img src="logo_casa_group.png" alt="Logo" class="logo-casa"><br>
+    <img src="logo_ratp_dev_casa.png" alt="Logo" class="logo-ratp">
     <h1>GESTION TERRETOIRE</h1>
     <div class="sub-title">Outils Chef de Zone</div>
 </div>
@@ -102,11 +102,12 @@
     <span class="close-btn" onclick="closeModal('modalPresence')">&times;</span>
     <div style="color:var(--ratp-blue); font-weight:900;">PRÉSENCE</div>
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
-    <label>Service</label><select class="sel-service"><option value="">-- Choisir --</option><option value="Matin">Matin</option><option value="Mixte">Mixte</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE')">PRISE DE SERVICE</button>
-    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE')">FIN DE SERVICE</button>
+    
+    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'Mixte')">PRISE DE SERVICE (MIXTE)</button>
+    
+    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'Matin')">FIN DE SERVICE (MATIN)</button>
 </div></div>
 
 <div id="modalTerrain" class="modal"><div class="modal-content">
@@ -115,7 +116,7 @@
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:#2c3e50" onclick="validerGeneric(this, 'TAGUER')">TAGUER LA STATION</button>
+    <button class="btn-action" style="background:#2c3e50" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER LA STATION</button>
 </div></div>
 
 <div id="modalEval" class="modal"><div class="modal-content" style="height:80vh; max-width:95%;"><span class="close-btn" onclick="closeModal('modalEval')">&times;</span><iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ" style="width:100%;height:100%;border:none;"></iframe></div></div>
@@ -124,6 +125,8 @@
 <div id="status-bar">GPS PRÊT</div>
 
 <script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbylM6-u41N6sbdDV9HcPa_6Dp3SpJJEHMxqC8LLio3hzkyodWIKcVYINzyxinO78kgOXg/exec";
+
     const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir HARIRI", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
     
     const stationsData = {
@@ -157,65 +160,56 @@
         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     }
 
-    // Fonction pour le Contrôle Quotidien
     function validerControle(btn) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
         const prest = document.getElementById('prestataire').value, agent = document.getElementById('nomAgent').value, comm = document.getElementById('commCtrl').value;
-        
         let ecarts = [];
         document.querySelectorAll('#ecartsList input:checked').forEach(i => ecarts.push(i.value));
 
-        if(!chef || !ligne || !station || !prest || !agent) return alert("Veuillez remplir les informations de l'agent et du prestataire.");
+        if(!chef || !ligne || !station || !prest || !agent) return alert("Veuillez remplir toutes les informations.");
 
         document.getElementById('status-bar').innerText = "📍 VÉRIFICATION GPS...";
-        
         navigator.geolocation.getCurrentPosition((pos) => {
             const uLat = pos.coords.latitude, uLon = pos.coords.longitude;
             const dist = calculateDistance(uLat, uLon, stationsData[ligne][station][0], stationsData[ligne][station][1]);
-
             if (dist <= 80) {
-                fetch("https://script.google.com/macros/s/AKfycbwteA6ZOpZPUA_-T7QkYqIRUVH3_t4EDCmAlRpemSUEfrs0EtYJtrrYy7JUQA-ARP-NpQ/exec", {
+                fetch(SCRIPT_URL, {
                     method: 'POST', mode: 'no-cors',
-                    body: JSON.stringify({ 
-                        type: "CONTROLE QUOTIDIEN", chef, ligne, station, prestataire: prest, agent, ecarts: ecarts.join(', '), commentaire: comm, gps: uLat+","+uLon 
-                    })
+                    body: JSON.stringify({ type: "CONTROLE QUOTIDIEN", chef, ligne, station, prestataire: prest, agent, ecarts: ecarts.join(', '), commentaire: comm, gps: uLat+","+uLon })
                 }).then(() => {
-                    alert("✅ RAPPORT ENVOYÉ !");
+                    alert("✅ RAPPORT TRANSMIS !");
                     closeModal('modalDaily');
                     document.getElementById('status-bar').innerText = "✅ PRÊT";
                 });
-            } else {
-                alert("❌ TROP LOIN (" + Math.round(dist) + "m). Vous devez être à la station.");
-            }
+            } else { alert("❌ TROP LOIN (" + Math.round(dist) + "m)"); }
         }, () => alert("GPS REQUIS"), {enableHighAccuracy: true});
     }
 
-    // Fonction Générique (Prise/Fin/Tag)
-    function validerGeneric(btn, action) {
+    function validerGeneric(btn, action, serviceAuto) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        const service = m.querySelector('.sel-service') ? m.querySelector('.sel-service').value : "N/A";
-
+        
         if(!chef || !ligne || !station) return alert("Champs obligatoires !");
         
+        document.getElementById('status-bar').innerText = "📍 GPS EN COURS...";
         navigator.geolocation.getCurrentPosition((pos) => {
             const dist = calculateDistance(pos.coords.latitude, pos.coords.longitude, stationsData[ligne][station][0], stationsData[ligne][station][1]);
             if (dist <= 80) {
-                fetch("https://script.google.com/macros/s/AKfycbwteA6ZOpZPUA_-T7QkYqIRUVH3_t4EDCmAlRpemSUEfrs0EtYJtrrYy7JUQA-ARP-NpQ/exec", {
+                fetch(SCRIPT_URL, {
                     method: 'POST', mode: 'no-cors',
-                    body: JSON.stringify({ type: action, chef, service, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
+                    body: JSON.stringify({ type: action, chef, service: serviceAuto, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
                 }).then(() => {
-                    alert("✅ " + action + " VALIDÉ !");
+                    alert("✅ " + action + " (" + serviceAuto + ") ENREGISTRÉ !");
                     closeModal(btn.closest('.modal').id);
+                    document.getElementById('status-bar').innerText = "✅ PRÊT";
                 });
             } else { alert("❌ TROP LOIN (" + Math.round(dist) + "m)"); }
-        }, () => alert("GPS REQUIS"));
+        }, () => alert("GPS REQUIS"), {enableHighAccuracy: true});
     }
 
     function checkPassword() {
-        let p = prompt("Code :");
-        if (p === "1234") { openModal('modalHistory'); }
+        if (prompt("Code :") === "1234") { openModal('modalHistory'); }
     }
 </script>
 </body>
