@@ -38,14 +38,12 @@
         }
         .menu-card:active { transform: scale(0.98); background-color: #f0f0f0; }
         
-        /* Couleurs distinctes pour les 3 rubriques */
         .card-presence { border-left-color: var(--ratp-blue); }
         .card-controleur { border-left-color: var(--dark-blue); }
-        .card-history { border-left-color: #6c757d; } /* Gris pour l'historique */
+        .card-history { border-left-color: #6c757d; }
 
         .card-title { font-weight: 800; font-size: 1.1rem; color: #333; text-transform: uppercase; }
 
-        /* Fenêtres Modales */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0,0,0,0.7); z-index: 1000; justify-content: center; align-items: center;
@@ -65,14 +63,12 @@
         label { display: block; font-weight: bold; font-size: 0.8rem; margin: 15px 0 5px; color: #555; }
         select { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 0.95rem; background: #fafafa; }
 
-        .btn-action { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 900; font-size: 1.2rem; cursor: pointer; margin-top: 20px; }
+        .btn-action { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 900; font-size: 1.2rem; cursor: pointer; margin-top: 25px; }
         .btn-tag { background: var(--ratp-blue); }
         .btn-prise { background: var(--ratp-green); margin-bottom: 10px; }
         .btn-fin { background: var(--ratp-red); }
 
-        /* Design de la liste d'historique */
         .hist-item { border-bottom: 1px solid #eee; padding: 12px 0; font-size: 0.85rem; }
-        .hist-item:last-child { border-bottom: none; }
         .hist-date { color: #888; font-size: 0.75rem; margin-bottom: 3px; }
         .hist-type { font-weight: 800; color: var(--ratp-blue); display: block; }
         .hist-detail { color: #444; }
@@ -92,11 +88,9 @@
     <div class="menu-card card-presence" onclick="openModal('modalPresence')">
         <span class="card-title">PRÉSENCE</span>
     </div>
-
     <div class="menu-card card-controleur" onclick="openModal('modalTerrain')">
         <span class="card-title">CONTRÔLEUR DE RONDE</span>
     </div>
-
     <div class="menu-card card-history" onclick="checkPassword()">
         <span class="card-title">HISTORIQUE</span>
     </div>
@@ -123,25 +117,38 @@
     <button class="btn-action btn-tag" onclick="valider(this, 'TAGUER')">TAGUER</button>
 </div></div>
 
-<div id="modalHistory" class="modal"><div class="modal-content" style="max-height: 70vh;">
+<div id="modalHistory" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalHistory')">&times;</span>
     <div class="modal-h2">Derniers Pointages</div>
     <div id="history-list">Aucun historique disponible.</div>
 </div></div>
 
-<div id="status-bar">Prêt pour enregistrement</div>
+<div id="status-bar">Prêt</div>
 
 <script>
-    const PASSWORD_ADMIN = "1234"; // Code d'accès modifiable ici
+    const PASSWORD_ADMIN = "1234";
     const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir HARIRI", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
-    const structureData = { "Dépôts": ["Dépôt Hantat", "Dépôt Sidi Moumen", "Dépôt CDR", "Dépôt Sidi Bernoussi"], "Lignes": ["T1", "T2", "T3", "T4", "BW1", "BW2"] };
-    const stationsData = { "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"], "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare De Ain Sbaa", "Préfecture Ain Sbaa", "Al Amane", "Al wifaq", "Dar Laman", "Carrières Centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Clubs", "Anfa Park", "Place Financière", "Abdellah Ben Cherif", "Cité De L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"] };
+    
+    const structureData = { 
+        "Dépôts": ["Dépôt Hantat", "Dépôt Sidi Moumen", "Dépôt CDR", "Dépôt Sidi Bernoussi"], 
+        "Lignes": ["T1", "T2", "T3", "T4", "BW1", "BW2"] 
+    };
+
+    const stationsData = { 
+        "Dépôt Hantat": ["Loge", "Atelier", "Bureaux"], "Dépôt Sidi Moumen": ["Loge", "Atelier", "PCC"], "Dépôt CDR": ["Loge", "Atelier"], "Dépôt Sidi Bernoussi": ["Loge", "Atelier"],
+        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
+        "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare De Ain Sbaa", "Préfecture Ain Sbaa", "Al Amane", "Al wifaq", "Dar Laman", "Carrières Centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Clubs", "Anfa Park", "Place Financière", "Abdellah Ben Cherif", "Cité De L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"],
+        "T3": ["Gare Casa Port", "Place de la Victoire", "Boulevard Mohammed VI", "Ouled Ziane", "Derb Kabir", "Al Fedouaze", "Hay El Farah", "Driss El Harti", "Sidi Othmane", "Facultés Ain Chock"],
+        "T4": ["Parc de la Ligue Arabe", "Anoual", "Mers Sultan", "Place de la Victoire", "Boulevard Nil", "Idriss El Allam", "Sidi Othmane", "Moulay Rachid"],
+        "BW1": ["Quartier Al Laymoun", "Boulevard Al Qods", "Boulevard Mohammed VI", "Salmia", "Lissasfa"],
+        "BW2": ["Ain Chock", "Boulevard Fès", "Boulevard Ghandi", "Errahma"]
+    };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function checkPassword() {
-        let p = prompt("Saisir le mot de passe Historique :");
+        let p = prompt("Code d'accès :");
         if (p === PASSWORD_ADMIN) { showHistory(); } 
         else if (p !== null) { alert("Code incorrect !"); }
     }
@@ -149,15 +156,9 @@
     function showHistory() {
         const list = document.getElementById('history-list');
         const data = JSON.parse(localStorage.getItem('ronde_logs') || '[]');
-        if (data.length === 0) { list.innerHTML = "Aucun enregistrement local."; }
+        if (data.length === 0) { list.innerHTML = "Aucun historique."; }
         else {
-            list.innerHTML = data.map(i => `
-                <div class="hist-item">
-                    <div class="hist-date">${i.date}</div>
-                    <span class="hist-type">${i.type}</span>
-                    <div class="hist-detail">${i.station} - ${i.ligne}</div>
-                </div>
-            `).join('');
+            list.innerHTML = data.map(i => `<div class="hist-item"><div class="hist-date">${i.date}</div><span class="hist-type">${i.type}</span><div class="hist-detail">${i.station} - ${i.ligne}</div></div>`).join('');
         }
         openModal('modalHistory');
     }
@@ -182,7 +183,7 @@
     function valider(btn, type) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, service = m.querySelector('.sel-service').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        if(!chef || !service || !ligne || !station) return alert("Veuillez remplir tous les champs !");
+        if(!chef || !service || !ligne || !station) return alert("Remplir tous les champs !");
         
         document.getElementById('status-bar').innerText = "🛰️ Localisation...";
         navigator.geolocation.getCurrentPosition((pos) => {
@@ -191,11 +192,11 @@
                 body: JSON.stringify({ type, chef, service, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
             }).then(() => {
                 saveToLocal(type, station, ligne);
-                document.getElementById('status-bar').innerText = "✅ Succès";
                 alert("✅ Enregistré !");
                 closeModal(btn.closest('.modal').id);
+                document.getElementById('status-bar').innerText = "✅ Succès";
             });
-        }, () => alert("GPS obligatoire"), {enableHighAccuracy:true});
+        }, () => alert("GPS requis"), {enableHighAccuracy:true});
     }
 </script>
 </body>
