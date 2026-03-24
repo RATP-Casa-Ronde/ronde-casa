@@ -12,11 +12,15 @@
             --ratp-red: #e74c3c;
             --dark-blue: #2c3e50;
             --bg-gray: #f0f2f5;
-            --chic-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            
+            /* Nouvelles Couleurs Demandées */
+            --blue-fiance: #3498db;     /* Bleu ciel soutenu */
+            --yellow-gold: #FFC107;     /* Couleur de votre image */
+            --dark-green: #1b5e20;      /* Vert foncé */
         }
 
         body {
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'Segoe UI', Roboto, sans-serif;
             background-color: var(--bg-gray);
             margin: 0; padding: 20px;
             display: flex; flex-direction: column; align-items: center;
@@ -25,71 +29,78 @@
         .header { 
             text-align: center; margin-bottom: 30px; width: 100%; max-width: 400px; 
             background: white; padding: 25px 0; border-radius: 20px;
-            box-shadow: var(--chic-shadow);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .logo-casa { width: 90px; margin-bottom: 8px; filter: grayscale(20%); }
+        .logo-casa { width: 90px; margin-bottom: 8px; }
         .logo-ratp { width: 110px; }
+        
         h1 { 
             font-family: 'Montserrat', sans-serif;
             color: var(--ratp-blue); font-size: 1.2rem; 
-            text-transform: uppercase; margin-top: 15px; 
+            text-transform: uppercase; margin-top: 15px; margin-bottom: 5px;
             letter-spacing: 2px; font-weight: 900;
+        }
+        .sub-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem; color: #7f8c8d; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 3px;
         }
 
         .menu-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 400px; }
 
         .menu-card {
-            padding: 40px 20px; border-radius: 24px;
-            text-align: center; box-shadow: var(--chic-shadow);
+            padding: 45px 20px; border-radius: 24px;
+            text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             cursor: pointer; transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.8);
+            border: 2px solid rgba(255,255,255,0.2);
         }
-        .menu-card:active { transform: scale(0.96); opacity: 0.9; }
+        .menu-card:active { transform: scale(0.96); }
         
-        /* Styles Chic pour les rubriques */
+        /* Remplissage des rubriques */
         .card-presence { 
-            background: linear-gradient(135deg, #ffffff 0%, #eef6ff 100%); 
-            border-left: 12px solid var(--ratp-blue); 
+            background: var(--blue-fiance); 
+            border-left: 15px solid #2980b9; 
         }
         .card-controleur { 
-            background: linear-gradient(135deg, #ffffff 0%, #f4f6f7 100%); 
-            border-left: 12px solid var(--dark-blue); 
+            background: var(--yellow-gold); 
+            border-left: 15px solid #f39c12; 
         }
         .card-history { 
-            background: linear-gradient(135deg, #ffffff 0%, #fcfcfc 100%); 
-            border-left: 12px solid #bdc3c7; 
+            background: var(--dark-green); 
+            border-left: 15px solid #0a3d0d; 
         }
 
         .card-title { 
             font-family: 'Montserrat', sans-serif;
-            font-weight: 900; font-size: 1.1rem; color: #2c3e50; 
+            font-weight: 900; font-size: 1.2rem; color: white; 
             text-transform: uppercase; letter-spacing: 1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
+        /* Ajustement du texte sur le jaune pour la lisibilité */
+        .card-controleur .card-title { color: #2c3e50; text-shadow: none; }
 
         /* Fenêtres Modales */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(44, 62, 80, 0.8); backdrop-filter: blur(4px);
+            background: rgba(44, 62, 80, 0.9); backdrop-filter: blur(5px);
             z-index: 1000; justify-content: center; align-items: center;
         }
 
         .modal-content {
             background: white; width: 92%; max-width: 380px; border-radius: 30px;
             padding: 30px; position: relative; max-height: 85vh; overflow-y: auto;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
 
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2.2rem; color: #ddd; cursor: pointer; transition: 0.2s; }
-        .close-btn:hover { color: var(--ratp-red); }
+        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2.2rem; color: #ddd; cursor: pointer; }
         
         .modal-h2 { 
             font-family: 'Montserrat', sans-serif;
             color: var(--ratp-blue); font-size: 1rem; margin-bottom: 25px; 
             border-bottom: 3px solid #f1f3f5; padding-bottom: 12px; 
-            text-transform: uppercase; font-weight: 900; letter-spacing: 1px;
+            text-transform: uppercase; font-weight: 900;
         }
 
         label { display: block; font-weight: 700; font-size: 0.75rem; margin: 15px 0 6px; color: #7f8c8d; text-transform: uppercase; }
@@ -98,27 +109,16 @@
             font-size: 0.95rem; background: #fafafa; color: #2c3e50; font-weight: 600;
         }
 
-        /* Boutons Action */
         .btn-action { 
             width: 100%; padding: 20px; border: none; border-radius: 18px; 
             color: white; font-weight: 900; font-size: 1rem; cursor: pointer; 
-            margin-top: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            text-transform: uppercase; letter-spacing: 0.5px;
+            margin-top: 25px; text-transform: uppercase;
         }
-        .btn-tag { background: linear-gradient(135deg, var(--ratp-blue) 0%, #003d73 100%); }
-        .btn-prise { background: linear-gradient(135deg, var(--ratp-green) 0%, #27ae60 100%); margin-bottom: 12px; }
-        .btn-fin { background: linear-gradient(135deg, var(--ratp-red) 0%, #c0392b 100%); }
+        .btn-tag { background: #2c3e50; }
+        .btn-prise { background: var(--ratp-green); margin-bottom: 12px; }
+        .btn-fin { background: var(--ratp-red); }
 
-        .hist-item { border-bottom: 1px solid #f1f3f5; padding: 15px 0; }
-        .hist-date { color: #bdc3c7; font-size: 0.7rem; margin-bottom: 4px; font-weight: 700; }
-        .hist-type { font-weight: 800; color: var(--ratp-blue); font-size: 0.85rem; }
-        .hist-detail { color: #34495e; font-size: 0.85rem; margin-top: 2px; }
-
-        #status-bar { 
-            position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9); 
-            backdrop-filter: blur(5px); color: #7f8c8d; text-align: center; 
-            padding: 12px; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
-        }
+        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; color: #7f8c8d; text-align: center; padding: 12px; font-size: 0.7rem; font-weight: 700; border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -127,6 +127,7 @@
     <img src="logo_casa_group.png" alt="Logo" class="logo-casa"><br>
     <img src="logo_ratp_dev_casa.png" alt="Logo" class="logo-ratp">
     <h1>GESTION TERRETOIRE</h1>
+    <div class="sub-title">Chef de zone</div>
 </div>
 
 <div class="menu-grid">
@@ -164,21 +165,16 @@
 
 <div id="modalHistory" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalHistory')">&times;</span>
-    <div class="modal-h2">HISTORIQUE LOCAL</div>
-    <div id="history-list">Aucun pointage récent.</div>
+    <div class="modal-h2">HISTORIQUE</div>
+    <div id="history-list">Chargement...</div>
 </div></div>
 
-<div id="status-bar">CONNECTÉ AU RÉSEAU</div>
+<div id="status-bar">CONNECTÉ</div>
 
 <script>
     const PASSWORD_ADMIN = "1234";
     const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir HARIRI", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
-    
-    const structureData = { 
-        "Dépôts": ["Dépôt Hantat", "Dépôt Sidi Moumen", "Dépôt CDR", "Dépôt Sidi Bernoussi"], 
-        "Lignes": ["T1", "T2", "T3", "T4", "BW1", "BW2"] 
-    };
-
+    const structureData = { "Dépôts": ["Dépôt Hantat", "Dépôt Sidi Moumen", "Dépôt CDR", "Dépôt Sidi Bernoussi"], "Lignes": ["T1", "T2", "T3", "T4", "BW1", "BW2"] };
     const stationsData = { 
         "Dépôt Hantat": ["Loge", "Atelier", "Bureaux"], "Dépôt Sidi Moumen": ["Loge", "Atelier", "PCC"], "Dépôt CDR": ["Loge", "Atelier"], "Dépôt Sidi Bernoussi": ["Loge", "Atelier"],
         "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
@@ -193,25 +189,16 @@
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function checkPassword() {
-        let p = prompt("ACCÈS SÉCURISÉ - CODE :");
+        let p = prompt("Code :");
         if (p === PASSWORD_ADMIN) { showHistory(); } 
-        else if (p !== null) { alert("Accès Refusé."); }
+        else if (p !== null) { alert("Refusé."); }
     }
 
     function showHistory() {
         const list = document.getElementById('history-list');
         const data = JSON.parse(localStorage.getItem('ronde_logs') || '[]');
-        if (data.length === 0) { list.innerHTML = "Aucun historique."; }
-        else {
-            list.innerHTML = data.map(i => `<div class="hist-item"><div class="hist-date">${i.date}</div><span class="hist-type">${i.type}</span><div class="hist-detail">${i.station} - ${i.ligne}</div></div>`).join('');
-        }
+        list.innerHTML = data.length === 0 ? "Aucun historique." : data.map(i => `<div style="border-bottom:1px solid #eee; padding:10px 0;"><small>${i.date}</small><br><b>${i.type}</b><br>${i.station}</div>`).join('');
         openModal('modalHistory');
-    }
-
-    function saveToLocal(type, station, ligne) {
-        let logs = JSON.parse(localStorage.getItem('ronde_logs') || '[]');
-        logs.unshift({ type, station, ligne, date: new Date().toLocaleString('fr-FR') });
-        localStorage.setItem('ronde_logs', JSON.stringify(logs.slice(0, 10)));
     }
 
     window.onload = function() {
@@ -228,16 +215,18 @@
     function valider(btn, type) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, service = m.querySelector('.sel-service').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        if(!chef || !service || !ligne || !station) return alert("Veuillez remplir tous les champs !");
+        if(!chef || !service || !ligne || !station) return alert("Champs vides !");
         
-        document.getElementById('status-bar').innerText = "📍 SYNCHRONISATION GPS...";
+        document.getElementById('status-bar').innerText = "📍 LOCALISATION...";
         navigator.geolocation.getCurrentPosition((pos) => {
             fetch("https://script.google.com/macros/s/AKfycbwteA6ZOpZPUA_-T7QkYqIRUVH3_t4EDCmAlRpemSUEfrs0EtYJtrrYy7JUQA-ARP-NpQ/exec", {
                 method: 'POST', mode: 'no-cors',
                 body: JSON.stringify({ type, chef, service, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
             }).then(() => {
-                saveToLocal(type, station, ligne);
-                alert("✅ TRANSMISSION RÉUSSIE !");
+                let logs = JSON.parse(localStorage.getItem('ronde_logs') || '[]');
+                logs.unshift({ type, station, date: new Date().toLocaleString() });
+                localStorage.setItem('ronde_logs', JSON.stringify(logs.slice(0,10)));
+                alert("✅ TRANSMIS !");
                 closeModal(btn.closest('.modal').id);
                 document.getElementById('status-bar').innerText = "✅ PRÊT";
             });
