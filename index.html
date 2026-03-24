@@ -119,10 +119,12 @@
 <div id="status-bar">GPS PRÊT</div>
 
 <script>
-    const SCRIPT_URL = "VOTRE_URL_SCRIPT_ICI"; // REMPLACER PAR VOTRE URL DE DEPLOIEMENT
+    // URL DE VOTRE SCRIPT MISE À JOUR
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbygCCUqPx3GPqVdAfQpE5gvkgbRxqYOMTcBL2ozrfEv/dev"; 
 
     const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir HARIRI", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
     
+    // Données des stations (identiques à votre version précédente)
     const stationsData = {
         "T1": { "Sidi Moumen Terminus": [33.586647,-7.501958], "Ennassim": [33.584639,-7.504737], "Mohammed Zefzaf": [33.582128,-7.509011], "Centre de Maintenance": [33.579344,-7.513379], "Hôpital Sidi Moumen": [33.576404,-7.517978], "Attacharouk": [33.574052,-7.524465], "Okba Ibn Nafii": [33.573007,-7.532854], "Forces Auxiliaires": [33.574800,-7.539628], "Hay Raja": [33.576612,-7.548226], "Ibn Tachfine": [33.580715,-7.562997], "Hay Mohammadi": [33.585144,-7.566664], "Achouhada": [33.588742,-7.567820], "Ali Yaata": [33.591476,-7.569933], "Grande Ceinture": [33.590609,-7.572976], "Anciens Abattoirs": [33.591181,-7.579402], "Bahmad": [33.594080,-7.587257], "Casa Voyageurs": [33.590620,-7.592358], "Place Al Yassir": [33.592837,-7.596692], "La Résistance": [33.593433,-7.602797], "Mohamed Diouri": [33.593613,-7.607416], "Marché Central": [33.594459,-7.612105], "Place des Nations Unies": [33.594889,-7.618149], "Place Mohammed V": [33.589746,-7.619919], "Avenue Hassan II": [33.584151,-7.623075], "Les Hôpitaux": [33.579969,-7.624865], "Faculté de Médecine": [33.574639,-7.625807], "Abdelmoumen": [33.570892,-7.625970], "Bachkou": [33.564119,-7.627425], "Mekka": [33.558359,-7.629648], "Gare Oasis": [33.554970,-7.631016], "Panoramique": [33.547339,-7.631964], "Technopark": [33.544749,-7.638060], "Zenith": [33.540917,-7.643435], "Gare Casa Sud": [33.542217,-7.651100], "Facultés": [33.545730,-7.657610], "Laymoune": [33.540164,-7.666361], "Lissasfa Terminus": [33.535258,-7.669981] },
         "T2": { "Sidi Bernoussi Terminus": [33.610125,-7.509822], "Abi Dar El Ghafari": [33.606614,-7.518053], "Gare De Ain Sbaa": [33.607444,-7.524403], "Préfecture Ain Sbaa": [33.602133,-7.530003], "Al Amane": [33.599183,-7.532944], "Al wifaq": [33.595686,-7.538122], "Dar Laman": [33.593836,-7.557414], "Carrières Centrales": [33.592719,-7.564481], "Kissariat Hay Mohammadi": [33.587125,-7.563622], "Mdakra": [33.581275,-7.563372], "Hay Adil": [33.579272,-7.568178], "Derb Milan": [33.572050,-7.580811], "Hay El Farah": [33.571639,-7.586414], "Derb Sultan": [33.572092,-7.595917], "Place Sraghna": [33.569625,-7.602231], "El Fida": [33.566475,-7.607325], "2 Mars": [33.569097,-7.612592], "Hermitage": [33.569186,-7.617908], "Anoual": [33.569419,-7.625025], "Derb Ghalef": [33.570059,-7.631693], "Riviera": [33.570943,-7.636231], "Ghandi": [33.568550,-7.644920], "Beauséjour": [33.564245,-7.648021], "Anfa Clubs": [33.561018,-7.653188], "Anfa Park": [33.559831,-7.657648], "Place Financière": [33.562307,-7.660902], "Abdellah Ben Cherif": [33.565833,-7.660272], "Cité De L'air": [33.568323,-7.664376], "Sidi Abderrahmane": [33.572274,-7.669556], "Hay Hassani": [33.576567,-7.672932], "Littoral": [33.580927,-7.674802], "Ain Diab Plage Terminus": [33.587608,-7.680950] },
@@ -154,7 +156,7 @@
         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     }
 
-    // FONCTION LIBRE GPS -> VERS FEUILLE 2
+    // FONCTION CONTRÔLE QUOTIDIEN -> ENVOI À LA FEUILLE 2 AVEC HEURE
     function validerControleLibre(btn) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
@@ -164,26 +166,31 @@
 
         if(!chef || !ligne || !station || !prest || !agent) return alert("Champs manquants !");
 
+        // Récupération de l'heure locale précise
+        const mtn = new Date();
+        const heureStr = mtn.toLocaleDateString('fr-FR') + " " + mtn.toLocaleTimeString('fr-FR');
+
         document.getElementById('status-bar').innerText = "📍 GPS...";
         navigator.geolocation.getCurrentPosition((pos) => {
             fetch(SCRIPT_URL, {
                 method: 'POST', mode: 'no-cors',
                 body: JSON.stringify({ 
                     type: "CONTROLE QUOTIDIEN", 
-                    destination: "Feuille 2", // <--- Cible la feuille 2
+                    destination: "Feuille 2",
+                    heure: heureStr, // <--- Envoi de l'heure précise
                     chef, ligne, station, prestataire: prest, 
                     agent, ecarts: ecarts.join(', '), 
                     commentaire: comm, gps: pos.coords.latitude+","+pos.coords.longitude 
                 })
             }).then(() => {
-                alert("✅ TRANSMIS À LA FEUILLE 2 !");
+                alert("✅ RAPPORT TRANSMIS À LA FEUILLE 2 À " + heureStr);
                 closeModal('modalDaily');
                 document.getElementById('status-bar').innerText = "✅ PRÊT";
             });
         }, () => alert("GPS REQUIS"), {enableHighAccuracy: true});
     }
 
-    // FONCTION AVEC GPS (80m) -> VERS FEUILLE 1
+    // FONCTION PRÉSENCE/RONDE -> ENVOI À LA FEUILLE 1
     function validerGeneric(btn, action, serviceAuto) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
@@ -197,11 +204,11 @@
                     method: 'POST', mode: 'no-cors',
                     body: JSON.stringify({ 
                         type: action, 
-                        destination: "Feuille 1", // <--- Cible la feuille 1
+                        destination: "Feuille 1",
                         chef, service: serviceAuto, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude 
                     })
                 }).then(() => {
-                    alert("✅ " + action + " (" + serviceAuto + ") ENREGISTRÉ !");
+                    alert("✅ " + action + " ENREGISTRÉ !");
                     closeModal(btn.closest('.modal').id);
                     document.getElementById('status-bar').innerText = "✅ PRÊT";
                 });
