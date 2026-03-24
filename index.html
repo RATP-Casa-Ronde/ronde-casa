@@ -10,13 +10,11 @@
             --ratp-blue: #0055A4;
             --ratp-green: #2ecc71;
             --ratp-red: #e74c3c;
-            --dark-blue: #2c3e50;
             --bg-gray: #f0f2f5;
-            
-            /* Nouvelles Couleurs Demandées */
-            --blue-fiance: #3498db;     /* Bleu ciel soutenu */
-            --yellow-gold: #FFC107;     /* Couleur de votre image */
-            --dark-green: #1b5e20;      /* Vert foncé */
+            --blue-fiance: #3498db;     
+            --yellow-gold: #FFC107;     
+            --dark-green: #1b5e20;      
+            --eval-orange: #e67e22; 
         }
 
         body {
@@ -27,59 +25,48 @@
         }
 
         .header { 
-            text-align: center; margin-bottom: 30px; width: 100%; max-width: 400px; 
-            background: white; padding: 25px 0; border-radius: 20px;
+            text-align: center; margin-bottom: 25px; width: 100%; max-width: 400px; 
+            background: white; padding: 20px 0; border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .logo-casa { width: 90px; margin-bottom: 8px; }
-        .logo-ratp { width: 110px; }
+        .logo-casa { width: 80px; margin-bottom: 5px; }
+        .logo-ratp { width: 100px; }
         
         h1 { 
             font-family: 'Montserrat', sans-serif;
-            color: var(--ratp-blue); font-size: 1.2rem; 
-            text-transform: uppercase; margin-top: 15px; margin-bottom: 5px;
+            color: var(--ratp-blue); font-size: 1.1rem; 
+            text-transform: uppercase; margin-top: 10px; margin-bottom: 5px;
             letter-spacing: 2px; font-weight: 900;
         }
         .sub-title {
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem; color: #7f8c8d; font-weight: 700;
+            font-size: 0.8rem; color: #7f8c8d; font-weight: 700;
             text-transform: uppercase; letter-spacing: 3px;
         }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 20px; width: 100%; max-width: 400px; }
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 15px; width: 100%; max-width: 400px; }
 
         .menu-card {
-            padding: 45px 20px; border-radius: 24px;
+            padding: 35px 20px; border-radius: 24px;
             text-align: center; box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             cursor: pointer; transition: all 0.3s ease;
             border: 2px solid rgba(255,255,255,0.2);
         }
         .menu-card:active { transform: scale(0.96); }
         
-        /* Remplissage des rubriques */
-        .card-presence { 
-            background: var(--blue-fiance); 
-            border-left: 15px solid #2980b9; 
-        }
-        .card-controleur { 
-            background: var(--yellow-gold); 
-            border-left: 15px solid #f39c12; 
-        }
-        .card-history { 
-            background: var(--dark-green); 
-            border-left: 15px solid #0a3d0d; 
-        }
+        .card-presence { background: var(--blue-fiance); border-left: 15px solid #2980b9; }
+        .card-controleur { background: var(--yellow-gold); border-left: 15px solid #f39c12; }
+        .card-eval { background: var(--eval-orange); border-left: 15px solid #d35400; }
+        .card-history { background: var(--dark-green); border-left: 15px solid #0a3d0d; }
 
         .card-title { 
             font-family: 'Montserrat', sans-serif;
-            font-weight: 900; font-size: 1.2rem; color: white; 
+            font-weight: 900; font-size: 1rem; color: white; 
             text-transform: uppercase; letter-spacing: 1px;
             text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
         }
-        /* Ajustement du texte sur le jaune pour la lisibilité */
         .card-controleur .card-title { color: #2c3e50; text-shadow: none; }
 
-        /* Fenêtres Modales */
         .modal {
             display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(44, 62, 80, 0.9); backdrop-filter: blur(5px);
@@ -88,37 +75,24 @@
 
         .modal-content {
             background: white; width: 92%; max-width: 380px; border-radius: 30px;
-            padding: 30px; position: relative; max-height: 85vh; overflow-y: auto;
-            animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 25px; position: relative; max-height: 85vh; overflow-y: auto;
         }
 
-        @keyframes slideUp { from { transform: translateY(50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-eval-content { max-width: 95%; width: 95%; height: 90vh; padding: 10px; padding-top: 40px; }
 
-        .close-btn { position: absolute; top: 15px; right: 20px; font-size: 2.2rem; color: #ddd; cursor: pointer; }
+        .close-btn { position: absolute; top: 10px; right: 20px; font-size: 2.5rem; color: #333; cursor: pointer; z-index: 100; }
         
-        .modal-h2 { 
-            font-family: 'Montserrat', sans-serif;
-            color: var(--ratp-blue); font-size: 1rem; margin-bottom: 25px; 
-            border-bottom: 3px solid #f1f3f5; padding-bottom: 12px; 
-            text-transform: uppercase; font-weight: 900;
-        }
+        iframe { width: 100%; height: 100%; border: none; border-radius: 15px; }
 
         label { display: block; font-weight: 700; font-size: 0.75rem; margin: 15px 0 6px; color: #7f8c8d; text-transform: uppercase; }
-        select { 
-            width: 100%; padding: 15px; border: 2px solid #f1f3f5; border-radius: 15px; 
-            font-size: 0.95rem; background: #fafafa; color: #2c3e50; font-weight: 600;
-        }
+        select { width: 100%; padding: 14px; border: 2px solid #f1f3f5; border-radius: 12px; font-size: 0.95rem; font-weight: 600; }
 
-        .btn-action { 
-            width: 100%; padding: 20px; border: none; border-radius: 18px; 
-            color: white; font-weight: 900; font-size: 1rem; cursor: pointer; 
-            margin-top: 25px; text-transform: uppercase;
-        }
+        .btn-action { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 900; font-size: 0.9rem; cursor: pointer; margin-top: 20px; text-transform: uppercase; }
         .btn-tag { background: #2c3e50; }
-        .btn-prise { background: var(--ratp-green); margin-bottom: 12px; }
+        .btn-prise { background: var(--ratp-green); margin-bottom: 10px; }
         .btn-fin { background: var(--ratp-red); }
 
-        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; color: #7f8c8d; text-align: center; padding: 12px; font-size: 0.7rem; font-weight: 700; border-top: 1px solid #eee; }
+        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; color: #7f8c8d; text-align: center; padding: 10px; font-size: 0.7rem; font-weight: 700; border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -137,14 +111,24 @@
     <div class="menu-card card-controleur" onclick="openModal('modalTerrain')">
         <span class="card-title">CONTRÔLEUR DE RONDE</span>
     </div>
+    <div class="menu-card card-eval" onclick="openModal('modalEval')">
+        <span class="card-title">CONNAISSANCE DU RÉSEAU</span>
+    </div>
     <div class="menu-card card-history" onclick="checkPassword()">
         <span class="card-title">HISTORIQUE</span>
     </div>
 </div>
 
+<div id="modalEval" class="modal">
+    <div class="modal-content modal-eval-content">
+        <span class="close-btn" onclick="closeModal('modalEval')">&times;</span>
+        <iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ">Chargement...</iframe>
+    </div>
+</div>
+
 <div id="modalPresence" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalPresence')">&times;</span>
-    <div class="modal-h2">PRÉSENCE</div>
+    <div style="color:var(--ratp-blue); font-weight:900; margin-bottom:20px;">PRÉSENCE</div>
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Service</label><select class="sel-service"><option value="">-- Choisir --</option><option value="Matin">Matin</option><option value="Mixte">Mixte</option></select>
     <label>Ligne / Dépôt</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
@@ -155,7 +139,7 @@
 
 <div id="modalTerrain" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalTerrain')">&times;</span>
-    <div class="modal-h2">CONTRÔLEUR DE RONDE</div>
+    <div style="color:var(--ratp-blue); font-weight:900; margin-bottom:20px;">CONTRÔLEUR DE RONDE</div>
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Service</label><select class="sel-service"><option value="">-- Choisir --</option><option value="Matin">Matin</option><option value="Mixte">Mixte</option></select>
     <label>Ligne / Réseau</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
@@ -165,7 +149,7 @@
 
 <div id="modalHistory" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalHistory')">&times;</span>
-    <div class="modal-h2">HISTORIQUE</div>
+    <div style="color:var(--ratp-blue); font-weight:900; margin-bottom:20px;">HISTORIQUE</div>
     <div id="history-list">Chargement...</div>
 </div></div>
 
@@ -177,7 +161,7 @@
     const structureData = { "Dépôts": ["Dépôt Hantat", "Dépôt Sidi Moumen", "Dépôt CDR", "Dépôt Sidi Bernoussi"], "Lignes": ["T1", "T2", "T3", "T4", "BW1", "BW2"] };
     const stationsData = { 
         "Dépôt Hantat": ["Loge", "Atelier", "Bureaux"], "Dépôt Sidi Moumen": ["Loge", "Atelier", "PCC"], "Dépôt CDR": ["Loge", "Atelier"], "Dépôt Sidi Bernoussi": ["Loge", "Atelier"],
-        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
+        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Centre de Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachfine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Anciens Abattoirs", "Bahmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place des Nations Unies", "Place Mohammed V", "Avenue Hassan II", "Les Hôpitaux", "Faculté de Médécine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
         "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare De Ain Sbaa", "Préfecture Ain Sbaa", "Al Amane", "Al wifaq", "Dar Laman", "Carrières Centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Clubs", "Anfa Park", "Place Financière", "Abdellah Ben Cherif", "Cité De L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"],
         "T3": ["Casa Port Terminus", "Mohammed Smiha", "Place De La victoir", "Mohamed Zerktouni", "Habous", "Garage allal", "Derb Tolba", "Derb Chorfa", "Abou Couaib Doukali", "Afriquia", "Dar Attouzani", "BD Mohammed VI", "6 NOUVEMBRE", "Abdessalam Ennaciri", "Jardin Alesco", "Hay Lalla Mariem", "Idriss El Allam", "Abdelkader Essahraoui", "10 Mars", "Hay Alwahda Terminus"],
         "T4": ["Mohammed Erradi Terminus", "Zone Industrielle", "Moulay Rachid", "Mohammed Joudar", "Faculté Ben Msik", "Hay El Falah", "Driss El Harti", "Mohammed Bouziane", "Hay Assalama", "Nil", "Jardin Chtaiba", "Hay Tissir", "Gare Oulad Ziane", "In Borja", "Ifni", "La Girande", "Jabir Ibn Hayane", "Mers Sultan", "Parc De La Ligue Arabe Terminus"],
@@ -189,9 +173,9 @@
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
     function checkPassword() {
-        let p = prompt("Code :");
+        let p = prompt("Code Historique :");
         if (p === PASSWORD_ADMIN) { showHistory(); } 
-        else if (p !== null) { alert("Refusé."); }
+        else if (p !== null) { alert("Accès Refusé."); }
     }
 
     function showHistory() {
@@ -215,7 +199,7 @@
     function valider(btn, type) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, service = m.querySelector('.sel-service').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        if(!chef || !service || !ligne || !station) return alert("Champs vides !");
+        if(!chef || !service || !ligne || !station) return alert("Champs obligatoires !");
         
         document.getElementById('status-bar').innerText = "📍 LOCALISATION...";
         navigator.geolocation.getCurrentPosition((pos) => {
