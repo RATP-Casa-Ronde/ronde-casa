@@ -30,12 +30,15 @@
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; width: 92%; max-width: 380px; border-radius: 20px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
-        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; }
+        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; color: #333; }
         
         label { display: block; font-weight: 700; font-size: 0.65rem; margin: 10px 0 3px; color: #7f8c8d; text-transform: uppercase; }
         select, input, textarea { width: 100%; padding: 10px; border: 2px solid #f1f3f5; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
         
-        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 5px; background: #f8f9fa; padding: 10px; border-radius: 10px; }
+        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 5px; background: #f8f9fa; padding: 12px; border-radius: 10px; border: 1px solid #eee; }
+        .ecart-item { display: flex; align-items: center; font-size: 0.8rem; font-weight: 600; color: #2c3e50; cursor: pointer; }
+        .ecart-item input { width: auto; margin-right: 12px; transform: scale(1.2); }
+
         .btn-action { width: 100%; padding: 15px; border: none; border-radius: 10px; color: white; font-weight: 900; margin-top: 10px; text-transform: uppercase; cursor: pointer; }
         #status-bar { position: fixed; bottom: 0; width: 100%; background: white; text-align: center; padding: 5px; font-size: 0.6rem; font-weight: 700; border-top: 1px solid #eee; }
     </style>
@@ -58,7 +61,7 @@
 
 <div id="modalDaily" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalDaily')">&times;</span>
-    <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:10px;">RAPPORT (FEUILLE 2)</div>
+    <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:10px; border-bottom: 2px solid var(--ctrl-blue);">RAPPORT (FEUILLE 2)</div>
     
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
@@ -68,13 +71,16 @@
 
     <label>Écarts constatés</label>
     <div class="ecarts-grid" id="ecartsList">
-        <label><input type="checkbox" value="Rassemblement"> Rassemblement</label><br>
-        <label><input type="checkbox" value="Téléphone"> Téléphone</label><br>
-        <label><input type="checkbox" value="Tenue"> Pas de tenue</label>
+        <label class="ecart-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
+        <label class="ecart-item"><input type="checkbox" value="Utilisation du téléphone"> Utilisation du téléphone</label>
+        <label class="ecart-item"><input type="checkbox" value="Manque d'intervention F1/F2"> Manque d'intervention F1/F2</label>
+        <label class="ecart-item"><input type="checkbox" value="Ne porte pas la tenue"> Ne porte pas la tenue</label>
+        <label class="ecart-item"><input type="checkbox" value="Abondement"> Abondement</label>
+        <label class="ecart-item"><input type="checkbox" value="Manque d'escorte Tram/Bus"> Manque d'escorte Tram/Bus</label>
     </div>
 
-    <label>Commentaire</label><textarea id="commCtrl" rows="2"></textarea>
-    <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre(btn)">ENVOYER AU SHEET</button>
+    <label>Commentaire</label><textarea id="commCtrl" rows="2" placeholder="Observations..."></textarea>
+    <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
 </div></div>
 
 <div id="modalEval" class="modal"><div class="modal-content" style="height:80vh; max-width:95%;">
@@ -167,7 +173,7 @@
         });
     }
 
-    function checkPassword() { if (prompt("Mot de passe :") === "1234") { window.open("https://docs.google.com/spreadsheets/d/VOTRE_ID_SHEET", "_blank"); } }
+    function checkPassword() { if (prompt("Mot de passe :") === "1234") { window.open("https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw", "_blank"); } }
 </script>
 </body>
 </html>
