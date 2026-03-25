@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GESTION TERRITOIRE</title>
+    <title>GESTION TERRITOIRE V3</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -21,10 +21,7 @@
         }
         
         .nav-container { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 10px; }
-        .nav-btn-int { 
-            padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; 
-            cursor: pointer; border: none; text-transform: uppercase; display: none;
-        }
+        .nav-btn-int { padding: 6px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; cursor: pointer; border: none; text-transform: uppercase; display: none; }
         .btn-logout { background: var(--ratp-red); color: white; }
         .btn-prev { background: var(--ctrl-blue); color: white; }
 
@@ -94,7 +91,6 @@
     <label>Heure (24h)</label><input type="time" id="heureCtrl">
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
     <label>Station</label><select class="sel-station"></select>
-    <label>Agent</label><input type="text" id="nomAgentDaily">
     <label style="color:var(--ratp-red)">Écarts constatés</label>
     <div class="checkbox-group" id="groupEcarts">
         <label class="checkbox-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
@@ -107,16 +103,53 @@
     <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
 </div></div>
 
-<div id="modalPresence" class="modal"><div class="modal-content"><span class="close-btn" onclick="close_m('modalPresence')">&times;</span><div style="color:var(--blue-fiance); font-weight:900; border-bottom:3px solid var(--blue-fiance); margin-bottom:10px;">PRÉSENCE</div><label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select><label>Station</label><select class="sel-station"></select><button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'SERVICE MIXTE')">PRISE (MIXTE)</button><button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'SERVICE MATIN')">FIN (MATIN)</button></div></div>
-<div id="modalTerrain" class="modal"><div class="modal-content"><span class="close-btn" onclick="close_m('modalTerrain')">&times;</span><div style="color:var(--yellow-gold); font-weight:900; border-bottom:3px solid var(--yellow-gold); margin-bottom:10px;">CONTRÔLEUR DE RONDE</div><label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select><label>Station</label><select class="sel-station"></select><button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER STATION</button></div></div>
-<div id="modalEval" class="modal"><div class="modal-content"><span class="close-btn" onclick="close_m('modalEval')">&times;</span><div style="color:var(--eval-orange); font-weight:900; border-bottom:3px solid var(--eval-orange); margin-bottom:10px;">CONNAISSANCE RÉSEAU</div><label>Agent</label><input type="text" id="nomAgentEval"><label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select><label>Station</label><select class="sel-station"></select><label>Q1</label><select id="q1Eval"><option value="Maîtrise">Maîtrise</option><option value="non Maîtrise">non Maîtrise</option></select><label>Q2</label><select id="q2Eval"><option value="Maîtrise">Maîtrise</option><option value="non Maîtrise">non Maîtrise</option></select><button class="btn-action" style="background:var(--eval-orange)" onclick="validerConnaissance()">VALIDER L'ÉVALUATION</button></div></div>
-<div id="modalRecap" class="modal"><div class="modal-content" style="height:90vh; max-width:98%;"><span class="close-btn" onclick="close_m('modalRecap')">&times;</span><iframe src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe></div></div>
+<div id="modalPresence" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="close_m('modalPresence')">&times;</span>
+    <div style="color:var(--blue-fiance); font-weight:900; border-bottom:3px solid var(--blue-fiance); margin-bottom:10px;">PRÉSENCE</div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'SERVICE MIXTE', true)">PRISE DE SERVICE (SERVICE MIXTE)</button>
+    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'SERVICE MATIN', true)">FIN DE SERVICE (SERVICE MATIN)</button>
+</div></div>
+
+<div id="modalTerrain" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="close_m('modalTerrain')">&times;</span>
+    <div style="color:var(--yellow-gold); font-weight:900; border-bottom:3px solid var(--yellow-gold); margin-bottom:10px;">CONTRÔLEUR DE RONDE</div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A', true)">TAGUER STATION</button>
+</div></div>
+
+<div id="modalEval" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="close_m('modalEval')">&times;</span>
+    <div style="color:var(--eval-orange); font-weight:900; border-bottom:3px solid var(--eval-orange); margin-bottom:10px;">CONNAISSANCE RÉSEAU</div>
+    <label>Agent</label><input type="text" id="nomAgentEval">
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <label>Q1: Gamme tarifaire, Terminus, correspondances</label>
+    <select id="q1Eval"><option value="Maîtrise">Maîtrise</option><option value="non Maîtrise">non Maîtrise</option></select>
+    <label>Q2: Déplacement sur le réseau (2 questions)</label>
+    <select id="q2Eval"><option value="Maîtrise">Maîtrise</option><option value="non Maîtrise">non Maîtrise</option></select>
+    <button class="btn-action" style="background:var(--eval-orange)" onclick="validerConnaissance()">VALIDER L'ÉVALUATION</button>
+</div></div>
+
+<div id="modalRecap" class="modal"><div class="modal-content" style="height:90vh; max-width:98%;">
+    <span class="close-btn" onclick="close_m('modalRecap')">&times;</span>
+    <iframe src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe>
+</div></div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec";
     
-    // Données stations (T1 à BW2)
-    const stationsData = { "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] }, "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] }, "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "10 Mars": [33.5518,-7.5509], "Abdelkader Essahraoui": [33.5557,-7.5475], "Idriss El Allam": [33.5596,-7.5508], "Hay Lalla Meriem": [33.5572,-7.5580], "Jardin Alesco": [33.5508,-7.5686], "Abdessalam Ennaciri": [33.5485,-7.5725], "6 Novembre": [33.5466,-7.5756], "Bd Mohammed VI": [33.5435,-7.5815], "Dar Attouzani": [33.5489,-7.5865], "Afriquia": [33.5546,-7.5923], "Abou Chouaïb Doukali": [33.5615,-7.5947], "Derb Chorfa": [33.5664,-7.5956], "Derb Tolba": [33.5710,-7.5967], "Garage Allal": [33.5756,-7.5989], "Habous": [33.5785,-7.6005], "Mohammed Zerktouni": [33.5926,-7.6086], "Place de la Victoire": [33.5878,-7.6082], "Mohammed Smiha": [33.5926,-7.6086], "Casa Port Terminus": [33.5979,-7.6110] }, "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Zone Industrielle": [33.5707,-7.5239], "Moulay Rachid": [33.5714,-7.5312], "Mohammed Jaudar": [33.5684,-7.5361], "Faculté Ben Msik": [33.5660,-7.5429], "Hay El Falah": [33.5633,-7.5476], "Idriss El Harti": [33.5614,-7.5509], "Mohammed Bouziane": [33.5635,-7.5542], "Hay Assalama": [33.5676,-7.5583], "Boulevard du Nil": [33.5664,-7.5647], "Chtaiba": [33.5651,-7.5707], "Hay Tissir": [33.5723,-7.5805], "Gare Oulad Ziane": [33.5758,-7.5856], "Ain Borja": [33.5802,-7.5917], "Ifni": [33.5846,-7.5980], "La Gironde": [33.5873,-7.6009], "Jaber Ibn Hayane": [33.5887,-7.6076], "Mers Sultan": [33.5876,-7.6158], "Parc de la ligue arabe Terminus": [33.5879,-7.6217] }, "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Sbata": [33.5385,-7.5547], "Stade Tessema": [33.5410,-7.5587], "Al Joulane": [33.5439,-7.5621], "Lahrizi": [33.5400,-7.5684], "Jardin Sunday": [33.5365,-7.5741], "Amgala": [33.5399,-7.5790], "Al Qods": [33.5438,-7.5819], "Sefrou": [33.5424,-7.5885], "Taza": [33.5420,-7.5899], "Al Inara": [33.5396,-7.5992], "Oulad Haddou": [33.5372,-7.6052], "Hay Chrifa": [33.5350,-7.6098], "Taddart": [33.5323,-7.6166], "Azzohour": [33.5306,-7.6229], "Californie": [33.5313,-7.6305], "Casa Nearshore": [33.5302,-7.6387], "Al Moustakbal": [33.5315,-7.6467], "Sidi Maarouf": [33.5329,-7.6512], "Omar El Khayam Terminus": [33.5402,-7.6669] }, "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "La Ferme": [33.5225,-7.7511], "Ouled Ahmed": [33.5248,-7.7461], "Les Ecoles": [33.5265,-7.7398], "Oued Sbou": [33.5285,-7.7338], "Errahma": [33.5315,-7.7287], "Les Jardins D’Errahma": [33.5383,-7.7178], "La Perception": [33.5379,-7.7186], "La Rocade": [33.5438,-7.7092], "Abouab Oulfa": [33.5462,-7.7049], "Moulay Thami": [33.5484,-7.7010], "Essafa": [33.5509,-7.6962], "Haj Fateh": [33.5533,-7.6898], "Moulouya": [33.5563,-7.6835], "Oued Beht": [33.5583,-7.6794], "Oued Laou": [33.5599,-7.6746], "Oued Oum Rabia": [33.5614,-7.6694], "Les Musées": [33.5633,-7.6649], "Aéropostale": [33.5650,-7.6605], "C.I.L.": [33.5673,-7.6562], "Yaacoub Al Mansour": [33.5694,-7.6527], "Oulmes Terminus": [33.5715,-7.6486] } };
+    // Stations complètes (T1 à BW2)
+    const stationsData = {
+        "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] },
+        "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] },
+        "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "10 Mars": [33.5518,-7.5509], "Abdelkader Essahraoui": [33.5557,-7.5475], "Idriss El Allam": [33.5596,-7.5508], "Hay Lalla Meriem": [33.5572,-7.5580], "Jardin Alesco": [33.5508,-7.5686], "Abdessalam Ennaciri": [33.5485,-7.5725], "6 Novembre": [33.5466,-7.5756], "Bd Mohammed VI": [33.5435,-7.5815], "Dar Attouzani": [33.5489,-7.5865], "Afriquia": [33.5546,-7.5923], "Abou Chouaïb Doukali": [33.5615,-7.5947], "Derb Chorfa": [33.5664,-7.5956], "Derb Tolba": [33.5710,-7.5967], "Garage Allal": [33.5756,-7.5989], "Habous": [33.5785,-7.6005], "Mohammed Zerktouni": [33.5926,-7.6086], "Place de la Victoire": [33.5878,-7.6082], "Mohammed Smiha": [33.5926,-7.6086], "Casa Port Terminus": [33.5979,-7.6110] },
+        "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Zone Industrielle": [33.5707,-7.5239], "Moulay Rachid": [33.5714,-7.5312], "Mohammed Jaudar": [33.5684,-7.5361], "Faculté Ben Msik": [33.5660,-7.5429], "Hay El Falah": [33.5633,-7.5476], "Idriss El Harti": [33.5614,-7.5509], "Mohammed Bouziane": [33.5635,-7.5542], "Hay Assalama": [33.5676,-7.5583], "Boulevard du Nil": [33.5664,-7.5647], "Chtaiba": [33.5651,-7.5707], "Hay Tissir": [33.5723,-7.5805], "Gare Oulad Ziane": [33.5758,-7.5856], "Ain Borja": [33.5802,-7.5917], "Ifni": [33.5846,-7.5980], "La Gironde": [33.5873,-7.6009], "Jaber Ibn Hayane": [33.5887,-7.6076], "Mers Sultan": [33.5876,-7.6158], "Parc de la ligue arabe Terminus": [33.5879,-7.6217] },
+        "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Sbata": [33.5385,-7.5547], "Stade Tessema": [33.5410,-7.5587], "Al Joulane": [33.5439,-7.5621], "Lahrizi": [33.5400,-7.5684], "Jardin Sunday": [33.5365,-7.5741], "Amgala": [33.5399,-7.5790], "Al Qods": [33.5438,-7.5819], "Sefrou": [33.5424,-7.5885], "Taza": [33.5420,-7.5899], "Al Inara": [33.5396,-7.5992], "Oulad Haddou": [33.5372,-7.6052], "Hay Chrifa": [33.5350,-7.6098], "Taddart": [33.5323,-7.6166], "Azzohour": [33.5306,-7.6229], "Californie": [33.5313,-7.6305], "Casa Nearshore": [33.5302,-7.6387], "Al Moustakbal": [33.5315,-7.6467], "Sidi Maarouf": [33.5329,-7.6512], "Omar El Khayam Terminus": [33.5402,-7.6669] },
+        "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "La Ferme": [33.5225,-7.7511], "Ouled Ahmed": [33.5248,-7.7461], "Les Ecoles": [33.5265,-7.7398], "Oued Sbou": [33.5285,-7.7338], "Errahma": [33.5315,-7.7287], "Les Jardins D’Errahma": [33.5383,-7.7178], "La Perception": [33.5379,-7.7186], "La Rocade": [33.5438,-7.7092], "Abouab Oulfa": [33.5462,-7.7049], "Moulay Thami": [33.5484,-7.7010], "Essafa": [33.5509,-7.6962], "Haj Fateh": [33.5533,-7.6898], "Moulouya": [33.5563,-7.6835], "Oued Beht": [33.5583,-7.6794], "Oued Laou": [33.5599,-7.6746], "Oued Oum Rabia": [33.5614,-7.6694], "Les Musées": [33.5633,-7.6649], "Aéropostale": [33.5650,-7.6605], "C.I.L.": [33.5673,-7.6562], "Yaacoub Al Mansour": [33.5694,-7.6527], "Oulmes Terminus": [33.5715,-7.6486] }
+    };
 
     const chefsData = {"1436":"Redouane Zaoui", "355":"Mouhcin RACHDAOUI", "90":"Fouad MAHMAH", "72":"Zakia AMMARI", "760":"Monsif MARZOUK", "591":"Hassan MOUTTAQUINE", "85":"El mostafa ERRAHMOUNI", "86":"Youssef ABOUHILAL", "506":"Anass CHOUKRI", "447":"Rachid BAZZAZ", "185":"Aicha ESSAHMI", "274":"Youssef EZZAMANIDI", "1061":"Ayoub AQASBY", "84":"Mohamed FRIMAN", "74":"Ouissal NASSOUHE", "81":"Mohamed REGRAGUI", "173":"Taha NAJHI", "534":"Mohamed CHAGUE", "430":"Mohamed SADOK", "518":"Samir HOUD", "346":"Youness MAATOUS", "254":"Azddine GOUTE", "643":"Nourddine KARDANE", "1137":"Abdelilah HARIRI", "193":"Bader HAMDA", "712":"Abdelkader OUELDBA", "820":"Samir AKLIA", "262":"Zakaria LAHMITI", "411":"Elbouazzaoui ERRAKI", "147":"Hicham ZAHIDI", "91":"Mounsif FOUAD", "82":"Rachid EL HAFYANI", "422":"El Mehdi EL MISSIOUI", "1386":"Fahd CHAHTI", "687":"Amine MOUSSADAK", "549":"Wadii LARHA", "708":"Ouahid LAYLI", "77":"Siham KASSEMI", "1063":"Aziz DOUMI", "654":"Abderrahman BECHTAOUI"};
 
@@ -161,16 +194,25 @@
         }
     }
 
+    // Fonction de calcul de distance (Haversine)
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371e3; 
+        const φ1 = lat1 * Math.PI/180;
+        const φ2 = lat2 * Math.PI/180;
+        const Δφ = (lat2-lat1) * Math.PI/180;
+        const Δλ = (lon2-lon1) * Math.PI/180;
+        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
     function validerControleLibre() {
         const boxes = document.querySelectorAll('#groupEcarts input:checked');
         let ec = Array.from(boxes).map(b => b.value).join(', ');
-        const h = document.getElementById('heureCtrl').value, l = document.querySelector('#modalDaily .sel-ligne').value, s = document.querySelector('#modalDaily .sel-station').value, ag = document.getElementById('nomAgentDaily').value;
-        if(!h || !l || !s || !ag) return alert("Veuillez remplir tous les champs.");
+        const h = document.getElementById('heureCtrl').value, l = document.querySelector('#modalDaily .sel-ligne').value, s = document.querySelector('#modalDaily .sel-station').value;
+        if(!h || !l || !s) return alert("Veuillez remplir tous les champs.");
         
         fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
-            type: "CONTROLE_QUOTIDIEN", 
-            targetSheet: "Feuille 2", // Indique la destination
-            chef: loggedInUser, heure: h, ligne: l, station: s, agent: ag, ecarts: ec || "Aucun" 
+            type: "CONTROLE_QUOTIDIEN", targetSheet: "Feuille 2", chef: loggedInUser, heure: h, ligne: l, station: s, ecarts: ec || "Aucun" 
         })})
         .then(() => { alert("✅ RAPPORT ENVOYÉ"); close_m('modalDaily'); });
     }
@@ -182,14 +224,26 @@
         .then(() => { alert("✅ ÉVALUATION ENREGISTRÉE"); close_m('modalEval'); });
     }
 
-    function validerGeneric(btn, action, serv) {
+    function validerGeneric(btn, action, serv, checkGPS) {
         const m = btn.closest('.modal-content');
         const l = m.querySelector('.sel-ligne').value, s = m.querySelector('.sel-station').value;
         if(!l || !s) return alert("Sélectionnez Ligne et Station !");
+        
         navigator.geolocation.getCurrentPosition((pos) => {
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: action, chef: loggedInUser, service: serv, ligne: l, station: s, gps: pos.coords.latitude+","+pos.coords.longitude })})
+            const userLat = pos.coords.latitude;
+            const userLon = pos.coords.longitude;
+
+            if (checkGPS) {
+                const targetPos = stationsData[l][s];
+                const distance = getDistance(userLat, userLon, targetPos[0], targetPos[1]);
+                if (distance > 80) {
+                    return alert("ERREUR GPS : Vous êtes à " + Math.round(distance) + "m de la station. (Limite : 80m)");
+                }
+            }
+
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: action, chef: loggedInUser, service: serv, ligne: l, station: s, gps: userLat+","+userLon })})
             .then(() => { alert("✅ ENREGISTRÉ"); close_m(btn.closest('.modal').id); });
-        }, () => alert("GPS bloqué !"));
+        }, () => alert("GPS indisponible ! Activez la localisation."));
     }
 </script>
 </body>
