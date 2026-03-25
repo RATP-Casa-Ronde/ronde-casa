@@ -14,41 +14,42 @@
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         
-        /* NOUVELLE EN-TÊTE AVEC LOGOS À GAUCHE ET À DROITE */
+        /* EN-TÊTE ÉLARGIE AVEC LOGOS PLUS GRANDS AUX EXTRÉMITÉS */
         .header { 
             text-align: center; 
             margin-bottom: 25px; 
             width: 100%; 
-            max-width: 500px; 
+            max-width: 500px; /* Plus large */
             background: white; 
-            padding: 25px 15px; 
+            padding: 30px 15px; /* Plus d'espace haut/bas */
             border-radius: 25px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
             position: relative;
         }
         .logo-container {
             display: flex;
-            justify-content: space-between; /* Un à gauche, un à droite */
+            justify-content: space-between; /* Écarte les logos */
             align-items: center;
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
-        .logo-casa { width: 80px; height: auto; margin-left: 10px; }
-        .logo-ratp { width: 100px; height: auto; margin-right: 10px; }
+        /* LOGOS BEAUCOUP PLUS GRANDS */
+        .logo-ratp { width: 130px; height: auto; margin-left: 10px; } /* RATP à gauche */
+        .logo-casa { width: 100px; height: auto; margin-right: 10px; } /* CASA à droite */
         
         h1 { 
             font-family: 'Montserrat', sans-serif; 
-            color: var(--ratp-blue); /* Couleur Bleue appliquée ici */
+            color: var(--ratp-blue); /* Couleur Bleue */
             font-size: 1.3rem; 
             text-transform: uppercase; 
-            margin: 10px 0 5px 0; 
+            margin: 15px 0 5px 0; 
             font-weight: 900; 
             letter-spacing: 1px;
         }
         .sub-title {
             color: #555;
             font-weight: 700;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             text-transform: uppercase;
             letter-spacing: 3px;
         }
@@ -86,8 +87,8 @@
 
 <div class="header">
     <div class="logo-container">
-        <img src="logo_casa_group.png" alt="Logo Casa" class="logo-casa">
         <img src="logo_ratp_dev_casa.png" alt="Logo RATP" class="logo-ratp">
+        <img src="logo_casa_group.png" alt="Logo Casa" class="logo-casa">
     </div>
     <h1>GESTION TERRITOIRE</h1>
     <div class="sub-title">CHEF DE ZONE</div>
