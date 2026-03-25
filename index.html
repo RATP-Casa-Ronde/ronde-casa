@@ -14,51 +14,43 @@
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         
-        /* EN-TÊTE ÉLARGIE ET LOGOS PLUS VISIBLES */
+        /* NOUVELLE EN-TÊTE AVEC LOGOS À GAUCHE ET À DROITE */
         .header { 
             text-align: center; 
             margin-bottom: 25px; 
             width: 100%; 
-            max-width: 500px; /* Plus large */
+            max-width: 500px; 
             background: white; 
-            padding: 30px 15px; /* Plus d'espace haut/bas */
+            padding: 25px 15px; 
             border-radius: 25px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.12); 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            position: relative;
         }
         .logo-container {
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between; /* Un à gauche, un à droite */
             align-items: center;
-            margin-bottom: 15px;
+            width: 100%;
+            margin-bottom: 10px;
         }
-        .logo-casa { width: 85px; height: auto; } /* Plus grand */
-        .logo-ratp { width: 110px; height: auto; } /* Plus grand */
+        .logo-casa { width: 80px; height: auto; margin-left: 10px; }
+        .logo-ratp { width: 100px; height: auto; margin-right: 10px; }
         
-        .ratp-dev-text {
-            font-family: 'Montserrat', sans-serif;
-            color: var(--ratp-blue);
-            font-weight: 900;
-            font-size: 1.2rem;
-            margin-top: -10px;
-            margin-bottom: 15px;
-        }
-
         h1 { 
             font-family: 'Montserrat', sans-serif; 
-            color: #333; 
-            font-size: 1.1rem; 
+            color: var(--ratp-blue); /* Couleur Bleue appliquée ici */
+            font-size: 1.3rem; 
             text-transform: uppercase; 
-            margin: 5px 0 0 0; 
+            margin: 10px 0 5px 0; 
             font-weight: 900; 
             letter-spacing: 1px;
         }
         .sub-title {
-            color: var(--ratp-blue);
+            color: #555;
             font-weight: 700;
             font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 5px;
+            letter-spacing: 3px;
         }
 
         /* GRILLE DE MENU */
@@ -97,7 +89,6 @@
         <img src="logo_casa_group.png" alt="Logo Casa" class="logo-casa">
         <img src="logo_ratp_dev_casa.png" alt="Logo RATP" class="logo-ratp">
     </div>
-    <div class="ratp-dev-text">RATP DEV</div>
     <h1>GESTION TERRITOIRE</h1>
     <div class="sub-title">CHEF DE ZONE</div>
 </div>
