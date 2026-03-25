@@ -18,13 +18,18 @@
         .logo-container { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px; }
         .logo-ratp { width: 130px; height: auto; } 
         .logo-casa { width: 100px; height: auto; } 
-        h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-blue); font-size: 1.3rem; text-transform: uppercase; margin: 15px 0 5px 0; font-weight: 900; }
-        .user-welcome { color: var(--ratp-green); font-weight: 700; margin-top: 10px; display: none; font-size: 0.9rem; }
+        
+        /* Titre de l'application en VERT */
+        h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-green); font-size: 1.4rem; text-transform: uppercase; margin: 15px 0 5px 0; font-weight: 900; }
+        
+        .user-welcome { color: var(--ratp-blue); font-weight: 800; margin-top: 10px; display: none; font-size: 1rem; border-top: 2px solid #eee; padding-top: 10px; }
 
         .menu-grid { display: none; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 400px; }
         .menu-card { padding: 22px; border-radius: 18px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.85rem; }
         
-        .card-auth { background: var(--ratp-blue); border-left: 10px solid #003d73; display: block; width: 100%; max-width: 400px; padding: 30px; border-radius: 18px; color: white; text-align: center; font-weight: 900; cursor: pointer; }
+        /* Bouton ESPACE CHEF DE ZONE */
+        .card-auth { background: var(--ratp-blue); border-left: 10px solid #003d73; display: block; width: 100%; max-width: 400px; padding: 35px 20px; border-radius: 18px; color: white; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,85,164,0.2); }
+        
         .card-presence { background: var(--blue-fiance); border-left: 10px solid #2980b9; }
         .card-terrain { background: var(--yellow-gold); border-left: 10px solid #f39c12; color: #2c3e50; }
         .card-daily { background: var(--ctrl-blue); border-left: 10px solid #1a252f; }
@@ -36,8 +41,8 @@
         .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2.2rem; cursor: pointer; }
         
         label { display: block; font-weight: 700; font-size: 0.7rem; margin: 12px 0 4px; color: #7f8c8d; text-transform: uppercase; }
-        select, input, textarea { width: 100%; padding: 12px; border: 2px solid #f1f3f5; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; margin-bottom: 5px; }
-        .btn-action { width: 100%; padding: 16px; border: none; border-radius: 12px; color: white; font-weight: 900; margin-top: 10px; text-transform: uppercase; cursor: pointer; }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #f1f3f5; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; }
+        .btn-action { width: 100%; padding: 16px; border: none; border-radius: 12px; color: white; font-weight: 900; margin-top: 15px; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -51,9 +56,8 @@
     <div id="userDisplay" class="user-welcome"></div>
 </div>
 
-<div id="authSection" class="card-auth" onclick="login()">
-    ENTRER DANS L'ESPACE CHEF DE ZONE<br>
-    <small style="font-size: 0.6rem; opacity: 0.8;">CLIQUEZ POUR VOUS CONNECTER</small>
+<div id="authSection" class="card-auth" onclick="connexionMatricule()">
+    ESPACE CHEF DE ZONE
 </div>
 
 <div id="mainMenu" class="menu-grid">
@@ -64,59 +68,52 @@
     <div class="menu-card card-recap" onclick="openModal('modalRecap')">RÉCAPITULATIF DU JOUR</div>
 </div>
 
-<div id="modalPresence" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="close_m('modalPresence')">&times;</span>
-    <div style="color:var(--blue-fiance); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--blue-fiance);">PRÉSENCE</div>
-    <label>Chef de Zone connecté</label><input type="text" id="currentUser1" readonly>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
-    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE')">PRISE DE SERVICE</button>
-</div></div>
-
 <div id="modalRecap" class="modal"><div class="modal-content" style="height:90vh; max-width:98%;">
     <span class="close-btn" onclick="close_m('modalRecap')">&times;</span>
-    <iframe src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe>
+    <iframe id="frameRecap" src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe>
 </div></div>
 
 <script>
-    const SCRIPT_URL = "VOTRE_URL_SCRIPT";
     const chefsData = {
-        "1436": "Redouane Zaoui", "90": "Fouad MAHMAH", "72": "Zakia AMMARI", "760": "Monsif MARZOUK",
-        "591": "Hassan MOUTTAQUINE", "85": "El mostafa ERRAHMOUNI", "86": "Youssef ABOUHILAL",
-        "506": "Anass CHOUKRI", "447": "Rachid BAZZAZ", "185": "Aicha ESSAHMI", "274": "Youssef EZZAMANIDI",
-        "1061": "Ayoub AQASBY", "84": "Mohamed FRIMAN", "74": "Ouissal NASSOUHE", "81": "Mohamed REGRAGUI",
-        "173": "Taha NAJHI", "534": "Mohamed CHAGUE", "430": "Mohamed SADOK", "518": "Samir HOUD",
-        "346": "Youness MAATOUS", "254": "Azddine GOUTE", "643": "Nourddine KARDANE", "1137": "Abdelilah HARIRI",
-        "193": "Bader HAMDA", "712": "Abdelkader OUELDBA", "820": "Samir AKLIA", "262": "Zakaria LAHMITI",
-        "411": "Elbouazzaoui ERRAKI", "147": "Hicham ZAHIDI", "91": "Mounsif FOUAD", "82": "Rachid EL HAFYANI",
-        "422": "El Mehdi EL MISSIOUI", "1386": "Fahd CHAHTI", "687": "Amine MOUSSADAK", "355": "Mouhcin RACHDAOUI",
-        "549": "Wadii LARHA", "708": "Ouahid LAYLI", "77": "Siham KASSEMI", "1063": "Aziz DOUMI", "654": "Abderrahman BECHTAOUI"
+        "1436":"Redouane Zaoui", "90":"Fouad MAHMAH", "72":"Zakia AMMARI", "760":"Monsif MARZOUK",
+        "591":"Hassan MOUTTAQUINE", "85":"El mostafa ERRAHMOUNI", "86":"Youssef ABOUHILAL",
+        "506":"Anass CHOUKRI", "447":"Rachid BAZZAZ", "185":"Aicha ESSAHMI", "274":"Youssef EZZAMANIDI",
+        "1061":"Ayoub AQASBY", "84":"Mohamed FRIMAN", "74":"Ouissal NASSOUHE", "81":"Mohamed REGRAGUI",
+        "173":"Taha NAJHI", "534":"Mohamed CHAGUE", "430":"Mohamed SADOK", "518":"Samir HOUD",
+        "346":"Youness MAATOUS", "254":"Azddine GOUTE", "643":"Nourddine KARDANE", "1137":"Abdelilah HARIRI",
+        "193":"Bader HAMDA", "712":"Abdelkader OUELDBA", "820":"Samir AKLIA", "262":"Zakaria LAHMITI",
+        "411":"Elbouazzaoui ERRAKI", "147":"Hicham ZAHIDI", "91":"Mounsif FOUAD", "82":"Rachid EL HAFYANI",
+        "422":"El Mehdi EL MISSIOUI", "1386":"Fahd CHAHTI", "687":"Amine MOUSSADAK", "355":"Mouhcin RACHDAOUI",
+        "549":"Wadii LARHA", "708":"Ouahid LAYLI", "77":"Siham KASSEMI", "1063":"Aziz DOUMI", "654":"Abderrahman BECHTAOUI"
     };
 
     let loggedInUser = "";
 
-    function login() {
-        let matricule = prompt("Veuillez saisir votre matricule :");
-        if (chefsData[matricule]) {
-            loggedInUser = chefsData[matricule];
-            document.getElementById('authSection').style.display = 'none';
-            document.getElementById('mainMenu').style.display = 'grid';
-            document.getElementById('userDisplay').innerText = "Bonjour, " + loggedInUser;
-            document.getElementById('userDisplay').style.display = 'block';
+    function connexionMatricule() {
+        let inputPass = prompt("Saisissez votre mot de passe (RATPDEV_matricule) :");
+        
+        if (!inputPass) return; // Si l'utilisateur annule
+
+        // On vérifie si le mot de passe commence par RATPDEV_
+        if (inputPass.startsWith("RATPDEV_")) {
+            let matricule = inputPass.replace("RATPDEV_", ""); // On récupère juste le chiffre
             
-            // On remplit automatiquement les champs nom dans les formulaires
-            document.getElementById('currentUser1').value = loggedInUser;
-            // Ajoutez ici les autres IDs de champs si nécessaire
+            if (chefsData[matricule]) {
+                loggedInUser = chefsData[matricule];
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('mainMenu').style.display = 'grid';
+                document.getElementById('userDisplay').innerHTML = "Chef de Zone : <b>" + loggedInUser + "</b>";
+                document.getElementById('userDisplay').style.display = 'block';
+            } else {
+                alert("Matricule inconnu.");
+            }
         } else {
-            alert("Matricule inconnu. Accès refusé.");
+            alert("Format incorrect. Le mot de passe doit être : RATPDEV_matricule");
         }
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function close_m(id) { document.getElementById(id).style.display = 'none'; }
-
-    // Reste de vos fonctions (updateStations, validerGeneric, etc.)
-    // ... (Copiez ici vos fonctions GPS et Envoi de la réponse précédente)
 </script>
 
 </body>
