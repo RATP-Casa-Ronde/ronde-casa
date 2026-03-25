@@ -14,6 +14,7 @@
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         
+        /* EN-TÊTE AVEC LOGOS */
         .header { 
             text-align: center; 
             margin-bottom: 25px; 
@@ -52,6 +53,7 @@
             letter-spacing: 3px;
         }
 
+        /* GRILLE MENU */
         .menu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 400px; }
         .menu-card { padding: 22px; border-radius: 18px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; border: none; }
         .menu-card:active { transform: scale(0.96); }
@@ -64,6 +66,7 @@
 
         .card-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; }
 
+        /* MODALS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; width: 92%; max-width: 380px; border-radius: 20px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2.2rem; cursor: pointer; color: #333; }
@@ -146,15 +149,16 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec"; 
+    
     const chefs = ["Abdelilah HARIRI", "Abderrahman BECHTAOUI", "Abdelkader OUELDBA", "Aicha ESSAHMI", "Amine MOUSSADAK", "Anass CHOUKRI", "Ayoub AQASBY", "Azddine GOUTE", "Aziz DOUMI", "Bader HAMDA", "El Mehdi EL MISSIOUI", "El mostafa ERRAHMOUNI", "Elbouazzaoui ERRAKI", "Fahd CHAHTI", "Fouad MAHMAH", "Hassan MOUTTAQUINE", "Hicham ZAHIDI", "Mohamed CHAGUE", "Mohamed FRIMAN", "Mohamed REGRAGUI", "Mohamed SADOK", "Monsif MARZOUK", "Mouhcin RACHDAOUI", "Mounsif FOUAD", "Nourddine KARDANE", "Ouahid LAYLI", "Ouissal NASSOUHE", "Rachid BAZZAZ", "Rachid EL HAFYANI", "Redouane Zaoui", "Samir AKLIA", "Samir HARIRI", "Samir HOUD", "Siham KASSEMI", "Taha NAJHI", "Wadii LARHA", "Youness MAATOUS", "Youssef ABOUHILAL", "Youssef EZZAMANIDI", "Zakaria LAHMITI", "Zakia AMMARI"];
     
     const stationsData = {
-        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Hôpital Sidi Moumen", "Okba Ibn Nafii", "Place Al Yassir", "Place des Nations Unies", "Lissasfa Terminus"],
-        "T2": ["Sidi Bernoussi Terminus", "Ain Diab Plage", "2 Mars", "Derb Sultan"],
-        "T3": ["Hay Al Wahda Terminus", "Casa Port Terminus", "Garage Allal"],
-        "T4": ["Mohammed Erradi Terminus", "Parc de la ligue arabe"],
-        "BW1": ["Salmia 2 Terminus", "Omar El Khayam"],
-        "BW2": ["Ouled Azzouz Terminus", "Oulmes Terminus"]
+        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohamed Zefzaf", "Centre Maintenance", "Hôpital Sidi Moumen", "Attacharouk", "Okba Ibn Nafii", "Forces Auxiliaires", "Hay Raja", "Ibn Tachefine", "Hay Mohammadi", "Achouhada", "Ali Yaata", "Grande Ceinture", "Les Anciens Abattoirs", "Ba Hmad", "Casa Voyageurs", "Place Al Yassir", "La Résistance", "Mohamed Diouri", "Marché Central", "Place Des Nations Unies", "Place Mohamed 5", "Avenue Hassan 2", "Wafasalaf", "Faculté De Médecine", "Abdelmoumen", "Bachkou", "Mekka", "Gare Oasis", "Panoramique", "Technopark", "Zenith", "Gare Casa Sud", "Facultés", "Laymoune", "Lissasfa Terminus"],
+        "T2": ["Sidi Bernoussi Terminus", "Abi Dar El Ghafari", "Gare de Ain Sbaa", "Préfecture Ain Sbaa", "AL Amane", "Wifaq", "Dar Laman", "Carrières centrales", "Kissariat Hay Mohammadi", "Mdakra", "Hay Adil", "Derb Milan", "Hay El Farah", "Derb Sultan", "Place Sraghna", "El Fida", "2 Mars", "Hermitage", "Anoual", "Derb Ghalef", "Riviera", "Ghandi", "Beauséjour", "Anfa Club", "Place financière", "Abdellah Ben Cherif", "Cité de L'air", "Sidi Abderrahmane", "Hay Hassani", "Littoral", "Ain Diab Plage Terminus"],
+        "T3": ["Casa Port Terminus", "Mohammed Smiha", "Place De La victoir", "Mohamed Zerktouni", "Habous", "Garage allal", "Derb Tolba", "Derb Chorfa", "Abou Couaib Doukali", "Afriquia", "Dar Attouzani", "BD Mohammed VI", "6 NOUVEMBRE", "Abdessalam Ennaciri", "Jardin Alesco", "Hay Lalla Mariem", "Idriss El Allam", "Abdelkader Essahraoui", "10 Mars", "Hay Alwahda Terminus"],
+        "T4": ["Mohammed Erradi Terminus", "Zone Industrielle", "Moulay Rachid", "Mohammed Joudar", "Faculté Ben Msik", "Hay El Falah", "Driss El Harti", "Mohammed Bouziane", "Hay Assalama", "Nil", "Jardin Chtaiba", "Hay Tissir", "Gare Oulad Ziane", "In Borja", "Ifni", "La Girande", "Jabir Ibn Hayane", "Mers Sultan", "Parc De La Ligue Arabe Terminus"],
+        "BW1": ["Salmia 2 Terminus", "Sbata", "Stade Tessema", "Al Joulane", "Lahrizi", "Jardin Sunday", "Amgala", "Al Qods", "Sefrou", "Taza", "Al Inara", "Oulad Haddou", "Hay Chrifa", "Taddart", "Azzohour", "Californie", "Casa Nearshore", "Al Moustakbal", "Sidi Maarouf", "Omar Al Khayam Terminus"],
+        "BW2": ["Oulmes Terminus", "Yaacoub Al Mansour", "C.I.L.", "Aéropostale", "Les musées", "Oued Oum Rabia", "Oued Laou", "Oued Beht", "Moulouya", "Haj Fateh", "Essafa", "Moulay Thami", "Abouab Oulfa", "La Rocade", "La Perception", "Les Jardins D’Errahma", "Errahma", "Oued Sbou", "Les Ecoles", "Ouled Ahmed", "La Ferme", "Ouled Azzouz Terminus"]
     };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -168,14 +172,8 @@
     function updateStations(el) {
         const sSelect = el.closest('.modal-content').querySelector('.sel-station');
         sSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
-        const ligneChoisie = el.value;
-        if(stationsData[ligneChoisie]) {
-            stationsData[ligneChoisie].forEach(st => {
-                let o = document.createElement('option');
-                o.value = o.text = st;
-                sSelect.appendChild(o);
-            });
-        }
+        const l = el.value;
+        if(stationsData[l]) { stationsData[l].forEach(st => { let o = document.createElement('option'); o.value = o.text = st; sSelect.appendChild(o); }); }
     }
 
     function validerControleLibre() {
