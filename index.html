@@ -13,12 +13,58 @@
             --ctrl-blue: #2c3e50;
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        .header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 400px; background: white; padding: 15px 0; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-        .logo-casa { width: 50px; } .logo-ratp { width: 70px; }
-        h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-blue); font-size: 1rem; text-transform: uppercase; margin: 10px 0; font-weight: 900; }
         
-        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; max-width: 400px; }
-        .menu-card { padding: 22px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; }
+        /* EN-TÊTE ÉLARGIE ET LOGOS PLUS VISIBLES */
+        .header { 
+            text-align: center; 
+            margin-bottom: 25px; 
+            width: 100%; 
+            max-width: 500px; /* Plus large */
+            background: white; 
+            padding: 30px 15px; /* Plus d'espace haut/bas */
+            border-radius: 25px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.12); 
+        }
+        .logo-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .logo-casa { width: 85px; height: auto; } /* Plus grand */
+        .logo-ratp { width: 110px; height: auto; } /* Plus grand */
+        
+        .ratp-dev-text {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--ratp-blue);
+            font-weight: 900;
+            font-size: 1.2rem;
+            margin-top: -10px;
+            margin-bottom: 15px;
+        }
+
+        h1 { 
+            font-family: 'Montserrat', sans-serif; 
+            color: #333; 
+            font-size: 1.1rem; 
+            text-transform: uppercase; 
+            margin: 5px 0 0 0; 
+            font-weight: 900; 
+            letter-spacing: 1px;
+        }
+        .sub-title {
+            color: var(--ratp-blue);
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 5px;
+        }
+
+        /* GRILLE DE MENU */
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 400px; }
+        .menu-card { padding: 22px; border-radius: 18px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; border: none; }
+        .menu-card:active { transform: scale(0.96); }
         
         .card-presence { background: var(--blue-fiance); border-left: 10px solid #2980b9; }
         .card-terrain { background: var(--yellow-gold); border-left: 10px solid #f39c12; color: #2c3e50; }
@@ -28,27 +74,32 @@
 
         .card-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; }
 
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        /* MODALS */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; width: 92%; max-width: 380px; border-radius: 20px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
-        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; color: #333; }
+        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2.2rem; cursor: pointer; color: #333; }
         
-        label { display: block; font-weight: 700; font-size: 0.65rem; margin: 10px 0 3px; color: #7f8c8d; text-transform: uppercase; }
-        select, input, textarea { width: 100%; padding: 10px; border: 2px solid #f1f3f5; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
+        label { display: block; font-weight: 700; font-size: 0.7rem; margin: 12px 0 4px; color: #7f8c8d; text-transform: uppercase; }
+        select, input, textarea { width: 100%; padding: 12px; border: 2px solid #f1f3f5; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; }
         
-        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 5px; background: #f8f9fa; padding: 12px; border-radius: 10px; border: 1px solid #eee; }
-        .ecart-item { display: flex; align-items: center; font-size: 0.8rem; font-weight: 600; color: #2c3e50; cursor: pointer; }
-        .ecart-item input { width: auto; margin-right: 12px; transform: scale(1.2); }
+        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 8px; background: #f8f9fa; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
+        .ecart-item { display: flex; align-items: center; font-size: 0.85rem; font-weight: 600; color: #2c3e50; }
+        .ecart-item input { width: auto; margin-right: 15px; transform: scale(1.3); }
 
-        .btn-action { width: 100%; padding: 15px; border: none; border-radius: 10px; color: white; font-weight: 900; margin-top: 10px; text-transform: uppercase; cursor: pointer; }
-        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; text-align: center; padding: 5px; font-size: 0.6rem; font-weight: 700; border-top: 1px solid #eee; }
+        .btn-action { width: 100%; padding: 16px; border: none; border-radius: 12px; color: white; font-weight: 900; margin-top: 15px; text-transform: uppercase; cursor: pointer; }
+        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; text-align: center; padding: 8px; font-size: 0.65rem; font-weight: 700; border-top: 1px solid #eee; color: #777; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <img src="logo_casa_group.png" alt="" class="logo-casa">
-    <img src="logo_ratp_dev_casa.png" alt="" class="logo-ratp">
+    <div class="logo-container">
+        <img src="logo_casa_group.png" alt="Logo Casa" class="logo-casa">
+        <img src="logo_ratp_dev_casa.png" alt="Logo RATP" class="logo-ratp">
+    </div>
+    <div class="ratp-dev-text">RATP DEV</div>
     <h1>GESTION TERRITOIRE</h1>
+    <div class="sub-title">CHEF DE ZONE</div>
 </div>
 
 <div class="menu-grid">
@@ -61,7 +112,7 @@
 
 <div id="modalDaily" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalDaily')">&times;</span>
-    <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:10px; border-bottom: 2px solid var(--ctrl-blue);">RAPPORT (FEUILLE 2)</div>
+    <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--ctrl-blue); padding-bottom:5px;">RAPPORT CONTRÔLE (F2)</div>
     
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
@@ -79,11 +130,11 @@
         <label class="ecart-item"><input type="checkbox" value="Manque d'escorte Tram/Bus"> Manque d'escorte Tram/Bus</label>
     </div>
 
-    <label>Commentaire</label><textarea id="commCtrl" rows="2" placeholder="Observations..."></textarea>
+    <label>Observations complémentaires</label><textarea id="commCtrl" rows="3" placeholder="Notes..."></textarea>
     <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
 </div></div>
 
-<div id="modalEval" class="modal"><div class="modal-content" style="height:80vh; max-width:95%;">
+<div id="modalEval" class="modal"><div class="modal-content" style="height:85vh; max-width:95%;">
     <span class="close-btn" onclick="closeModal('modalEval')">&times;</span>
     <iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ" style="width:100%;height:100%;border:none;"></iframe>
 </div></div>
@@ -93,8 +144,8 @@
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'Mixte')">PRISE (MIXTE)</button>
-    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'Matin')">FIN (MATIN)</button>
+    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'Mixte')">PRISE DE SERVICE</button>
+    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'Matin')">FIN DE SERVICE</button>
 </div></div>
 
 <div id="modalTerrain" class="modal"><div class="modal-content">
@@ -105,7 +156,7 @@
     <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER STATION</button>
 </div></div>
 
-<div id="status-bar">GPS PRÊT</div>
+<div id="status-bar">GÉOLOCALISATION ACTIVE</div>
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec"; 
@@ -173,7 +224,13 @@
         });
     }
 
-    function checkPassword() { if (prompt("Mot de passe :") === "1234") { window.open("https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw", "_blank"); } }
+    function checkPassword() { 
+        if (prompt("Mot de passe requis pour l'historique :") === "1234") { 
+            window.open("https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw", "_blank"); 
+        } else {
+            alert("Accès refusé.");
+        }
+    }
 </script>
 </body>
 </html>
