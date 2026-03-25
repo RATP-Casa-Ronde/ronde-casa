@@ -99,7 +99,7 @@
 </div>
 
 <div id="modalPresence" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="closeModal('modalPresence')">&times;</span>
+    <span class="close-btn" onclick="close_m('modalPresence')">&times;</span>
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
@@ -108,7 +108,7 @@
 </div></div>
 
 <div id="modalTerrain" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="closeModal('modalTerrain')">&times;</span>
+    <span class="close-btn" onclick="close_m('modalTerrain')">&times;</span>
     <div style="color:var(--yellow-gold); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--yellow-gold); padding-bottom:5px;">CONTRÔLEUR DE RONDE</div>
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
@@ -117,15 +117,13 @@
 </div></div>
 
 <div id="modalDaily" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="closeModal('modalDaily')">&times;</span>
+    <span class="close-btn" onclick="close_m('modalDaily')">&times;</span>
     <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--ctrl-blue); padding-bottom:5px;">RAPPORT CONTRÔLE (F2)</div>
-    
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
     <label>Prestataire</label><select id="prestataire"><option value="">-- Sélectionner --</option><option value="RDCA">RDCA</option><option value="G4S">G4S</option><option value="RMO">RMO</option></select>
     <label>Nom de l'agent</label><input type="text" id="nomAgent" placeholder="Prénom Nom...">
-
     <label>Écarts constatés</label>
     <div class="ecarts-grid" id="ecartsList">
         <label class="ecart-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
@@ -135,13 +133,12 @@
         <label class="ecart-item"><input type="checkbox" value="Abondement"> Abondement</label>
         <label class="ecart-item"><input type="checkbox" value="Manque d'escorte Tram/Bus"> Manque d'escorte Tram/Bus</label>
     </div>
-
-    <label>Observations complémentaires</label><textarea id="commCtrl" rows="3" placeholder="Notes..."></textarea>
+    <label>Observations</label><textarea id="commCtrl" rows="3" placeholder="Notes..."></textarea>
     <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
 </div></div>
 
 <div id="modalEval" class="modal"><div class="modal-content" style="height:85vh; max-width:95%;">
-    <span class="close-btn" onclick="closeModal('modalEval')">&times;</span>
+    <span class="close-btn" onclick="close_m('modalEval')">&times;</span>
     <iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ" style="width:100%;height:100%;border:none;"></iframe>
 </div></div>
 
@@ -149,77 +146,62 @@
 
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec"; 
-
-    const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir HARIRI", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
+    const chefs = ["Abdelilah HARIRI", "Abderrahman BECHTAOUI", "Abdelkader OUELDBA", "Aicha ESSAHMI", "Amine MOUSSADAK", "Anass CHOUKRI", "Ayoub AQASBY", "Azddine GOUTE", "Aziz DOUMI", "Bader HAMDA", "El Mehdi EL MISSIOUI", "El mostafa ERRAHMOUNI", "Elbouazzaoui ERRAKI", "Fahd CHAHTI", "Fouad MAHMAH", "Hassan MOUTTAQUINE", "Hicham ZAHIDI", "Mohamed CHAGUE", "Mohamed FRIMAN", "Mohamed REGRAGUI", "Mohamed SADOK", "Monsif MARZOUK", "Mouhcin RACHDAOUI", "Mounsif FOUAD", "Nourddine KARDANE", "Ouahid LAYLI", "Ouissal NASSOUHE", "Rachid BAZZAZ", "Rachid EL HAFYANI", "Redouane Zaoui", "Samir AKLIA", "Samir HARIRI", "Samir HOUD", "Siham KASSEMI", "Taha NAJHI", "Wadii LARHA", "Youness MAATOUS", "Youssef ABOUHILAL", "Youssef EZZAMANIDI", "Zakaria LAHMITI", "Zakia AMMARI"];
     
     const stationsData = {
-        "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Okba Ibn Nafii": [33.5730,-7.5328], "Place Al Yassir": [33.5928,-7.5966], "Place des Nations Unies": [33.5948,-7.6181], "Lissasfa Terminus": [33.5352,-7.6699] },
-        "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Ain Diab Plage": [33.5876,-7.6809], "2 Mars": [33.5690,-7.6125], "Derb Sultan": [33.5720,-7.5959] },
-        "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "Casa Port Terminus": [33.5979,-7.6109], "Garage Allal": [33.5756,-7.5989] },
-        "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Parc de la ligue arabe": [33.5879,-7.6217] },
-        "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Omar El Khayam": [33.5402,-7.6669] },
-        "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "Oulmes Terminus": [33.5715,-7.6486] }
+        "T1": ["Sidi Moumen Terminus", "Ennassim", "Mohammed Zefzaf", "Hôpital Sidi Moumen", "Okba Ibn Nafii", "Place Al Yassir", "Place des Nations Unies", "Lissasfa Terminus"],
+        "T2": ["Sidi Bernoussi Terminus", "Ain Diab Plage", "2 Mars", "Derb Sultan"],
+        "T3": ["Hay Al Wahda Terminus", "Casa Port Terminus", "Garage Allal"],
+        "T4": ["Mohammed Erradi Terminus", "Parc de la ligue arabe"],
+        "BW1": ["Salmia 2 Terminus", "Omar El Khayam"],
+        "BW2": ["Ouled Azzouz Terminus", "Oulmes Terminus"]
     };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
-    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function close_m(id) { document.getElementById(id).style.display = 'none'; }
 
     window.onload = function() {
-        document.querySelectorAll('.sel-chef').forEach(s => { chefs.sort().forEach(c => { let o = document.createElement('option'); o.value = o.text = c; s.appendChild(o); }); });
+        document.querySelectorAll('.sel-chef').forEach(s => { chefs.forEach(c => { let o = document.createElement('option'); o.value = o.text = c; s.appendChild(o); }); });
         document.querySelectorAll('.sel-ligne').forEach(s => { for (let l in stationsData) { let o = document.createElement('option'); o.value = o.text = l; s.appendChild(o); } });
     };
 
     function updateStations(el) {
         const sSelect = el.closest('.modal-content').querySelector('.sel-station');
         sSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
-        if(stationsData[el.value]) { Object.keys(stationsData[el.value]).forEach(st => { let o = document.createElement('option'); o.value = st; o.text = st; sSelect.appendChild(o); }); }
+        const ligneChoisie = el.value;
+        if(stationsData[ligneChoisie]) {
+            stationsData[ligneChoisie].forEach(st => {
+                let o = document.createElement('option');
+                o.value = o.text = st;
+                sSelect.appendChild(o);
+            });
+        }
     }
 
     function validerControleLibre() {
         const m = document.getElementById('modalDaily');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
         const prest = document.getElementById('prestataire').value, agent = document.getElementById('nomAgent').value, comm = document.getElementById('commCtrl').value;
-        let ecarts = [];
-        document.querySelectorAll('#ecartsList input:checked').forEach(i => ecarts.push(i.value));
-
+        let ec = []; document.querySelectorAll('#ecartsList input:checked').forEach(i => ec.push(i.value));
         if(!chef || !ligne || !station || !prest || !agent) return alert("Remplir tous les champs.");
-
-        const mtn = new Date();
-        const dateHeure = mtn.toLocaleDateString('fr-FR') + " " + mtn.toLocaleTimeString('fr-FR');
-
+        const mtn = new Date(); const dH = mtn.toLocaleDateString('fr-FR') + " " + mtn.toLocaleTimeString('fr-FR');
         navigator.geolocation.getCurrentPosition((pos) => {
-            fetch(SCRIPT_URL, {
-                method: 'POST', mode: 'no-cors',
-                body: JSON.stringify({ 
-                    type: "CONTROLE QUOTIDIEN", destination: "Feuille 2",
-                    date_form: dateHeure, chef, ligne, station, prestataire: prest, agent, ecarts: ecarts.join(', '), commentaire: comm, gps: pos.coords.latitude+","+pos.coords.longitude 
-                })
-            }).then(() => { alert("✅ RAPPORT ENVOYÉ À " + dateHeure); closeModal('modalDaily'); });
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: "CONTROLE QUOTIDIEN", destination: "Feuille 2", date_form: dH, chef, ligne, station, prestataire: prest, agent, ecarts: ec.join(', '), commentaire: comm, gps: pos.coords.latitude+","+pos.coords.longitude })
+            }).then(() => { alert("✅ RAPPORT ENVOYÉ"); close_m('modalDaily'); });
         });
     }
 
-    function validerGeneric(btn, action, serviceAuto) {
+    function validerGeneric(btn, action, serv) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
         if(!chef || !ligne || !station) return alert("Champs obligatoires !");
-        
         navigator.geolocation.getCurrentPosition((pos) => {
-            fetch(SCRIPT_URL, {
-                method: 'POST', mode: 'no-cors',
-                body: JSON.stringify({ 
-                    type: action, destination: "Feuille 1", chef, service: serviceAuto, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude 
-                })
-            }).then(() => { alert("✅ ENREGISTRÉ"); closeModal(btn.closest('.modal').id); });
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: action, destination: "Feuille 1", chef, service: serv, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
+            }).then(() => { alert("✅ ENREGISTRÉ"); close_m(btn.closest('.modal').id); });
         });
     }
 
-    function checkPassword() { 
-        if (prompt("Mot de passe requis pour l'historique :") === "1234") { 
-            window.open("https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw", "_blank"); 
-        } else {
-            alert("Accès refusé.");
-        }
-    }
+    function checkPassword() { if (prompt("Mot de passe :") === "1234") { window.open("https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw", "_blank"); } }
 </script>
 </body>
 </html>
