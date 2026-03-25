@@ -208,11 +208,33 @@
     }
 
     function validerConnaissance() {
-        const ag = document.getElementById('nomAgentEval').value, pr = document.getElementById('presEval').value, l = document.querySelector('#modalEval .sel-ligne').value, s = document.querySelector('#modalEval .sel-station').value;
-        if(!ag || !l || !s) return alert("Veuillez remplir les informations obligatoires.");
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: "CONNAISSANCE_RESEAU", chef: loggedInUser, agent: ag, prestataire: pr, ligne: l, station: s, q1: document.getElementById('q1Eval').value, q2: document.getElementById('q2Eval').value })})
-        .then(() => { alert("✅ ÉVALUATION ENREGISTRÉE"); close_m('modalEval'); });
-    }
+    const ag = document.getElementById('nomAgentEval').value;
+    const pr = document.getElementById('presEval').value;
+    const l = document.querySelector('#modalEval .sel-ligne').value;
+    const s = document.querySelector('#modalEval .sel-station').value;
+    
+    if(!ag || !l || !s) return alert("Veuillez remplir les informations obligatoires.");
+    
+    fetch(SCRIPT_URL, { 
+        method: 'POST', 
+        mode: 'no-cors', 
+        body: JSON.stringify({ 
+            type: "CONNAISSANCE_RESEAU", 
+            targetSheet: "Feuille 3", // <--- Nouvelle instruction
+            chef: loggedInUser, 
+            agent: ag, 
+            prestataire: pr, 
+            ligne: l, 
+            station: s, 
+            q1: document.getElementById('q1Eval').value, 
+            q2: document.getElementById('q2Eval').value 
+        })
+    })
+    .then(() => { 
+        alert("✅ ÉVALUATION ENREGISTRÉE (FEUILLE 3)"); 
+        close_m('modalEval'); 
+    });
+}
 
     function validerGeneric(btn, action, serv, checkGPS) {
         const m = btn.closest('.modal-content');
