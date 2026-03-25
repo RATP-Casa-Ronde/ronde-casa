@@ -14,32 +14,30 @@
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         
-        /* EN-TÊTE ÉLARGIE AVEC LOGOS PLUS GRANDS AUX EXTRÉMITÉS */
         .header { 
             text-align: center; 
             margin-bottom: 25px; 
             width: 100%; 
-            max-width: 500px; /* Plus large */
+            max-width: 500px; 
             background: white; 
-            padding: 30px 15px; /* Plus d'espace haut/bas */
+            padding: 30px 15px; 
             border-radius: 25px; 
             box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
             position: relative;
         }
         .logo-container {
             display: flex;
-            justify-content: space-between; /* Écarte les logos */
+            justify-content: space-between; 
             align-items: center;
             width: 100%;
             margin-bottom: 15px;
         }
-        /* LOGOS BEAUCOUP PLUS GRANDS */
-        .logo-ratp { width: 130px; height: auto; margin-left: 10px; } /* RATP à gauche */
-        .logo-casa { width: 100px; height: auto; margin-right: 10px; } /* CASA à droite */
+        .logo-ratp { width: 130px; height: auto; margin-left: 10px; } 
+        .logo-casa { width: 100px; height: auto; margin-right: 10px; } 
         
         h1 { 
             font-family: 'Montserrat', sans-serif; 
-            color: var(--ratp-blue); /* Couleur Bleue */
+            color: var(--ratp-blue); 
             font-size: 1.3rem; 
             text-transform: uppercase; 
             margin: 15px 0 5px 0; 
@@ -54,7 +52,6 @@
             letter-spacing: 3px;
         }
 
-        /* GRILLE DE MENU */
         .menu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 400px; }
         .menu-card { padding: 22px; border-radius: 18px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; border: none; }
         .menu-card:active { transform: scale(0.96); }
@@ -67,7 +64,6 @@
 
         .card-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; }
 
-        /* MODALS */
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; width: 92%; max-width: 380px; border-radius: 20px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2.2rem; cursor: pointer; color: #333; }
@@ -96,11 +92,29 @@
 
 <div class="menu-grid">
     <div class="menu-card card-presence" onclick="openModal('modalPresence')"><span class="card-title">PRÉSENCE</span></div>
-    <div class="menu-card card-terrain" onclick="openModal('modalTerrain')"><span class="card-title">TAGUER STATION</span></div>
+    <div class="menu-card card-terrain" onclick="openModal('modalTerrain')"><span class="card-title">CONTRÔLEUR DE RONDE</span></div>
     <div class="menu-card card-daily" onclick="openModal('modalDaily')"><span class="card-title">CONTRÔLE QUOTIDIEN</span></div>
     <div class="menu-card card-eval" onclick="openModal('modalEval')"><span class="card-title">CONNAISSANCE RÉSEAU</span></div>
     <div class="menu-card card-history" onclick="checkPassword()"><span class="card-title">HISTORIQUE</span></div>
 </div>
+
+<div id="modalPresence" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modalPresence')">&times;</span>
+    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
+    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
+    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE')">PRISE DE SERVICE (MIXTE)</button>
+    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'MATIN')">FIN DE SERVICE (MATIN)</button>
+</div></div>
+
+<div id="modalTerrain" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="closeModal('modalTerrain')">&times;</span>
+    <div style="color:var(--yellow-gold); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--yellow-gold); padding-bottom:5px;">CONTRÔLEUR DE RONDE</div>
+    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
+    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
+    <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER STATION</button>
+</div></div>
 
 <div id="modalDaily" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalDaily')">&times;</span>
@@ -129,23 +143,6 @@
 <div id="modalEval" class="modal"><div class="modal-content" style="height:85vh; max-width:95%;">
     <span class="close-btn" onclick="closeModal('modalEval')">&times;</span>
     <iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ" style="width:100%;height:100%;border:none;"></iframe>
-</div></div>
-
-<div id="modalPresence" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="closeModal('modalPresence')">&times;</span>
-    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
-    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'Mixte')">PRISE DE SERVICE</button>
-    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'Matin')">FIN DE SERVICE</button>
-</div></div>
-
-<div id="modalTerrain" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="closeModal('modalTerrain')">&times;</span>
-    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
-    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER STATION</button>
 </div></div>
 
 <div id="status-bar">GÉOLOCALISATION ACTIVE</div>
