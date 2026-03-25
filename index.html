@@ -13,22 +13,15 @@
             --ctrl-blue: #2c3e50;
         }
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
-        
         .header { text-align: center; margin-bottom: 25px; width: 100%; max-width: 500px; background: white; padding: 30px 15px; border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
         .logo-container { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 15px; }
-        .logo-ratp { width: 130px; height: auto; } 
-        .logo-casa { width: 100px; height: auto; } 
-        
-        /* Titre de l'application en VERT */
+        .logo-ratp { width: 130px; height: auto; } .logo-casa { width: 100px; height: auto; } 
         h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-green); font-size: 1.4rem; text-transform: uppercase; margin: 15px 0 5px 0; font-weight: 900; }
-        
         .user-welcome { color: var(--ratp-blue); font-weight: 800; margin-top: 10px; display: none; font-size: 1rem; border-top: 2px solid #eee; padding-top: 10px; }
-
+        
         .menu-grid { display: none; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 400px; }
         .menu-card { padding: 22px; border-radius: 18px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.85rem; }
-        
-        /* Bouton ESPACE CHEF DE ZONE */
-        .card-auth { background: var(--ratp-blue); border-left: 10px solid #003d73; display: block; width: 100%; max-width: 400px; padding: 35px 20px; border-radius: 18px; color: white; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.1rem; cursor: pointer; box-shadow: 0 10px 20px rgba(0,85,164,0.2); }
+        .card-auth { background: var(--ratp-blue); border-left: 10px solid #003d73; display: block; width: 100%; max-width: 400px; padding: 35px 20px; border-radius: 18px; color: white; text-align: center; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.1rem; cursor: pointer; }
         
         .card-presence { background: var(--blue-fiance); border-left: 10px solid #2980b9; }
         .card-terrain { background: var(--yellow-gold); border-left: 10px solid #f39c12; color: #2c3e50; }
@@ -39,9 +32,11 @@
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; width: 92%; max-width: 380px; border-radius: 20px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
         .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2.2rem; cursor: pointer; }
-        
         label { display: block; font-weight: 700; font-size: 0.7rem; margin: 12px 0 4px; color: #7f8c8d; text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #f1f3f5; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; }
+        select, input, textarea { width: 100%; padding: 12px; border: 2px solid #f1f3f5; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; }
+        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 8px; background: #f8f9fa; padding: 15px; border-radius: 12px; }
+        .ecart-item { display: flex; align-items: center; font-size: 0.85rem; font-weight: 600; }
+        .ecart-item input { width: auto; margin-right: 12px; }
         .btn-action { width: 100%; padding: 16px; border: none; border-radius: 12px; color: white; font-weight: 900; margin-top: 15px; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
@@ -56,9 +51,7 @@
     <div id="userDisplay" class="user-welcome"></div>
 </div>
 
-<div id="authSection" class="card-auth" onclick="connexionMatricule()">
-    ESPACE CHEF DE ZONE
-</div>
+<div id="authSection" class="card-auth" onclick="connexionMatricule()">ESPACE CHEF DE ZONE</div>
 
 <div id="mainMenu" class="menu-grid">
     <div class="menu-card card-presence" onclick="openModal('modalPresence')">PRÉSENCE</div>
@@ -68,53 +61,109 @@
     <div class="menu-card card-recap" onclick="openModal('modalRecap')">RÉCAPITULATIF DU JOUR</div>
 </div>
 
+<div id="modalPresence" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="close_m('modalPresence')">&times;</span>
+    <div style="color:var(--blue-fiance); font-weight:900; border-bottom:3px solid var(--blue-fiance);">PRÉSENCE</div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
+    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
+    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE')">PRISE DE SERVICE</button>
+    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'MATIN')">FIN DE SERVICE</button>
+</div></div>
+
+<div id="modalTerrain" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="close_m('modalTerrain')">&times;</span>
+    <div style="color:var(--yellow-gold); font-weight:900; border-bottom:3px solid var(--yellow-gold);">CONTRÔLEUR DE RONDE</div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
+    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
+    <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER STATION</button>
+</div></div>
+
+<div id="modalDaily" class="modal"><div class="modal-content">
+    <span class="close-btn" onclick="close_m('modalDaily')">&times;</span>
+    <div style="color:var(--ctrl-blue); font-weight:900; border-bottom:3px solid var(--ctrl-blue);">CONTRÔLE QUOTIDIEN</div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
+    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
+    <label>Prestataire</label><select id="prestataire"><option value="RDCA">RDCA</option><option value="G4S">G4S</option><option value="RMO">RMO</option></select>
+    <label>Nom de l'agent</label><input type="text" id="nomAgent">
+    <label>Écarts</label>
+    <div class="ecarts-grid" id="ecartsList">
+        <label class="ecart-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
+        <label class="ecart-item"><input type="checkbox" value="Téléphone"> Téléphone</label>
+        <label class="ecart-item"><input type="checkbox" value="Tenue"> Tenue non conforme</label>
+    </div>
+    <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
+</div></div>
+
 <div id="modalRecap" class="modal"><div class="modal-content" style="height:90vh; max-width:98%;">
     <span class="close-btn" onclick="close_m('modalRecap')">&times;</span>
-    <iframe id="frameRecap" src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe>
+    <iframe src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe>
+</div></div>
+
+<div id="modalEval" class="modal"><div class="modal-content" style="height:85vh; max-width:95%;">
+    <span class="close-btn" onclick="close_m('modalEval')">&times;</span>
+    <iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ" style="width:100%;height:100%;border:none;"></iframe>
 </div></div>
 
 <script>
-    const chefsData = {
-        "1436":"Redouane Zaoui", "90":"Fouad MAHMAH", "72":"Zakia AMMARI", "760":"Monsif MARZOUK",
-        "591":"Hassan MOUTTAQUINE", "85":"El mostafa ERRAHMOUNI", "86":"Youssef ABOUHILAL",
-        "506":"Anass CHOUKRI", "447":"Rachid BAZZAZ", "185":"Aicha ESSAHMI", "274":"Youssef EZZAMANIDI",
-        "1061":"Ayoub AQASBY", "84":"Mohamed FRIMAN", "74":"Ouissal NASSOUHE", "81":"Mohamed REGRAGUI",
-        "173":"Taha NAJHI", "534":"Mohamed CHAGUE", "430":"Mohamed SADOK", "518":"Samir HOUD",
-        "346":"Youness MAATOUS", "254":"Azddine GOUTE", "643":"Nourddine KARDANE", "1137":"Abdelilah HARIRI",
-        "193":"Bader HAMDA", "712":"Abdelkader OUELDBA", "820":"Samir AKLIA", "262":"Zakaria LAHMITI",
-        "411":"Elbouazzaoui ERRAKI", "147":"Hicham ZAHIDI", "91":"Mounsif FOUAD", "82":"Rachid EL HAFYANI",
-        "422":"El Mehdi EL MISSIOUI", "1386":"Fahd CHAHTI", "687":"Amine MOUSSADAK", "355":"Mouhcin RACHDAOUI",
-        "549":"Wadii LARHA", "708":"Ouahid LAYLI", "77":"Siham KASSEMI", "1063":"Aziz DOUMI", "654":"Abderrahman BECHTAOUI"
-    };
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec"; 
+    const chefsData = {"1436":"Redouane Zaoui", "90":"Fouad MAHMAH", "72":"Zakia AMMARI", "760":"Monsif MARZOUK", "591":"Hassan MOUTTAQUINE", "85":"El mostafa ERRAHMOUNI", "86":"Youssef ABOUHILAL", "506":"Anass CHOUKRI", "447":"Rachid BAZZAZ", "185":"Aicha ESSAHMI", "274":"Youssef EZZAMANIDI", "1061":"Ayoub AQASBY", "84":"Mohamed FRIMAN", "74":"Ouissal NASSOUHE", "81":"Mohamed REGRAGUI", "173":"Taha NAJHI", "534":"Mohamed CHAGUE", "430":"Mohamed SADOK", "518":"Samir HOUD", "346":"Youness MAATOUS", "254":"Azddine GOUTE", "643":"Nourddine KARDANE", "1137":"Abdelilah HARIRI", "193":"Bader HAMDA", "712":"Abdelkader OUELDBA", "820":"Samir AKLIA", "262":"Zakaria LAHMITI", "411":"Elbouazzaoui ERRAKI", "147":"Hicham ZAHIDI", "91":"Mounsif FOUAD", "82":"Rachid EL HAFYANI", "422":"El Mehdi EL MISSIOUI", "1386":"Fahd CHAHTI", "687":"Amine MOUSSADAK", "355":"Mouhcin RACHDAOUI", "549":"Wadii LARHA", "708":"Ouahid LAYLI", "77":"Siham KASSEMI", "1063":"Aziz DOUMI", "654":"Abderrahman BECHTAOUI"};
+    const stationsData = { "T1": { "Sidi Moumen Terminus": [33.586647,-7.501958], "Ennassim": [33.584639,-7.504737], "Mohammed Zefzaf": [33.582128,-7.509011], "Lissasfa Terminus": [33.535258,-7.669981] }, "T2": { "Sidi Bernoussi Terminus": [33.610125,-7.509822], "Ain Diab Plage Terminus": [33.587608,-7.680950] } }; // Simplifié pour le code, gardez vos données complètes
 
     let loggedInUser = "";
 
     function connexionMatricule() {
-        let inputPass = prompt("Saisissez votre mot de passe (RATPDEV_matricule) :");
-        
-        if (!inputPass) return; // Si l'utilisateur annule
-
-        // On vérifie si le mot de passe commence par RATPDEV_
-        if (inputPass.startsWith("RATPDEV_")) {
-            let matricule = inputPass.replace("RATPDEV_", ""); // On récupère juste le chiffre
-            
-            if (chefsData[matricule]) {
-                loggedInUser = chefsData[matricule];
+        let inputPass = prompt("Mot de passe (RATPDEV_matricule) :");
+        if (inputPass && inputPass.startsWith("RATPDEV_")) {
+            let mat = inputPass.replace("RATPDEV_", "");
+            if (chefsData[mat]) {
+                loggedInUser = chefsData[mat];
                 document.getElementById('authSection').style.display = 'none';
                 document.getElementById('mainMenu').style.display = 'grid';
                 document.getElementById('userDisplay').innerHTML = "Chef de Zone : <b>" + loggedInUser + "</b>";
                 document.getElementById('userDisplay').style.display = 'block';
-            } else {
-                alert("Matricule inconnu.");
+                return;
             }
-        } else {
-            alert("Format incorrect. Le mot de passe doit être : RATPDEV_matricule");
         }
+        alert("Accès refusé.");
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function close_m(id) { document.getElementById(id).style.display = 'none'; }
-</script>
 
+    window.onload = function() {
+        document.querySelectorAll('.sel-ligne').forEach(s => { for (let l in stationsData) { let o = document.createElement('option'); o.value = o.text = l; s.appendChild(o); } });
+    };
+
+    function updateStations(el) {
+        const sSelect = el.closest('.modal-content').querySelector('.sel-station');
+        sSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
+        if(stationsData[el.value]) { Object.keys(stationsData[el.value]).forEach(st => { let o = document.createElement('option'); o.value = o.text = st; sSelect.appendChild(o); }); }
+    }
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371e3;
+        const dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
+        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+        return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
+    }
+
+    function validerGeneric(btn, action, serv) {
+        const m = btn.closest('.modal-content');
+        const ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
+        if(!ligne || !station) return alert("Champs vides !");
+        navigator.geolocation.getCurrentPosition((pos) => {
+            const dist = getDistance(pos.coords.latitude, pos.coords.longitude, stationsData[ligne][station][0], stationsData[ligne][station][1]);
+            if(dist > 80) return alert(`⛔ TROP LOIN (${Math.round(dist)}m).`);
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: action, chef: loggedInUser, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })}).then(() => { alert("✅ OK"); close_m(btn.closest('.modal').id); });
+        }, () => alert("GPS Erreur"));
+    }
+
+    function validerControleLibre() {
+        const m = document.getElementById('modalDaily');
+        const l = m.querySelector('.sel-ligne').value, s = m.querySelector('.sel-station').value, a = document.getElementById('nomAgent').value;
+        if(!l || !s || !a) return alert("Champs obligatoires !");
+        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: "CONTROLE", chef: loggedInUser, ligne: l, station: s, agent: a })}).then(() => { alert("✅ RAPPORT ENVOYÉ"); close_m('modalDaily'); });
+    }
+</script>
 </body>
 </html>
