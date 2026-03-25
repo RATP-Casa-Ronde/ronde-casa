@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>CONTRÔLEUR DE RONDE</title>
+    <title>GESTION TERRITOIRE</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -15,31 +15,29 @@
         body { font-family: 'Segoe UI', Roboto, sans-serif; background-color: var(--bg-gray); margin: 0; padding: 15px; display: flex; flex-direction: column; align-items: center; }
         .header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 400px; background: white; padding: 15px 0; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
         .logo-casa { width: 50px; } .logo-ratp { width: 70px; }
-        h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-blue); font-size: 1rem; text-transform: uppercase; margin: 10px 0; font-weight: 900; letter-spacing: 1px; }
+        h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-blue); font-size: 1rem; text-transform: uppercase; margin: 10px 0; font-weight: 900; }
         
         .menu-grid { display: grid; grid-template-columns: 1fr; gap: 10px; width: 100%; max-width: 400px; }
-        .menu-card { padding: 20px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: transform 0.2s; }
-        .menu-card:active { transform: scale(0.98); }
+        .menu-card { padding: 22px; border-radius: 15px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; }
         
         .card-presence { background: var(--blue-fiance); border-left: 10px solid #2980b9; }
         .card-terrain { background: var(--yellow-gold); border-left: 10px solid #f39c12; color: #2c3e50; }
         .card-daily { background: var(--ctrl-blue); border-left: 10px solid #1a252f; }
+        .card-eval { background: var(--eval-orange); border-left: 10px solid #d35400; }
+        .card-history { background: var(--dark-green); border-left: 10px solid #0a3d0d; }
 
         .card-title { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; }
 
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
         .modal-content { background: white; width: 92%; max-width: 380px; border-radius: 20px; padding: 20px; position: relative; max-height: 85vh; overflow-y: auto; }
-        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; color: #333; }
+        .close-btn { position: absolute; top: 5px; right: 15px; font-size: 2rem; cursor: pointer; }
         
         label { display: block; font-weight: 700; font-size: 0.65rem; margin: 10px 0 3px; color: #7f8c8d; text-transform: uppercase; }
-        select, input, textarea { width: 100%; padding: 10px; border: 2px solid #f1f3f5; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; margin-bottom: 5px; }
+        select, input, textarea { width: 100%; padding: 10px; border: 2px solid #f1f3f5; border-radius: 8px; font-size: 0.9rem; box-sizing: border-box; }
         
-        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 5px; background: #f8f9fa; padding: 10px; border-radius: 10px; margin-top: 5px; }
-        .ecart-item { display: flex; align-items: center; font-size: 0.8rem; font-weight: 600; color: #333; }
-        .ecart-item input { width: auto; margin-right: 10px; }
-
+        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 5px; background: #f8f9fa; padding: 10px; border-radius: 10px; }
         .btn-action { width: 100%; padding: 15px; border: none; border-radius: 10px; color: white; font-weight: 900; margin-top: 10px; text-transform: uppercase; cursor: pointer; }
-        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; text-align: center; padding: 5px; font-size: 0.6rem; font-weight: 700; border-top: 1px solid #eee; color: #999; }
+        #status-bar { position: fixed; bottom: 0; width: 100%; background: white; text-align: center; padding: 5px; font-size: 0.6rem; font-weight: 700; border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -47,36 +45,41 @@
 <div class="header">
     <img src="logo_casa_group.png" alt="" class="logo-casa">
     <img src="logo_ratp_dev_casa.png" alt="" class="logo-ratp">
-    <h1>CONTRÔLEUR DE RONDE</h1>
+    <h1>GESTION TERRITOIRE</h1>
 </div>
 
 <div class="menu-grid">
     <div class="menu-card card-presence" onclick="openModal('modalPresence')"><span class="card-title">PRÉSENCE</span></div>
     <div class="menu-card card-terrain" onclick="openModal('modalTerrain')"><span class="card-title">TAGUER STATION</span></div>
     <div class="menu-card card-daily" onclick="openModal('modalDaily')"><span class="card-title">CONTRÔLE QUOTIDIEN</span></div>
+    <div class="menu-card card-eval" onclick="openModal('modalEval')"><span class="card-title">CONNAISSANCE RÉSEAU</span></div>
+    <div class="menu-card card-history" onclick="checkPassword()"><span class="card-title">HISTORIQUE</span></div>
 </div>
 
 <div id="modalDaily" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="closeModal('modalDaily')">&times;</span>
-    <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:10px; border-bottom:2px solid #eee; padding-bottom:5px;">RAPPORT (FEUILLE 2)</div>
+    <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:10px;">RAPPORT (FEUILLE 2)</div>
     
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir la ligne --</option></select>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
     <label>Prestataire</label><select id="prestataire"><option value="">-- Sélectionner --</option><option value="RDCA">RDCA</option><option value="G4S">G4S</option><option value="RMO">RMO</option></select>
     <label>Nom de l'agent</label><input type="text" id="nomAgent" placeholder="Prénom Nom...">
 
     <label>Écarts constatés</label>
     <div class="ecarts-grid" id="ecartsList">
-        <label class="ecart-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
-        <label class="ecart-item"><input type="checkbox" value="Téléphone"> Utilisation Téléphone</label>
-        <label class="ecart-item"><input type="checkbox" value="Tenue"> Manque de tenue</label>
-        <label class="ecart-item"><input type="checkbox" value="Poste"> Abandon de poste</label>
+        <label><input type="checkbox" value="Rassemblement"> Rassemblement</label><br>
+        <label><input type="checkbox" value="Téléphone"> Téléphone</label><br>
+        <label><input type="checkbox" value="Tenue"> Pas de tenue</label>
     </div>
 
-    <label>Commentaire libre</label><textarea id="commCtrl" rows="2"></textarea>
+    <label>Commentaire</label><textarea id="commCtrl" rows="2"></textarea>
+    <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre(btn)">ENVOYER AU SHEET</button>
+</div></div>
 
-    <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre(this)">ENVOYER LE RAPPORT</button>
+<div id="modalEval" class="modal"><div class="modal-content" style="height:80vh; max-width:95%;">
+    <span class="close-btn" onclick="closeModal('modalEval')">&times;</span>
+    <iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ" style="width:100%;height:100%;border:none;"></iframe>
 </div></div>
 
 <div id="modalPresence" class="modal"><div class="modal-content">
@@ -84,8 +87,8 @@
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'Mixte')">PRISE DE SERVICE (MIXTE)</button>
-    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'Matin')">FIN DE SERVICE (MATIN)</button>
+    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'Mixte')">PRISE (MIXTE)</button>
+    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'Matin')">FIN (MATIN)</button>
 </div></div>
 
 <div id="modalTerrain" class="modal"><div class="modal-content">
@@ -93,24 +96,23 @@
     <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">ENREGISTRER LE PASSAGE</button>
+    <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER STATION</button>
 </div></div>
 
-<div id="status-bar">SYNCHRONISATION GPS OK</div>
+<div id="status-bar">GPS PRÊT</div>
 
 <script>
-    // VOTRE URL DE SCRIPT MISE À JOUR
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec"; 
 
     const chefs = ["Redouane Zaoui", "Fouad MAHMAH", "Zakia AMMARI", "Monsif MARZOUK", "Hassan MOUTTAQUINE", "El mostafa ERRAHMOUNI", "Youssef ABOUHILAL", "Anass CHOUKRI", "Rachid BAZZAZ", "Aicha ESSAHMI", "Youssef EZZAMANIDI", "Ayoub AQASBY", "Mohamed FRIMAN", "Ouissal NASSOUHE", "Mohamed REGRAGUI", "Taha NAJHI", "Mohamed CHAGUE", "Mohamed SADOK", "Samir HOUD", "Youness MAATOUS", "Azddine GOUTE", "Nourddine KARDANE", "Abdelilah HARIRI", "Bader HAMDA", "Abdelkader OUELDBA", "Samir HARIRI", "Samir AKLIA", "Zakaria LAHMITI", "Elbouazzaoui ERRAKI", "Hicham ZAHIDI", "Mounsif FOUAD", "Rachid EL HAFYANI", "El Mehdi EL MISSIOUI", "Fahd CHAHTI", "Amine MOUSSADAK", "Mouhcin RACHDAOUI", "Wadii LARHA", "Ouahid LAYLI", "Siham KASSEMI", "Aziz DOUMI", "Abderrahman BECHTAOUI"];
     
     const stationsData = {
-        "T1": { "Sidi Moumen Terminus": [33.5866, -7.5019], "Ennassim": [33.5846, -7.5047], "Mohammed Zefzaf": [33.5821, -7.5090], "Hôpital Sidi Moumen": [33.5764, -7.5179], "Okba Ibn Nafii": [33.5730, -7.5328], "Place Al Yassir": [33.5928, -7.5966], "Place des Nations Unies": [33.5948, -7.6181], "Lissasfa Terminus": [33.5352, -7.6699] },
-        "T2": { "Sidi Bernoussi Terminus": [33.6101, -7.5098], "Ain Diab Plage": [33.5876, -7.6809], "2 Mars": [33.5690, -7.6125], "Derb Sultan": [33.5720, -7.5959] },
-        "T3": { "Hay Al Wahda Terminus": [33.5457, -7.5473], "Casa Port Terminus": [33.5979, -7.6109], "Garage Allal": [33.5756, -7.5989] },
-        "T4": { "Mohammed Erradi Terminus": [33.5691, -7.5179], "Parc de la ligue arabe": [33.5879, -7.6217] },
-        "BW1": { "Salmia 2 Terminus": [33.5371, -7.5508], "Omar El Khayam": [33.5402, -7.6669] },
-        "BW2": { "Ouled Azzouz Terminus": [33.5185, -7.7576], "Oulmes Terminus": [33.5715, -7.6486] }
+        "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Okba Ibn Nafii": [33.5730,-7.5328], "Place Al Yassir": [33.5928,-7.5966], "Place des Nations Unies": [33.5948,-7.6181], "Lissasfa Terminus": [33.5352,-7.6699] },
+        "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Ain Diab Plage": [33.5876,-7.6809], "2 Mars": [33.5690,-7.6125], "Derb Sultan": [33.5720,-7.5959] },
+        "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "Casa Port Terminus": [33.5979,-7.6109], "Garage Allal": [33.5756,-7.5989] },
+        "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Parc de la ligue arabe": [33.5879,-7.6217] },
+        "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Omar El Khayam": [33.5402,-7.6669] },
+        "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "Oulmes Terminus": [33.5715,-7.6486] }
     };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
@@ -127,61 +129,45 @@
         if(stationsData[el.value]) { Object.keys(stationsData[el.value]).forEach(st => { let o = document.createElement('option'); o.value = st; o.text = st; sSelect.appendChild(o); }); }
     }
 
-    // FONCTION CONTRÔLE QUOTIDIEN -> ENVOI VERS FEUILLE 2 AVEC DATE/HEURE
-    function validerControleLibre(btn) {
-        const m = btn.closest('.modal-content');
+    function validerControleLibre() {
+        const m = document.getElementById('modalDaily');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
         const prest = document.getElementById('prestataire').value, agent = document.getElementById('nomAgent').value, comm = document.getElementById('commCtrl').value;
         let ecarts = [];
         document.querySelectorAll('#ecartsList input:checked').forEach(i => ecarts.push(i.value));
 
-        if(!chef || !ligne || !station || !prest || !agent) return alert("Veuillez remplir tous les champs !");
+        if(!chef || !ligne || !station || !prest || !agent) return alert("Remplir tous les champs.");
 
-        // GESTION DE LA DATE ET DE L'HEURE
-        const maintenant = new Date();
-        const dateHeureSaisie = maintenant.toLocaleDateString('fr-FR') + " " + maintenant.toLocaleTimeString('fr-FR');
+        const mtn = new Date();
+        const dateHeure = mtn.toLocaleDateString('fr-FR') + " " + mtn.toLocaleTimeString('fr-FR');
 
-        document.getElementById('status-bar').innerText = "📍 ENVOI EN COURS...";
-        
         navigator.geolocation.getCurrentPosition((pos) => {
             fetch(SCRIPT_URL, {
                 method: 'POST', mode: 'no-cors',
                 body: JSON.stringify({ 
-                    type: "CONTROLE QUOTIDIEN", 
-                    destination: "Feuille 2",
-                    date_form: dateHeureSaisie, 
-                    chef: chef, ligne: ligne, station: station, 
-                    prestataire: prest, agent: agent, 
-                    ecarts: ecarts.join(', '), commentaire: comm, 
-                    gps: pos.coords.latitude + "," + pos.coords.longitude 
+                    type: "CONTROLE QUOTIDIEN", destination: "Feuille 2",
+                    date_form: dateHeure, chef, ligne, station, prestataire: prest, agent, ecarts: ecarts.join(', '), commentaire: comm, gps: pos.coords.latitude+","+pos.coords.longitude 
                 })
-            }).then(() => {
-                alert("✅ RAPPORT TRANSMIS À LA FEUILLE 2\nLe : " + dateHeureSaisie);
-                closeModal('modalDaily');
-                document.getElementById('status-bar').innerText = "✅ PRÊT";
-            });
-        }, () => alert("GPS REQUIS"), {enableHighAccuracy: true});
+            }).then(() => { alert("✅ RAPPORT ENVOYÉ À " + dateHeure); closeModal('modalDaily'); });
+        });
     }
 
     function validerGeneric(btn, action, serviceAuto) {
         const m = btn.closest('.modal-content');
         const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        if(!chef || !ligne || !station) return alert("Veuillez remplir tous les champs !");
+        if(!chef || !ligne || !station) return alert("Champs obligatoires !");
         
         navigator.geolocation.getCurrentPosition((pos) => {
             fetch(SCRIPT_URL, {
                 method: 'POST', mode: 'no-cors',
                 body: JSON.stringify({ 
-                    type: action, destination: "Feuille 1",
-                    chef: chef, service: serviceAuto, ligne: ligne, station: station, 
-                    gps: pos.coords.latitude + "," + pos.coords.longitude 
+                    type: action, destination: "Feuille 1", chef, service: serviceAuto, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude 
                 })
-            }).then(() => {
-                alert("✅ " + action + " ENREGISTRÉ (Feuille 1)");
-                closeModal(btn.closest('.modal').id);
-            });
+            }).then(() => { alert("✅ ENREGISTRÉ"); closeModal(btn.closest('.modal').id); });
         });
     }
+
+    function checkPassword() { if (prompt("Mot de passe :") === "1234") { window.open("https://docs.google.com/spreadsheets/d/VOTRE_ID_SHEET", "_blank"); } }
 </script>
 </body>
 </html>
