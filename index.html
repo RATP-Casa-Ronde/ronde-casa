@@ -19,11 +19,12 @@
         .logo-ratp { width: 130px; height: auto; } 
         .logo-casa { width: 100px; height: auto; } 
         h1 { font-family: 'Montserrat', sans-serif; color: var(--ratp-blue); font-size: 1.3rem; text-transform: uppercase; margin: 15px 0 5px 0; font-weight: 900; }
-        .sub-title { color: #555; font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 3px; }
+        .user-welcome { color: var(--ratp-green); font-weight: 700; margin-top: 10px; display: none; font-size: 0.9rem; }
 
-        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 400px; }
+        .menu-grid { display: none; grid-template-columns: 1fr; gap: 12px; width: 100%; max-width: 400px; }
         .menu-card { padding: 22px; border-radius: 18px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.1); cursor: pointer; color: white; transition: 0.2s; font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 0.85rem; }
         
+        .card-auth { background: var(--ratp-blue); border-left: 10px solid #003d73; display: block; width: 100%; max-width: 400px; padding: 30px; border-radius: 18px; color: white; text-align: center; font-weight: 900; cursor: pointer; }
         .card-presence { background: var(--blue-fiance); border-left: 10px solid #2980b9; }
         .card-terrain { background: var(--yellow-gold); border-left: 10px solid #f39c12; color: #2c3e50; }
         .card-daily { background: var(--ctrl-blue); border-left: 10px solid #1a252f; }
@@ -36,11 +37,6 @@
         
         label { display: block; font-weight: 700; font-size: 0.7rem; margin: 12px 0 4px; color: #7f8c8d; text-transform: uppercase; }
         select, input, textarea { width: 100%; padding: 12px; border: 2px solid #f1f3f5; border-radius: 10px; font-size: 0.95rem; box-sizing: border-box; margin-bottom: 5px; }
-        
-        .ecarts-grid { display: grid; grid-template-columns: 1fr; gap: 8px; background: #f8f9fa; padding: 15px; border-radius: 12px; border: 1px solid #eee; }
-        .ecart-item { display: flex; align-items: center; font-size: 0.85rem; font-weight: 600; color: #2c3e50; }
-        .ecart-item input { width: auto; margin-right: 12px; transform: scale(1.3); }
-
         .btn-action { width: 100%; padding: 16px; border: none; border-radius: 12px; color: white; font-weight: 900; margin-top: 10px; text-transform: uppercase; cursor: pointer; }
     </style>
 </head>
@@ -52,141 +48,76 @@
         <img src="logo_casa_group.png" alt="Logo Casa" class="logo-casa">
     </div>
     <h1>GESTION TERRITOIRE</h1>
-    <div class="sub-title">CHEF DE ZONE</div>
+    <div id="userDisplay" class="user-welcome"></div>
 </div>
 
-<div class="menu-grid">
+<div id="authSection" class="card-auth" onclick="login()">
+    ENTRER DANS L'ESPACE CHEF DE ZONE<br>
+    <small style="font-size: 0.6rem; opacity: 0.8;">CLIQUEZ POUR VOUS CONNECTER</small>
+</div>
+
+<div id="mainMenu" class="menu-grid">
     <div class="menu-card card-presence" onclick="openModal('modalPresence')">PRÉSENCE</div>
     <div class="menu-card card-terrain" onclick="openModal('modalTerrain')">CONTRÔLEUR DE RONDE</div>
     <div class="menu-card card-daily" onclick="openModal('modalDaily')">CONTRÔLE QUOTIDIEN</div>
     <div class="menu-card card-eval" onclick="openModal('modalEval')">CONNAISSANCE RÉSEAU</div>
-    <div class="menu-card card-recap" onclick="ouvrirRecap()">RÉCAPITULATIF DU JOUR</div>
+    <div class="menu-card card-recap" onclick="openModal('modalRecap')">RÉCAPITULATIF DU JOUR</div>
 </div>
 
 <div id="modalPresence" class="modal"><div class="modal-content">
     <span class="close-btn" onclick="close_m('modalPresence')">&times;</span>
     <div style="color:var(--blue-fiance); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--blue-fiance);">PRÉSENCE</div>
-    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
+    <label>Chef de Zone connecté</label><input type="text" id="currentUser1" readonly>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
     <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE')">PRISE DE SERVICE (MIXTE)</button>
-    <button class="btn-action" style="background:var(--ratp-red)" onclick="validerGeneric(this, 'FIN DE SERVICE', 'MATIN')">FIN DE SERVICE (MATIN)</button>
-</div></div>
-
-<div id="modalTerrain" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="close_m('modalTerrain')">&times;</span>
-    <div style="color:var(--yellow-gold); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--yellow-gold);">CONTRÔLEUR DE RONDE</div>
-    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
-    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <button class="btn-action" style="background:var(--ctrl-blue)" onclick="validerGeneric(this, 'TAGUER', 'N/A')">TAGUER STATION</button>
-</div></div>
-
-<div id="modalDaily" class="modal"><div class="modal-content">
-    <span class="close-btn" onclick="close_m('modalDaily')">&times;</span>
-    <div style="color:var(--ctrl-blue); font-weight:900; margin-bottom:15px; border-bottom: 3px solid var(--ctrl-blue);">RAPPORT CONTRÔLE (F2)</div>
-    <label>Chef de Zone</label><select class="sel-chef"><option value="">-- Sélectionner --</option></select>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"><option value="">-- Choisir --</option></select>
-    <label>Station</label><select class="sel-station"><option value="">-- Sélectionner --</option></select>
-    <label>Prestataire</label><select id="prestataire"><option value="">-- Sélectionner --</option><option value="RDCA">RDCA</option><option value="G4S">G4S</option><option value="RMO">RMO</option></select>
-    <label>Nom de l'agent</label><input type="text" id="nomAgent" placeholder="Prénom Nom...">
-    <label>Écarts constatés</label>
-    <div class="ecarts-grid" id="ecartsList">
-        <label class="ecart-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
-        <label class="ecart-item"><input type="checkbox" value="Téléphone"> Téléphone</label>
-        <label class="ecart-item"><input type="checkbox" value="Manque F1/F2"> Manque F1/F2</label>
-        <label class="ecart-item"><input type="checkbox" value="Tenue non conforme"> Tenue non conforme</label>
-        <label class="ecart-item"><input type="checkbox" value="Abondement"> Abondement</label>
-        <label class="ecart-item"><input type="checkbox" value="Escorte absente"> Escorte absente</label>
-    </div>
-    <label>Observations</label><textarea id="commCtrl" rows="2"></textarea>
-    <button class="btn-action" style="background:var(--ratp-blue)" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
+    <button class="btn-action" style="background:var(--ratp-green)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE')">PRISE DE SERVICE</button>
 </div></div>
 
 <div id="modalRecap" class="modal"><div class="modal-content" style="height:90vh; max-width:98%;">
     <span class="close-btn" onclick="close_m('modalRecap')">&times;</span>
-    <div id="recapTitle" style="color:var(--dark-green); font-weight:900; margin-bottom:10px; border-bottom: 2px solid var(--dark-green);">SUIVI DES ACTIVITÉS</div>
-    <iframe id="iframeRecap" src="" style="width:100%;height:92%;border:none;"></iframe>
-</div></div>
-
-<div id="modalEval" class="modal"><div class="modal-content" style="height:85vh; max-width:95%;">
-    <span class="close-btn" onclick="close_m('modalEval')">&times;</span>
-    <iframe src="https://forms.cloud.microsoft/e/7WAqMpwsJJ" style="width:100%;height:100%;border:none;"></iframe>
+    <iframe src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe>
 </div></div>
 
 <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec"; 
-    const EXCEL_VIEW_URL = "https://docs.google.com/spreadsheets/d/1Rt3jalVT7ZIsIoo-LW8q8wcShk3dX47emJKjUC9kPgI/preview"; // Version "Aperçu" plus légère
+    const SCRIPT_URL = "VOTRE_URL_SCRIPT";
+    const chefsData = {
+        "1436": "Redouane Zaoui", "90": "Fouad MAHMAH", "72": "Zakia AMMARI", "760": "Monsif MARZOUK",
+        "591": "Hassan MOUTTAQUINE", "85": "El mostafa ERRAHMOUNI", "86": "Youssef ABOUHILAL",
+        "506": "Anass CHOUKRI", "447": "Rachid BAZZAZ", "185": "Aicha ESSAHMI", "274": "Youssef EZZAMANIDI",
+        "1061": "Ayoub AQASBY", "84": "Mohamed FRIMAN", "74": "Ouissal NASSOUHE", "81": "Mohamed REGRAGUI",
+        "173": "Taha NAJHI", "534": "Mohamed CHAGUE", "430": "Mohamed SADOK", "518": "Samir HOUD",
+        "346": "Youness MAATOUS", "254": "Azddine GOUTE", "643": "Nourddine KARDANE", "1137": "Abdelilah HARIRI",
+        "193": "Bader HAMDA", "712": "Abdelkader OUELDBA", "820": "Samir AKLIA", "262": "Zakaria LAHMITI",
+        "411": "Elbouazzaoui ERRAKI", "147": "Hicham ZAHIDI", "91": "Mounsif FOUAD", "82": "Rachid EL HAFYANI",
+        "422": "El Mehdi EL MISSIOUI", "1386": "Fahd CHAHTI", "687": "Amine MOUSSADAK", "355": "Mouhcin RACHDAOUI",
+        "549": "Wadii LARHA", "708": "Ouahid LAYLI", "77": "Siham KASSEMI", "1063": "Aziz DOUMI", "654": "Abderrahman BECHTAOUI"
+    };
 
-    const stationsData = { "T1": { "Sidi Moumen Terminus": [33.586647,-7.501958], "Ennassim": [33.584639,-7.504737], "Mohammed Zefzaf": [33.582128,-7.509011], "Centre de Maintenance": [33.579344,-7.513379], "Hôpital Sidi Moumen": [33.576404,-7.517978], "Attacharouk": [33.574052,-7.524465], "Okba Ibn Nafii": [33.573007,-7.532854], "Forces Auxiliaires": [33.574800,-7.539628], "Hay Raja": [33.576612,-7.548226], "Ibn Tachfine": [33.580715,-7.562997], "Hay Mohammadi": [33.585144,-7.566664], "Achouhada": [33.588742,-7.567820], "Ali Yaata": [33.591476,-7.569933], "Grande Ceinture": [33.590609,-7.572976], "Anciens Abattoirs": [33.591181,-7.579402], "Bahmad": [33.594080,-7.587257], "Casa Voyageurs": [33.590620,-7.592358], "Place Al Yassir": [33.592837,-7.596692], "La Résistance": [33.593433,-7.602797], "Mohamed Diouri": [33.593613,-7.607416], "Marché Central": [33.594459,-7.612105], "Place des Nations Unies": [33.594889,-7.618149], "Place Mohammed V": [33.589746,-7.619919], "Avenue Hassan II": [33.584151,-7.623075], "Les Hôpitaux": [33.579969,-7.624865], "Faculté de Médecine": [33.574639,-7.625807], "Abdelmoumen": [33.570892,-7.625970], "Bachkou": [33.564119,-7.627425], "Mekka": [33.558359,-7.629648], "Gare Oasis": [33.554970,-7.631016], "Panoramique": [33.547339,-7.631964], "Technopark": [33.544749,-7.638060], "Zenith": [33.540917,-7.643435], "Gare Casa Sud": [33.542217,-7.651100], "Facultés": [33.545730,-7.657610], "Laymoune": [33.540164,-7.666361], "Lissasfa Terminus": [33.535258,-7.669981] }, "T2": { "Sidi Bernoussi Terminus": [33.610125,-7.509822], "Abi Dar El Ghafari": [33.606614,-7.518053], "Gare De Ain Sbaa": [33.607444,-7.524403], "Préfecture Ain Sbaa": [33.602133,-7.530003], "Al Amane": [33.599183,-7.532944], "Al wifaq": [33.595686,-7.538122], "Dar Laman": [33.593836,-7.557414], "Carrières Centrales": [33.592719,-7.564481], "Kissariat Hay Mohammadi": [33.587125,-7.563622], "Mdakra": [33.581275,-7.563372], "Hay Adil": [33.579272,-7.568178], "Derb Milan": [33.572050,-7.580811], "Hay El Farah": [33.571639,-7.586414], "Derb Sultan": [33.572092,-7.595917], "Place Sraghna": [33.569625,-7.602231], "El Fida": [33.566475,-7.607325], "2 Mars": [33.569097,-7.612592], "Hermitage": [33.569186,-7.617908], "Anoual": [33.569419,-7.625025], "Derb Ghalef": [33.570059,-7.631693], "Riviera": [33.570943,-7.636231], "Ghandi": [33.568550,-7.644920], "Beauséjour": [33.564245,-7.648021], "Anfa Clubs": [33.561018,-7.653188], "Anfa Park": [33.559831,-7.657648], "Place Financière": [33.562307,-7.660902], "Abdellah Ben Cherif": [33.565833,-7.660272], "Cité De L'air": [33.568323,-7.664376], "Sidi Abderrahmane": [33.572274,-7.669556], "Hay Hassani": [33.576567,-7.672932], "Littoral": [33.580927,-7.674802], "Ain Diab Plage Terminus": [33.587608,-7.680950] }, "T3": { "Hay Al Wahda Terminus": [33.545766,-7.547381], "10 Mars": [33.551820,-7.550986], "Abdelkader Essahraoui": [33.555759,-7.547525], "Idriss El Allam": [33.559666,-7.550890], "Hay Lalla Meriem": [33.557262,-7.558001], "Jardin Alesco": [33.550819,-7.568671], "Abdessalam Ennaciri": [33.548512,-7.572505], "6 Novembre": [33.546616,-7.575662], "Bd Mohammed VI": [33.543522,-7.581526], "Dar Attouzani": [33.548915,-7.586522], "Afriquia": [33.554642,-7.592333], "Abou Chouaïb Doukali": [33.561543,-7.594757], "Derb Chorfa": [33.566441,-7.595613], "Derb Tolba": [33.571003,-7.596705], "Garage Allal": [33.575684,-7.598978], "Habous": [33.578545,-7.600534], "Mohammed Zerktouni": [33.592676,-7.608677], "Place de la Victoire": [33.587849,-7.608287], "Mohammed Smiha": [33.592676,-7.608677], "Casa Port Terminus": [33.597952,-7.610986] }, "T4": { "Mohammed Erradi Terminus": [33.569100,-7.517936], "Zone Industrielle": [33.570725,-7.523950], "Moulay Rachid": [33.571491,-7.531256], "Mohammed Jaudar": [33.568404,-7.536147], "Faculté Ben Msik": [33.566084,-7.542985], "Hay El Falah": [33.563379,-7.547674], "Idriss El Harti": [33.561418,-7.550958], "Mohammed Bouziane": [33.563561,-7.554288], "Hay Assalama": [33.567682,-7.558374], "Boulevard du Nil": [33.566439,-7.564725], "Chtaiba": [33.565173,-7.570755], "Hay Tissir": [33.572387,-7.580565], "Gare Oulad Ziane": [33.575891,-7.585624], "Ain Borja": [33.580251,-7.591795], "Ifni": [33.584669,-7.598034], "La Gironde": [33.587360,-7.600940], "Jaber Ibn Hayane": [33.588753,-7.607661], "Mers Sultan": [33.587665,-7.615892], "Parc de la ligue arabe Terminus": [33.587935,-7.621748] }, "BW1": { "Salmia 2 Terminus": [33.53715,-7.55083], "Sbata": [33.53858,-7.554767], "Stade Tessema": [33.5410958,-7.558728], "Al Joulane": [33.54396,-7.56217], "Lahrizi": [33.540042,-7.56847], "Jardin Sunday": [33.536585,-7.574147], "Amgala": [33.539913,-7.57905], "Al Qods": [33.54384,-7.5819], "Sefrou": [33.54242,-7.58852], "Taza": [33.54206,-7.58992], "Al Inara": [33.53964,-7.59923], "Oulad Haddou": [33.53723,-7.60522], "Hay Chrifa": [33.53509,-7.60989], "Taddart": [33.53233,-7.61663], "Azzohour": [33.53062,-7.62292], "Californie": [33.53131,-7.63056], "Casa Nearshore": [33.53023,-7.63878], "Al Moustakbal": [33.53159,-7.64672], "Sidi Maarouf": [33.53292,-7.65121], "Omar El Khayam Terminus": [33.54028,-7.66692] }, "BW2": { "Ouled Azzouz Terminus": [33.5185278,-7.7576399], "La Ferme": [33.5225031,-7.7511903], "Ouled Ahmed": [33.5248475,-7.7461298], "Les Ecoles": [33.5265765,-7.7398515], "Oued Sbou": [33.5285408,-7.7338312], "Errahma": [33.5315,-7.72876], "Les Jardins D’Errahma": [33.538376,-7.71789], "La Perception": [33.5379146,-7.7186159], "La Rocade": [33.543832,-7.7092051], "Abouab Oulfa": [33.5462543,-7.704934], "Moulay Thami": [33.548468,-7.70109], "Essafa": [33.5509075,-7.6962079], "Haj Fateh": [33.55332,-7.68989], "Moulouya": [33.5563254,-7.6835188], "Oued Beht": [33.5583564,-7.6794476], "Oued Laou": [33.5599378,-7.6746676], "Oued Oum Rabia": [33.56148,-7.66949], "Les Musées": [33.5633624,-7.6649351], "Aéropostale": [33.5650805,-7.6605004], "C.I.L.": [33.5673403,-7.6562375], "Yaacoub Al Mansour": [33.56944,-7.65272], "Oulmes Terminus": [33.57153,-7.64869] } };
-    const chefs = ["Abdelilah HARIRI", "Abderrahman BECHTAOUI", "Abdelkader OUELDBA", "Aicha ESSAHMI", "Amine MOUSSADAK", "Anass CHOUKRI", "Ayoub AQASBY", "Azddine GOUTE", "Aziz DOUMI", "Bader HAMDA", "El Mehdi EL MISSIOUI", "El mostafa ERRAHMOUNI", "Elbouazzaoui ERRAKI", "Fahd CHAHTI", "Fouad MAHMAH", "Hassan MOUTTAQUINE", "Hicham ZAHIDI", "Mohamed CHAGUE", "Mohamed FRIMAN", "Mohamed REGRAGUI", "Mohamed SADOK", "Monsif MARZOUK", "Mouhcin RACHDAOUI", "Mounsif FOUAD", "Nourddine KARDANE", "Ouahid LAYLI", "Ouissal NASSOUHE", "Rachid BAZZAZ", "Rachid EL HAFYANI", "Redouane Zaoui", "Samir AKLIA", "Samir HARIRI", "Samir HOUD", "Siham KASSEMI", "Taha NAJHI", "Wadii LARHA", "Youness MAATOUS", "Youssef ABOUHILAL", "Youssef EZZAMANIDI", "Zakaria LAHMITI", "Zakia AMMARI"];
+    let loggedInUser = "";
+
+    function login() {
+        let matricule = prompt("Veuillez saisir votre matricule :");
+        if (chefsData[matricule]) {
+            loggedInUser = chefsData[matricule];
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('mainMenu').style.display = 'grid';
+            document.getElementById('userDisplay').innerText = "Bonjour, " + loggedInUser;
+            document.getElementById('userDisplay').style.display = 'block';
+            
+            // On remplit automatiquement les champs nom dans les formulaires
+            document.getElementById('currentUser1').value = loggedInUser;
+            // Ajoutez ici les autres IDs de champs si nécessaire
+        } else {
+            alert("Matricule inconnu. Accès refusé.");
+        }
+    }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function close_m(id) { document.getElementById(id).style.display = 'none'; }
 
-    // FONCTION SÉCURISÉE POUR LE RÉCAPITULATIF
-    function ouvrirRecap() {
-        let pass = prompt("Accès réservé. Veuillez saisir le mot de passe :");
-        if (pass === "1234") {
-            document.getElementById('iframeRecap').src = EXCEL_VIEW_URL;
-            openModal('modalRecap');
-        } else {
-            alert("Mot de passe incorrect.");
-        }
-    }
-
-    function getDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371e3;
-        const φ1 = lat1 * Math.PI/180, φ2 = lat2 * Math.PI/180;
-        const Δφ = (lat2-lat1) * Math.PI/180, Δλ = (lon2-lon1) * Math.PI/180;
-        const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ/2) * Math.sin(Δλ/2);
-        return R * (2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
-    }
-
-    window.onload = function() {
-        document.querySelectorAll('.sel-chef').forEach(s => { chefs.forEach(c => { let o = document.createElement('option'); o.value = o.text = c; s.appendChild(o); }); });
-        document.querySelectorAll('.sel-ligne').forEach(s => { for (let l in stationsData) { let o = document.createElement('option'); o.value = o.text = l; s.appendChild(o); } });
-    };
-
-    function updateStations(el) {
-        const sSelect = el.closest('.modal-content').querySelector('.sel-station');
-        sSelect.innerHTML = '<option value="">-- Sélectionner --</option>';
-        const l = el.value;
-        if(stationsData[l]) { Object.keys(stationsData[l]).forEach(st => { let o = document.createElement('option'); o.value = o.text = st; sSelect.appendChild(o); }); }
-    }
-
-    function validerControleLibre() {
-        const m = document.getElementById('modalDaily');
-        const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        const prest = document.getElementById('prestataire').value, agent = document.getElementById('nomAgent').value, comm = document.getElementById('commCtrl').value;
-        let ec = []; document.querySelectorAll('#ecartsList input:checked').forEach(i => ec.push(i.value));
-
-        if(!chef || !ligne || !station || !prest || !agent) return alert("Veuillez remplir tous les champs.");
-        
-        navigator.geolocation.getCurrentPosition((pos) => {
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
-                type: "CONTROLE QUOTIDIEN", destination: "Feuille 2", chef, ligne, station, prestataire: prest, agent, ecarts: ec.join(', '), commentaire: comm, gps: pos.coords.latitude+","+pos.coords.longitude 
-            })}).then(() => { alert("✅ RAPPORT ENVOYÉ"); close_m('modalDaily'); });
-        }, () => {
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
-                type: "CONTROLE QUOTIDIEN", destination: "Feuille 2", chef, ligne, station, prestataire: prest, agent, ecarts: ec.join(', '), commentaire: comm, gps: "N/A"
-            })}).then(() => { alert("✅ RAPPORT ENVOYÉ"); close_m('modalDaily'); });
-        });
-    }
-
-    function validerGeneric(btn, action, serv) {
-        const m = btn.closest('.modal-content');
-        const chef = m.querySelector('.sel-chef').value, ligne = m.querySelector('.sel-ligne').value, station = m.querySelector('.sel-station').value;
-        if(!chef || !ligne || !station) return alert("Champs obligatoires !");
-        
-        const coordsS = stationsData[ligne][station];
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const dist = getDistance(pos.coords.latitude, pos.coords.longitude, coordsS[0], coordsS[1]);
-            if(dist > 80) return alert(`⛔ TROP LOIN (${Math.round(dist)}m). Rapprochez-vous.`);
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: action, destination: "Feuille 1", chef, service: serv, ligne, station, gps: pos.coords.latitude+","+pos.coords.longitude })
-            }).then(() => { alert("✅ ENREGISTRÉ"); close_m(btn.closest('.modal').id); });
-        }, () => alert("GPS indisponible."));
-    }
+    // Reste de vos fonctions (updateStations, validerGeneric, etc.)
+    // ... (Copiez ici vos fonctions GPS et Envoi de la réponse précédente)
 </script>
+
 </body>
 </html>
