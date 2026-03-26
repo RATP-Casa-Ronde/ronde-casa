@@ -28,11 +28,22 @@
 
         body { font-family: 'Poppins', sans-serif; background: #f4f7f9; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
+        /* AJUSTEMENT DES LOGOS (PLUS GRANDS) */
         .header-brand {
-            background: white; width: 100%; padding: 10px 0; display: flex; justify-content: center; gap: 20px; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px;
+            background: white; 
+            width: 100%; 
+            padding: 20px 0; 
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            margin-bottom: 25px;
         }
-        /* Logos de taille identique */
-        .logo-large { height: 45px; width: auto; object-fit: contain; }
+        .logo-large { 
+            height: 80px; /* Taille augmentée selon vos cercles verts/bleus */
+            width: auto; 
+            object-fit: contain; 
+        }
 
         .main-container { width: 90%; max-width: 450px; display: flex; flex-direction: column; gap: 20px; }
 
@@ -179,7 +190,6 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec";
     
-    // MÉMOIRE LOCALE POUR LE PRÉ-REMPLISSAGE
     let lastLigne = "";
     let lastStation = "";
     let lastAgent = "";
@@ -231,7 +241,6 @@
         alert("Matricule ou mot de passe incorrect.");
     }
 
-    // Données stations complètes conservées
     const stationsData = {
         "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] },
         "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] },
@@ -244,18 +253,14 @@
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function close_m(id) { document.getElementById(id).style.display = 'none'; }
 
-    // FONCTION DE PRÉ-REMPLISSAGE
     function openAndPreFill(id) {
         openModal(id);
         const modal = document.getElementById(id);
-        
-        // 1. Heure automatique
         const now = new Date();
         const timeStr = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
         const hInput = modal.querySelector('input[type="time"]');
         if(hInput) hInput.value = timeStr;
 
-        // 2. Ligne et Station (mémoire)
         if(lastLigne) {
             const lSel = modal.querySelector('.sel-ligne');
             if(lSel) {
@@ -264,8 +269,6 @@
                 if(lastStation) modal.querySelector('.sel-station').value = lastStation;
             }
         }
-
-        // 3. Agent et Prestataire (mémoire)
         modal.querySelectorAll('.mem-agent').forEach(i => i.value = lastAgent);
         modal.querySelectorAll('.mem-pres').forEach(s => s.value = lastPres);
     }
