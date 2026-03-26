@@ -28,20 +28,30 @@
 
         body { font-family: 'Poppins', sans-serif; background: #f4f7f9; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
-        /* AJUSTEMENT DES LOGOS (PLUS GRANDS) */
+        /* AJUSTEMENT DES LOGOS (SYMÉTRIQUES ET VISIBLES) */
         .header-brand {
             background: white; 
             width: 100%; 
-            padding: 20px 0; 
+            padding: 15px 0; 
             display: flex; 
-            justify-content: space-around; 
+            justify-content: center; 
             align-items: center; 
+            gap: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             margin-bottom: 25px;
         }
+
+        .logo-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 180px; /* Limite la largeur pour éviter que les logos ne touchent les bords */
+        }
+
         .logo-large { 
-            height: 80px; /* Taille augmentée selon vos cercles verts/bleus */
-            width: auto; 
+            height: 70px; /* Hauteur identique pour les deux */
+            width: 100%;
             object-fit: contain; 
         }
 
@@ -87,8 +97,12 @@
 <body>
 
 <div class="header-brand">
-    <img src="logo_ratp_dev_casa.png" alt="RATP Dev" class="logo-large">
-    <img src="logo_casa_group.png" alt="Casa Group" class="logo-large">
+    <div class="logo-container">
+        <img src="logo_ratp_dev_casa.png" alt="RATP Dev" class="logo-large">
+    </div>
+    <div class="logo-container">
+        <img src="logo_casa_group.png" alt="Casa Group" class="logo-large">
+    </div>
 </div>
 
 <div class="main-container">
