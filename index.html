@@ -28,7 +28,7 @@
 
         body { font-family: 'Poppins', sans-serif; background: #f4f7f9; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
-        /* AJUSTEMENT DES LOGOS - CASA PLUS GRAND QUE RATPDEV */
+        /* AJUSTEMENT DES LOGOS - TAILLE IDENTIQUE */
         .header-brand {
             background: white; 
             width: 100%; 
@@ -36,7 +36,7 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            gap: 15px;
+            gap: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
             margin-bottom: 25px;
         }
@@ -46,18 +46,13 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            max-width: 180px;
+            max-width: 150px;
         }
 
-        .logo-ratp { 
-            height: 50px; /* Plus petit pour l'équilibre */
+        .logo-ratp, .logo-casa { 
+            height: 60px; /* Même taille pour les deux */
             width: auto;
-            object-fit: contain; 
-        }
-
-        .logo-casa { 
-            height: 75px; /* Plus grand pour la dominance visuelle */
-            width: auto;
+            max-width: 100%;
             object-fit: contain; 
         }
 
