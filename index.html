@@ -138,16 +138,76 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec";
     
-    // Base de données hors-ligne
+    // --- GESTION BASE DE DONNÉES LOCALE ---
     let db;
     const dbReq = indexedDB.open("RondeCasaDB", 1);
     dbReq.onupgradeneeded = (e) => {
         db = e.target.result;
         if (!db.objectStoreNames.contains("rapports")) db.createObjectStore("rapports", { autoIncrement: true });
     };
-    dbReq.onsuccess = (e) => { db = e.target.result; };
+    dbReq.onsuccess = (e) => { 
+        db = e.target.result; 
+        forceSync(); // Tente d'envoyer les rapports dès l'ouverture de l'appli
+    };
 
-    // Données (Stations & Chefs)
+    // --- SYNCHRONISATION ---
+    function forceSync() {
+        if (!navigator.onLine || !db) return;
+        
+        const trans = db.transaction("rapports", "readwrite");
+        const store = trans.objectStore("rapports");
+        const allRapports = store.getAll();
+
+        allRapports.onsuccess = () => {
+            if (allRapports.result.length > 0) {
+                let sentCount = 0;
+                allRapports.result.forEach((r) => {
+                    fetch(SCRIPT_URL, { 
+                        method: 'POST', 
+                        mode: 'no-cors', 
+                        body: JSON.stringify(r),
+                        headers: { 'Content-Type': 'text/plain' }
+                    }).then(() => {
+                        sentCount++;
+                        if(sentCount === allRapports.result.length) {
+                             const cleanTrans = db.transaction("rapports", "readwrite");
+                             cleanTrans.objectStore("rapports").clear();
+                             alert("📶 SYNCHRONISATION : " + sentCount + " rapports envoyés !");
+                        }
+                    });
+                });
+            }
+        };
+    }
+
+    window.addEventListener('online', forceSync);
+
+    function envoyerOuStocker(data, modalId) {
+        if (navigator.onLine) {
+            fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(data),
+                headers: { 'Content-Type': 'text/plain' }
+            }).then(() => { 
+                alert("✅ RAPPORT ENVOYÉ"); 
+                if(modalId) close_m(modalId); 
+            }).catch(() => {
+                stockerLocalement(data, modalId);
+            });
+        } else {
+            stockerLocalement(data, modalId);
+        }
+    }
+
+    function stockerLocalement(data, modalId) {
+        const trans = db.transaction("rapports", "readwrite");
+        trans.objectStore("rapports").add(data);
+        alert("⚠️ HORS-LIGNE : Rapport enregistré localement. Il partira au retour du réseau.");
+        if(modalId) close_m(modalId);
+    }
+
+    // --- LOGIQUE MÉTIER (STATIONS, CHEFS, ETC.) ---
     const stationsData = {
         "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] },
         "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] },
@@ -210,42 +270,6 @@
         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     }
 
-    // FONCTION UNIFIÉE POUR ENVOI OU STOCKAGE HORS-LIGNE
-    function envoyerOuStocker(data, modalId) {
-        if (navigator.onLine) {
-            // SI EN LIGNE : ENVOI DIRECT
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
-            .then(() => { 
-                alert("✅ RAPPORT ENVOYÉ"); 
-                if(modalId) close_m(modalId); 
-            });
-        } else {
-            // SI HORS LIGNE : STOCKAGE LOCAL
-            const trans = db.transaction("rapports", "readwrite");
-            trans.objectStore("rapports").add(data);
-            alert("⚠️ HORS-LIGNE : Rapport enregistré localement. Il sera envoyé automatiquement dès le retour d'internet.");
-            if(modalId) close_m(modalId);
-        }
-    }
-
-    // RE-ENVOI AUTOMATIQUE LORSQUE LE RÉSEAU REVIENT
-    window.addEventListener('online', () => {
-        const trans = db.transaction("rapports", "readwrite");
-        const store = trans.objectStore("rapports");
-        const allRapports = store.getAll();
-        allRapports.onsuccess = () => {
-            if (allRapports.result.length > 0) {
-                allRapports.result.forEach(r => {
-                    fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(r) });
-                });
-                const cleanTrans = db.transaction("rapports", "readwrite");
-                cleanTrans.objectStore("rapports").clear();
-                alert("📶 CONNEXION RÉTABLIE : Tous les rapports en attente ont été envoyés !");
-            }
-        };
-    });
-
-    // VALIDER CONTROLE QUOTIDIEN
     function validerControleLibre() {
         const boxes = document.querySelectorAll('#groupEcarts input:checked');
         let ec = Array.from(boxes).map(b => b.value).join(', ');
@@ -257,7 +281,6 @@
         envoyerOuStocker(payload, 'modalDaily');
     }
 
-    // VALIDER CONNAISSANCE RESEAU
     function validerConnaissance() {
         const ag = document.getElementById('nomAgentEval').value;
         const pr = document.getElementById('presEval').value;
@@ -269,7 +292,6 @@
         envoyerOuStocker(payload, 'modalEval');
     }
 
-    // VALIDER GENERIC (GPS)
     function validerGeneric(btn, action, serv, checkGPS) {
         const m = btn.closest('.modal-content');
         const l = m.querySelector('.sel-ligne').value, s = m.querySelector('.sel-station').value;
@@ -290,11 +312,10 @@
 </script>
 
 <script>
-    // Enregistrement Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js')
-            .then(reg => console.log('Service Worker enregistré !', reg))
+            .then(reg => console.log('Service Worker enregistré !'))
             .catch(err => console.log('Erreur SW:', err));
         });
     }
