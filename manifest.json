@@ -1,16 +1,18 @@
 {
   "short_name": "Ronde Casa",
-  "name": "Ronde Casa - Application Agents",
+  "name": "Ronde Casa - RATP Dev Casablanca",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "logo_ratp_dev_casa.png",
       "type": "image/png",
-      "sizes": "192x192"
+      "sizes": "192x192",
+      "purpose": "any"
     },
     {
-      "src": "icon-512.png",
+      "src": "logo_ratp_dev_casa.png",
       "type": "image/png",
-      "sizes": "512x512"
+      "sizes": "512x512",
+      "purpose": "any"
     }
   ],
   "start_url": "./index.html",
