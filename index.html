@@ -18,7 +18,9 @@
             --accent: #E2B007;
             --glass: rgba(255, 255, 255, 0.95);
             --text-dark: #1a1a1a;
-            --grad: linear-gradient(135deg, #004578 0%, #002a4a 100%);
+            --grad-blue: linear-gradient(135deg, #004578 0%, #002a4a 100%);
+            /* NOUVEAU DEGRADE TURQUOISE */
+            --grad-turquoise: linear-gradient(135deg, #1abc9c 0%, #16a085 100%);
             --color-presence: #27ae60;
             --color-ronde: #2980b9;
             --color-controle: #d35400;
@@ -28,7 +30,6 @@
 
         body { font-family: 'Poppins', sans-serif; background: #f4f7f9; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
-        /* AJUSTEMENT DES LOGOS - TAILLE IDENTIQUE */
         .header-brand {
             background: white; 
             width: 100%; 
@@ -42,17 +43,21 @@
         }
 
         .logo-container {
-            flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            max-width: 150px;
         }
 
-        .logo-ratp, .logo-casa { 
-            height: 60px; /* Même taille pour les deux */
+        /* AGRANDISSEMENT LOGO RATP */
+        .logo-ratp { 
+            height: 75px; 
             width: auto;
-            max-width: 100%;
+            object-fit: contain; 
+        }
+
+        .logo-casa { 
+            height: 60px; 
+            width: auto;
             object-fit: contain; 
         }
 
@@ -63,9 +68,10 @@
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { display: block; font-size: 0.75rem; font-weight: 600; color: #666; margin-bottom: 5px; margin-left: 5px; }
         .login-card input { width: 100%; padding: 14px 18px; border-radius: 12px; border: 1.5px solid #eee; background: #f9f9f9; font-size: 1rem; box-sizing: border-box; }
-        .btn-login { background: var(--grad); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 15px rgba(0,69,120,0.3); }
+        .btn-login { background: var(--grad-blue); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 15px rgba(0,69,120,0.3); }
 
-        .dashboard-info { display: none; background: var(--grad); color: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; position: relative; width: 100%; box-sizing: border-box; }
+        /* APPLICATION DU DEGRADE TURQUOISE */
+        .dashboard-info { display: none; background: var(--grad-turquoise); color: white; padding: 25px; border-radius: 20px; margin-bottom: 15px; position: relative; width: 100%; box-sizing: border-box; box-shadow: 0 10px 20px rgba(26, 188, 156, 0.2); }
         .dashboard-info h3 { margin: 0; font-size: 1.1rem; }
         .btn-logout-top { position: absolute; right: 15px; top: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.7rem; }
 
@@ -98,10 +104,10 @@
 <body>
 
 <div class="header-brand">
-    <div class="logo-container">
+    <div class="logo-container" style="flex: 1.5;">
         <img src="logo_ratp_dev_casa.png" alt="RATP Dev" class="logo-ratp">
     </div>
-    <div class="logo-container">
+    <div class="logo-container" style="flex: 1;">
         <img src="logo_casa_group.png" alt="Casa Group" class="logo-casa">
     </div>
 </div>
@@ -135,6 +141,17 @@
     </div>
 </div>
 
+<div id="modalPresence" class="modal"><div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-back" onclick="close_m('modalPresence')">← Précédent</button>
+        <span style="font-weight: 700; color: var(--color-presence);">PRÉSENCE</span>
+    </div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <button class="btn-submit bg-presence" style="margin-bottom:10px" onclick="validerGeneric(this, 'PRISE DE SERVICE (SERVICE MIXTE)', 'SERVICE MIXTE', true)">PRISE DE SERVICE (SERVICE MIXTE)</button>
+    <button class="btn-submit" style="background:#c0392b; margin-top:0;" onclick="validerGeneric(this, 'FIN DE SERVICE (SERVICE MATIN)', 'SERVICE MATIN', true)">FIN DE SERVICE (SERVICE MATIN)</button>
+</div></div>
+
 <div id="modalDaily" class="modal"><div class="modal-content">
     <div class="modal-header">
         <button class="btn-back" onclick="close_m('modalDaily')">← Précédent</button>
@@ -154,17 +171,6 @@
         <label class="check-item"><input type="checkbox" value="Manque d'escorte"> Manque d'escorte</label>
     </div>
     <button class="btn-submit bg-controle" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
-</div></div>
-
-<div id="modalPresence" class="modal"><div class="modal-content">
-    <div class="modal-header">
-        <button class="btn-back" onclick="close_m('modalPresence')">← Précédent</button>
-        <span style="font-weight: 700; color: var(--color-presence);">PRÉSENCE</span>
-    </div>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
-    <label>Station</label><select class="sel-station"></select>
-    <button class="btn-submit bg-presence" style="margin-bottom:10px" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'SERVICE MIXTE', true)">PRISE DE SERVICE</button>
-    <button class="btn-submit" style="background:#c0392b; margin-top:0;" onclick="validerGeneric(this, 'FIN DE SERVICE', 'SERVICE MATIN', true)">FIN DE SERVICE</button>
 </div></div>
 
 <div id="modalTerrain" class="modal"><div class="modal-content">
@@ -256,14 +262,8 @@
         alert("Matricule ou mot de passe incorrect.");
     }
 
-    const stationsData = {
-        "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] },
-        "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] },
-        "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "10 Mars": [33.5518,-7.5509], "Abdelkader Essahraoui": [33.5557,-7.5475], "Idriss El Allam": [33.5596,-7.5508], "Hay Lalla Meriem": [33.5572,-7.5580], "Jardin Alesco": [33.5508,-7.5686], "Abdessalam Ennaciri": [33.5485,-7.5725], "6 Novembre": [33.5466,-7.5756], "Bd Mohammed VI": [33.5435,-7.5815], "Dar Attouzani": [33.5489,-7.5865], "Afriquia": [33.5546,-7.5923], "Abou Chouaïb Doukali": [33.5615,-7.5947], "Derb Chorfa": [33.5664,-7.5956], "Derb Tolba": [33.5710,-7.5967], "Garage Allal": [33.5756,-7.5989], "Habous": [33.5785,-7.6005], "Mohammed Zerktouni": [33.5926,-7.6086], "Place de la Victoire": [33.5878,-7.6082], "Mohammed Smiha": [33.5926,-7.6086], "Casa Port Terminus": [33.5979,-7.6110] },
-        "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Zone Industrielle": [33.5707,-7.5239], "Moulay Rachid": [33.5714,-7.5312], "Mohammed Jaudar": [33.5684,-7.5361], "Faculté Ben Msik": [33.5660,-7.5429], "Hay El Falah": [33.5633,-7.5476], "Idriss El Harti": [33.5614,-7.5509], "Mohammed Bouziane": [33.5635,-7.5542], "Hay Assalama": [33.5676,-7.5583], "Boulevard du Nil": [33.5664,-7.5647], "Chtaiba": [33.5651,-7.5707], "Hay Tissir": [33.5723,-7.5805], "Gare Oulad Ziane": [33.5758,-7.5856], "Ain Borja": [33.5802,-7.5917], "Ifni": [33.5846,-7.5980], "La Gironde": [33.5873,-7.6009], "Jaber Ibn Hayane": [33.5887,-7.6076], "Mers Sultan": [33.5876,-7.6158], "Parc de la ligue arabe Terminus": [33.5879,-7.6217] },
-        "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Sbata": [33.5385,-7.5547], "Stade Tessema": [33.5410,-7.5587], "Al Joulane": [33.5439,-7.5621], "Lahrizi": [33.5400,-7.5684], "Jardin Sunday": [33.5365,-7.5741], "Amgala": [33.5399,-7.5790], "Al Qods": [33.5438,-7.5819], "Sefrou": [33.5424,-7.5885], "Taza": [33.5420,-7.5899], "Al Inara": [33.5396,-7.5992], "Oulad Haddou": [33.5372,-7.6052], "Hay Chrifa": [33.5350,-7.6098], "Taddart": [33.5323,-7.6166], "Azzohour": [33.5306,-7.6229], "Californie": [33.5313,-7.6305], "Casa Nearshore": [33.5302,-7.6387], "Al Moustakbal": [33.5315,-7.6467], "Sidi Maarouf": [33.5329,-7.6512], "Omar El Khayam Terminus": [33.5402,-7.6669] },
-        "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "La Ferme": [33.5225,-7.7511], "Ouled Ahmed": [33.5248,-7.7461], "Les Ecoles": [33.5265,-7.7398], "Oued Sbou": [33.5285,-7.7338], "Errahma": [33.5315,-7.7287], "Les Jardins D’Errahma": [33.5383,-7.7178], "La Perception": [33.5379,-7.7186], "La Rocade": [33.5438,-7.7092], "Abouab Oulfa": [33.5462,-7.7049], "Moulay Thami": [33.5484,-7.7010], "Essafa": [33.5509,-7.6962], "Haj Fateh": [33.5533,-7.6898], "Moulouya": [33.5563,-7.6835], "Oued Beht": [33.5583,-7.6794], "Oued Laou": [33.5599,-7.6746], "Oued Oum Rabia": [33.5614,-7.6694], "Les Musées": [33.5633,-7.6649], "Aéropostale": [33.5650,-7.6605], "C.I.L.": [33.5673,-7.6562], "Yaacoub Al Mansour": [33.5694,-7.6527], "Oulmes Terminus": [33.5715,-7.6486] }
-    };
+    // Données des stations (T1, T2, T3, T4, BW1, BW2) inchangées
+    const stationsData = { "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] }, "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] }, "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "10 Mars": [33.5518,-7.5509], "Abdelkader Essahraoui": [33.5557,-7.5475], "Idriss El Allam": [33.5596,-7.5508], "Hay Lalla Meriem": [33.5572,-7.5580], "Jardin Alesco": [33.5508,-7.5686], "Abdessalam Ennaciri": [33.5485,-7.5725], "6 Novembre": [33.5466,-7.5756], "Bd Mohammed VI": [33.5435,-7.5815], "Dar Attouzani": [33.5489,-7.5865], "Afriquia": [33.5546,-7.5923], "Abou Chouaïb Doukali": [33.5615,-7.5947], "Derb Chorfa": [33.5664,-7.5956], "Derb Tolba": [33.5710,-7.5967], "Garage Allal": [33.5756,-7.5989], "Habous": [33.5785,-7.6005], "Mohammed Zerktouni": [33.5926,-7.6086], "Place de la Victoire": [33.5878,-7.6082], "Mohammed Smiha": [33.5926,-7.6086], "Casa Port Terminus": [33.5979,-7.6110] }, "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Zone Industrielle": [33.5707,-7.5239], "Moulay Rachid": [33.5714,-7.5312], "Mohammed Jaudar": [33.5684,-7.5361], "Faculté Ben Msik": [33.5660,-7.5429], "Hay El Falah": [33.5633,-7.5476], "Idriss El Harti": [33.5614,-7.5509], "Mohammed Bouziane": [33.5635,-7.5542], "Hay Assalama": [33.5676,-7.5583], "Boulevard du Nil": [33.5664,-7.5647], "Chtaiba": [33.5651,-7.5707], "Hay Tissir": [33.5723,-7.5805], "Gare Oulad Ziane": [33.5758,-7.5856], "Ain Borja": [33.5802,-7.5917], "Ifni": [33.5846,-7.5980], "La Gironde": [33.5873,-7.6009], "Jaber Ibn Hayane": [33.5887,-7.6076], "Mers Sultan": [33.5876,-7.6158], "Parc de la ligue arabe Terminus": [33.5879,-7.6217] }, "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Sbata": [33.5385,-7.5547], "Stade Tessema": [33.5410,-7.5587], "Al Joulane": [33.5439,-7.5621], "Lahrizi": [33.5400,-7.5684], "Jardin Sunday": [33.5365,-7.5741], "Amgala": [33.5399,-7.5790], "Al Qods": [33.5438,-7.5819], "Sefrou": [33.5424,-7.5885], "Taza": [33.5420,-7.5899], "Al Inara": [33.5396,-7.5992], "Oulad Haddou": [33.5372,-7.6052], "Hay Chrifa": [33.5350,-7.6098], "Taddart": [33.5323,-7.6166], "Azzohour": [33.5306,-7.6229], "Californie": [33.5313,-7.6305], "Casa Nearshore": [33.5302,-7.6387], "Al Moustakbal": [33.5315,-7.6467], "Sidi Maarouf": [33.5329,-7.6512], "Omar El Khayam Terminus": [33.5402,-7.6669] }, "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "La Ferme": [33.5225,-7.7511], "Ouled Ahmed": [33.5248,-7.7461], "Les Ecoles": [33.5265,-7.7398], "Oued Sbou": [33.5285,-7.7338], "Errahma": [33.5315,-7.7287], "Les Jardins D’Errahma": [33.5383,-7.7178], "La Perception": [33.5379,-7.7186], "La Rocade": [33.5438,-7.7092], "Abouab Oulfa": [33.5462,-7.7049], "Moulay Thami": [33.5484,-7.7010], "Essafa": [33.5509,-7.6962], "Haj Fateh": [33.5533,-7.6898], "Moulouya": [33.5563,-7.6835], "Oued Beht": [33.5583,-7.6794], "Oued Laou": [33.5599,-7.6746], "Oued Oum Rabia": [33.5614,-7.6694], "Les Musées": [33.5633,-7.6649], "Aéropostale": [33.5650,-7.6605], "C.I.L.": [33.5673,-7.6562], "Yaacoub Al Mansour": [33.5694,-7.6527], "Oulmes Terminus": [33.5715,-7.6486] } };
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function close_m(id) { document.getElementById(id).style.display = 'none'; }
