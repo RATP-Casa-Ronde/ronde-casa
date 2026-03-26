@@ -19,8 +19,6 @@
             --glass: rgba(255, 255, 255, 0.95);
             --text-dark: #1a1a1a;
             --grad: linear-gradient(135deg, #004578 0%, #002a4a 100%);
-            
-            /* Couleurs des rubriques */
             --color-presence: #27ae60;
             --color-ronde: #2980b9;
             --color-controle: #d35400;
@@ -28,91 +26,37 @@
             --color-recap: #2c3e50;
         }
 
-        body { 
-            font-family: 'Poppins', sans-serif; 
-            background: #f4f7f9;
-            margin: 0; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center;
-            min-height: 100vh;
-        }
+        body { font-family: 'Poppins', sans-serif; background: #f4f7f9; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
 
-        /* Header & Logos */
         .header-brand {
-            background: white;
-            width: 100%;
-            padding: 15px 0;
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            align-items: center;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            margin-bottom: 25px;
+            background: white; width: 100%; padding: 10px 0; display: flex; justify-content: center; gap: 20px; align-items: center; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px;
         }
-        .logo-large { 
-            height: 50px; /* Taille identique pour tous les logos */
-            width: auto; 
-            object-fit: contain;
-            transition: transform 0.3s; 
-        }
-        .logo-large:hover { transform: scale(1.05); }
+        /* Logos de taille identique */
+        .logo-large { height: 45px; width: auto; object-fit: contain; }
 
-        .main-container {
-            width: 90%;
-            max-width: 450px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
+        .main-container { width: 90%; max-width: 450px; display: flex; flex-direction: column; gap: 20px; }
 
-        .login-card {
-            background: white;
-            padding: 35px 25px;
-            border-radius: 24px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            text-align: center;
-        }
+        .login-card { background: white; padding: 35px 25px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; }
         .login-card h2 { color: var(--primary); margin-bottom: 25px; font-weight: 700; font-size: 1.4rem; }
         .input-group { margin-bottom: 15px; text-align: left; }
         .input-group label { display: block; font-size: 0.75rem; font-weight: 600; color: #666; margin-bottom: 5px; margin-left: 5px; }
-        .login-card input {
-            width: 100%; padding: 14px 18px; border-radius: 12px; border: 1.5px solid #eee; background: #f9f9f9; font-size: 1rem; box-sizing: border-box; transition: 0.3s;
-        }
-        .login-card input:focus { border-color: var(--primary); outline: none; background: white; }
-        .btn-login {
-            background: var(--grad); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 15px rgba(0,69,120,0.3);
-        }
+        .login-card input { width: 100%; padding: 14px 18px; border-radius: 12px; border: 1.5px solid #eee; background: #f9f9f9; font-size: 1rem; box-sizing: border-box; }
+        .btn-login { background: var(--grad); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 15px rgba(0,69,120,0.3); }
 
-        .dashboard-info {
-            display: none; background: var(--grad); color: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; position: relative;
-        }
+        .dashboard-info { display: none; background: var(--grad); color: white; padding: 20px; border-radius: 20px; margin-bottom: 15px; position: relative; width: 100%; box-sizing: border-box; }
         .dashboard-info h3 { margin: 0; font-size: 1.1rem; }
-        .btn-logout-top {
-            position: absolute; right: 15px; top: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.7rem;
-        }
+        .btn-logout-top { position: absolute; right: 15px; top: 15px; background: rgba(255,255,255,0.2); border: none; color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.7rem; }
 
-        .menu-grid { display: none; grid-template-columns: 1fr; gap: 15px; }
-        .menu-item {
-            background: white; padding: 22px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: var(--text-dark); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; cursor: pointer; transition: 0.2s;
-            border-left: 6px solid #ccc; /* Bordure par défaut */
-        }
-        .menu-item:active { background: #fafafa; transform: scale(0.98); }
-        
-        /* Couleurs spécifiques Menu */
+        .menu-grid { display: none; grid-template-columns: 1fr; gap: 15px; width: 100%; }
+        .menu-item { background: white; padding: 22px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: var(--text-dark); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; cursor: pointer; border-left: 6px solid #ccc; }
         .item-presence { border-left-color: var(--color-presence); }
         .item-ronde { border-left-color: var(--color-ronde); }
         .item-controle { border-left-color: var(--color-controle); }
         .item-eval { border-left-color: var(--color-eval); }
         .item-recap { border-left-color: var(--color-recap); }
 
-        /* Modals */
-        .modal { 
-            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: flex-end;
-        }
-        .modal-content { 
-            background: white; width: 100%; max-width: 500px; border-radius: 30px 30px 0 0; padding: 25px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.4s ease-out; box-sizing: border-box;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: flex-end; }
+        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 30px 30px 0 0; padding: 25px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.4s ease-out; box-sizing: border-box; }
         @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f4f4f4; padding-bottom: 15px; }
@@ -120,15 +64,11 @@
 
         label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 0.85rem; color: #444; }
         select, input[type="time"], input[type="text"] { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 1rem; box-sizing: border-box;}
-        
-        .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 700; margin-top: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); cursor: pointer;}
-
-        /* Couleurs Boutons Validation */
+        .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 700; margin-top: 25px; cursor: pointer;}
         .bg-presence { background: var(--color-presence); }
         .bg-ronde { background: var(--color-ronde); }
         .bg-controle { background: var(--color-controle); }
         .bg-eval { background: var(--color-eval); }
-
         .check-card { background: #f8fafc; padding: 15px; border-radius: 12px; margin-top: 10px; }
         .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; }
     </style>
@@ -161,10 +101,10 @@
     </div>
 
     <div id="mainMenu" class="menu-grid">
-        <div class="menu-item item-presence" onclick="openModal('modalPresence')">📌 Pointage Présence</div>
-        <div class="menu-item item-ronde" onclick="openModal('modalTerrain')">🧭 Contrôleur de Ronde</div>
-        <div class="menu-item item-controle" onclick="openModal('modalDaily')">📝 Contrôle Quotidien</div>
-        <div class="menu-item item-eval" onclick="openModal('modalEval')">🎓 Connaissance Réseau</div>
+        <div class="menu-item item-presence" onclick="openAndPreFill('modalPresence')">📌 Pointage Présence</div>
+        <div class="menu-item item-ronde" onclick="openAndPreFill('modalTerrain')">🧭 Contrôleur de Ronde</div>
+        <div class="menu-item item-controle" onclick="openAndPreFill('modalDaily')">📝 Contrôle Quotidien</div>
+        <div class="menu-item item-eval" onclick="openAndPreFill('modalEval')">🎓 Connaissance Réseau</div>
         <div class="menu-item item-recap" onclick="openModal('modalRecap')">📊 Récapitulatif Direct</div>
     </div>
 </div>
@@ -175,11 +115,11 @@
         <span style="font-weight: 700; color: var(--color-controle);">CONTRÔLE</span>
     </div>
     <label>Heure du contrôle</label><input type="time" id="heureCtrl">
-    <label>Ligne de transport</label><select class="sel-ligne" onchange="updateStations(this)"></select>
-    <label>Station concernée</label><select class="sel-station"></select>
-    <label>Nom de l'agent</label><input type="text" id="nomAgentDaily" placeholder="Nom complet">
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <label>Nom de l'agent</label><input type="text" id="nomAgentDaily" class="mem-agent" placeholder="Nom complet">
     <label>Prestataire</label>
-    <select id="presDaily"><option value="G4S">G4S</option><option value="RMO">RMO</option><option value="RDCA">RDCA</option></select>
+    <select id="presDaily" class="mem-pres"><option value="G4S">G4S</option><option value="RMO">RMO</option><option value="RDCA">RDCA</option></select>
     <label>Écarts constatés</label>
     <div class="check-card" id="groupEcarts">
         <label class="check-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
@@ -216,7 +156,9 @@
         <button class="btn-back" onclick="close_m('modalEval')">← Précédent</button>
         <span style="font-weight: 700; color: var(--color-eval);">ÉVALUATION</span>
     </div>
-    <label>Agent</label><input type="text" id="nomAgentEval">
+    <label>Agent</label><input type="text" id="nomAgentEval" class="mem-agent">
+    <label>Prestataire</label>
+    <select id="presEval" class="mem-pres"><option value="G4S">G4S</option><option value="RMO">RMO</option><option value="RDCA">RDCA</option></select>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
     <label>Station</label><select class="sel-station"></select>
     <label>Q1: Gamme tarifaire / Correspondances</label>
@@ -235,9 +177,14 @@
 </div></div>
 
 <script>
-    // URL SCRIPT & LOGIQUE CONSERVÉE
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec";
     
+    // MÉMOIRE LOCALE POUR LE PRÉ-REMPLISSAGE
+    let lastLigne = "";
+    let lastStation = "";
+    let lastAgent = "";
+    let lastPres = "G4S";
+
     let db;
     const dbReq = indexedDB.open("RondeCasaDB", 1);
     dbReq.onupgradeneeded = (e) => {
@@ -253,17 +200,12 @@
         const allRapports = store.getAll();
         allRapports.onsuccess = () => {
             if (allRapports.result.length > 0) {
-                let sentCount = 0;
                 allRapports.result.forEach((r) => {
-                    fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(r) }).then(() => {
-                        sentCount++;
-                        if(sentCount === allRapports.result.length) {
-                             const cleanTrans = db.transaction("rapports", "readwrite");
-                             cleanTrans.objectStore("rapports").clear();
-                             alert("📶 SYNC RÉUSSIE : " + sentCount + " rapports envoyés.");
-                        }
-                    });
+                    fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(r) });
                 });
+                const cleanTrans = db.transaction("rapports", "readwrite");
+                cleanTrans.objectStore("rapports").clear();
+                alert("📶 Synchronisation des données hors-ligne réussie.");
             }
         };
     }
@@ -276,7 +218,7 @@
         const passInput = document.getElementById('loginPass').value;
         if (matInput && matInput.startsWith("RATPDEV_")) {
             let mat = matInput.replace("RATPDEV_", "");
-            if (chefsData[mat] && passInput.length > 2) {
+            if (chefsData[mat] && passInput.length >= 3) {
                 loggedInUser = chefsData[mat];
                 document.getElementById('authSection').style.display = 'none';
                 document.getElementById('dashboard').style.display = 'block';
@@ -286,9 +228,10 @@
                 return;
             }
         }
-        alert("Matricule ou mot de passe invalide.");
+        alert("Matricule ou mot de passe incorrect.");
     }
 
+    // Données stations complètes conservées
     const stationsData = {
         "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] },
         "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] },
@@ -301,6 +244,32 @@
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function close_m(id) { document.getElementById(id).style.display = 'none'; }
 
+    // FONCTION DE PRÉ-REMPLISSAGE
+    function openAndPreFill(id) {
+        openModal(id);
+        const modal = document.getElementById(id);
+        
+        // 1. Heure automatique
+        const now = new Date();
+        const timeStr = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+        const hInput = modal.querySelector('input[type="time"]');
+        if(hInput) hInput.value = timeStr;
+
+        // 2. Ligne et Station (mémoire)
+        if(lastLigne) {
+            const lSel = modal.querySelector('.sel-ligne');
+            if(lSel) {
+                lSel.value = lastLigne;
+                updateStations(lSel);
+                if(lastStation) modal.querySelector('.sel-station').value = lastStation;
+            }
+        }
+
+        // 3. Agent et Prestataire (mémoire)
+        modal.querySelectorAll('.mem-agent').forEach(i => i.value = lastAgent);
+        modal.querySelectorAll('.mem-pres').forEach(s => s.value = lastPres);
+    }
+
     function remplirLignes() {
         document.querySelectorAll('.sel-ligne').forEach(s => {
             s.innerHTML = '<option value="">-- Ligne --</option>';
@@ -309,26 +278,28 @@
     }
 
     function updateStations(el) {
+        lastLigne = el.value;
         const sSelect = el.closest('.modal-content').querySelector('.sel-station');
         sSelect.innerHTML = '<option value="">-- Station --</option>';
         if(stationsData[el.value]) {
             Object.keys(stationsData[el.value]).forEach(st => { sSelect.innerHTML += `<option value="${st}">${st}</option>`; });
         }
+        sSelect.onchange = (e) => { lastStation = e.target.value; };
     }
 
     function getDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371e3; 
-        const dLat = (lat2-lat1) * Math.PI/180;
-        const dLon = (lon2-lon1) * Math.PI/180;
-        const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+        const R = 6371e3;
+        const dLat = (lat2-lat1)*Math.PI/180;
+        const dLon = (lon2-lon1)*Math.PI/180;
+        const a = Math.sin(dLat/2)*Math.sin(dLat/2) + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)*Math.sin(dLon/2);
         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     }
 
     function envoyerOuStocker(data, modalId) {
         if (navigator.onLine) {
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) }).then(() => { 
-                alert("✅ RAPPORT TRANSMIS"); 
-                if(modalId) close_m(modalId); 
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) }).then(() => {
+                alert("✅ TRANSMISSION RÉUSSIE");
+                close_m(modalId);
             }).catch(() => stockerLocalement(data, modalId));
         } else { stockerLocalement(data, modalId); }
     }
@@ -336,33 +307,35 @@
     function stockerLocalement(data, modalId) {
         const trans = db.transaction("rapports", "readwrite");
         trans.objectStore("rapports").add(data);
-        alert("⚠️ HORS-LIGNE : Rapport sauvegardé sur l'appareil.");
-        if(modalId) close_m(modalId);
+        alert("⚠️ MODE HORS-LIGNE : Rapport sauvegardé localement.");
+        close_m(modalId);
     }
 
     function validerControleLibre() {
-        const boxes = document.querySelectorAll('#groupEcarts input:checked');
-        let ec = Array.from(boxes).map(b => b.value).join(', ');
-        const h = document.getElementById('heureCtrl').value, l = document.querySelector('#modalDaily .sel-ligne').value, s = document.querySelector('#modalDaily .sel-station').value, ag = document.getElementById('nomAgentDaily').value;
-        if(!h || !l || !s || !ag) return alert("Champs incomplets.");
-        envoyerOuStocker({ type: "CONTROLE_QUOTIDIEN", targetSheet: "Feuille 2", chef: loggedInUser, heure: h, ligne: l, station: s, agent: ag, prestataire: document.getElementById('presDaily').value, ecarts: ec || "Aucun" }, 'modalDaily');
+        const h = document.getElementById('heureCtrl').value, l = lastLigne, s = lastStation, ag = document.getElementById('nomAgentDaily').value, pr = document.getElementById('presDaily').value;
+        if(!h || !l || !s || !ag) return alert("Veuillez remplir les champs obligatoires.");
+        
+        lastAgent = ag; lastPres = pr;
+        const ec = Array.from(document.querySelectorAll('#groupEcarts input:checked')).map(b => b.value).join(', ');
+        envoyerOuStocker({ type: "CONTROLE_QUOTIDIEN", targetSheet: "Feuille 2", chef: loggedInUser, heure: h, ligne: l, station: s, agent: ag, prestataire: pr, ecarts: ec || "Aucun" }, 'modalDaily');
     }
 
     function validerConnaissance() {
-        const ag = document.getElementById('nomAgentEval').value, l = document.querySelector('#modalEval .sel-ligne').value, s = document.querySelector('#modalEval .sel-station').value;
-        if(!ag || !l || !s) return alert("Champs incomplets.");
-        envoyerOuStocker({ type: "CONNAISSANCE_RESEAU", targetSheet: "Feuille 3", chef: loggedInUser, agent: ag, ligne: l, station: s, q1: document.getElementById('q1Eval').value, q2: document.getElementById('q2Eval').value }, 'modalEval');
+        const ag = document.getElementById('nomAgentEval').value, pr = document.getElementById('presEval').value, l = lastLigne, s = lastStation;
+        if(!ag || !l || !s) return alert("Veuillez remplir les champs obligatoires.");
+        
+        lastAgent = ag; lastPres = pr;
+        envoyerOuStocker({ type: "CONNAISSANCE_RESEAU", targetSheet: "Feuille 3", chef: loggedInUser, agent: ag, prestataire: pr, ligne: l, station: s, q1: document.getElementById('q1Eval').value, q2: document.getElementById('q2Eval').value }, 'modalEval');
     }
 
     function validerGeneric(btn, action, serv, checkGPS) {
-        const m = btn.closest('.modal-content');
-        const l = m.querySelector('.sel-ligne').value, s = m.querySelector('.sel-station').value;
+        const l = lastLigne, s = lastStation;
         if(!l || !s) return alert("Sélectionnez Ligne et Station !");
         
         navigator.geolocation.getCurrentPosition((pos) => {
             if (checkGPS) {
                 const dist = getDistance(pos.coords.latitude, pos.coords.longitude, stationsData[l][s][0], stationsData[l][s][1]);
-                if (dist > 80) return alert("DISTANCE : Vous êtes à " + Math.round(dist) + "m de la station.");
+                if (dist > 80) return alert("ERREUR : Vous êtes trop loin de la station (" + Math.round(dist) + "m).");
             }
             envoyerOuStocker({ type: action, chef: loggedInUser, service: serv, ligne: l, station: s, gps: pos.coords.latitude+","+pos.coords.longitude }, btn.closest('.modal').id);
         }, () => alert("GPS requis."));
