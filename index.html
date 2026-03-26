@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <link rel="manifest" href="manifest.json">
 <head>
+    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GESTION TERRITOIRE V4</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon" href="logo_ratp_dev_casa.png">
+    <meta name="theme-color" content="#0055A4">
+
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -132,7 +138,16 @@
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec";
     
-    // Coordonnées stations simplifiées pour l'exemple (T1 à BW2)
+    // Base de données hors-ligne
+    let db;
+    const dbReq = indexedDB.open("RondeCasaDB", 1);
+    dbReq.onupgradeneeded = (e) => {
+        db = e.target.result;
+        if (!db.objectStoreNames.contains("rapports")) db.createObjectStore("rapports", { autoIncrement: true });
+    };
+    dbReq.onsuccess = (e) => { db = e.target.result; };
+
+    // Données (Stations & Chefs)
     const stationsData = {
         "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] },
         "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] },
@@ -195,6 +210,42 @@
         return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     }
 
+    // FONCTION UNIFIÉE POUR ENVOI OU STOCKAGE HORS-LIGNE
+    function envoyerOuStocker(data, modalId) {
+        if (navigator.onLine) {
+            // SI EN LIGNE : ENVOI DIRECT
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
+            .then(() => { 
+                alert("✅ RAPPORT ENVOYÉ"); 
+                if(modalId) close_m(modalId); 
+            });
+        } else {
+            // SI HORS LIGNE : STOCKAGE LOCAL
+            const trans = db.transaction("rapports", "readwrite");
+            trans.objectStore("rapports").add(data);
+            alert("⚠️ HORS-LIGNE : Rapport enregistré localement. Il sera envoyé automatiquement dès le retour d'internet.");
+            if(modalId) close_m(modalId);
+        }
+    }
+
+    // RE-ENVOI AUTOMATIQUE LORSQUE LE RÉSEAU REVIENT
+    window.addEventListener('online', () => {
+        const trans = db.transaction("rapports", "readwrite");
+        const store = trans.objectStore("rapports");
+        const allRapports = store.getAll();
+        allRapports.onsuccess = () => {
+            if (allRapports.result.length > 0) {
+                allRapports.result.forEach(r => {
+                    fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(r) });
+                });
+                const cleanTrans = db.transaction("rapports", "readwrite");
+                cleanTrans.objectStore("rapports").clear();
+                alert("📶 CONNEXION RÉTABLIE : Tous les rapports en attente ont été envoyés !");
+            }
+        };
+    });
+
+    // VALIDER CONTROLE QUOTIDIEN
     function validerControleLibre() {
         const boxes = document.querySelectorAll('#groupEcarts input:checked');
         let ec = Array.from(boxes).map(b => b.value).join(', ');
@@ -202,41 +253,23 @@
         const ag = document.getElementById('nomAgentDaily').value, pr = document.getElementById('presDaily').value;
         if(!h || !l || !s || !ag) return alert("Veuillez remplir tous les champs.");
         
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ 
-            type: "CONTROLE_QUOTIDIEN", targetSheet: "Feuille 2", chef: loggedInUser, heure: h, ligne: l, station: s, agent: ag, prestataire: pr, ecarts: ec || "Aucun" 
-        })})
-        .then(() => { alert("✅ RAPPORT ENVOYÉ"); close_m('modalDaily'); });
+        const payload = { type: "CONTROLE_QUOTIDIEN", targetSheet: "Feuille 2", chef: loggedInUser, heure: h, ligne: l, station: s, agent: ag, prestataire: pr, ecarts: ec || "Aucun" };
+        envoyerOuStocker(payload, 'modalDaily');
     }
 
+    // VALIDER CONNAISSANCE RESEAU
     function validerConnaissance() {
-    const ag = document.getElementById('nomAgentEval').value;
-    const pr = document.getElementById('presEval').value;
-    const l = document.querySelector('#modalEval .sel-ligne').value;
-    const s = document.querySelector('#modalEval .sel-station').value;
-    
-    if(!ag || !l || !s) return alert("Veuillez remplir les informations obligatoires.");
-    
-    fetch(SCRIPT_URL, { 
-        method: 'POST', 
-        mode: 'no-cors', 
-        body: JSON.stringify({ 
-            type: "CONNAISSANCE_RESEAU", 
-            targetSheet: "Feuille 3", // <--- Nouvelle instruction
-            chef: loggedInUser, 
-            agent: ag, 
-            prestataire: pr, 
-            ligne: l, 
-            station: s, 
-            q1: document.getElementById('q1Eval').value, 
-            q2: document.getElementById('q2Eval').value 
-        })
-    })
-    .then(() => { 
-        alert("✅ ÉVALUATION ENREGISTRÉE (FEUILLE 3)"); 
-        close_m('modalEval'); 
-    });
-}
+        const ag = document.getElementById('nomAgentEval').value;
+        const pr = document.getElementById('presEval').value;
+        const l = document.querySelector('#modalEval .sel-ligne').value;
+        const s = document.querySelector('#modalEval .sel-station').value;
+        if(!ag || !l || !s) return alert("Veuillez remplir les informations obligatoires.");
+        
+        const payload = { type: "CONNAISSANCE_RESEAU", targetSheet: "Feuille 3", chef: loggedInUser, agent: ag, prestataire: pr, ligne: l, station: s, q1: document.getElementById('q1Eval').value, q2: document.getElementById('q2Eval').value };
+        envoyerOuStocker(payload, 'modalEval');
+    }
 
+    // VALIDER GENERIC (GPS)
     function validerGeneric(btn, action, serv, checkGPS) {
         const m = btn.closest('.modal-content');
         const l = m.querySelector('.sel-ligne').value, s = m.querySelector('.sel-station').value;
@@ -250,19 +283,21 @@
                 const distance = getDistance(userLat, userLon, targetPos[0], targetPos[1]);
                 if (distance > 80) return alert("ERREUR GPS : Vous êtes à " + Math.round(distance) + "m de la station. (Limite : 80m)");
             }
-            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify({ type: action, chef: loggedInUser, service: serv, ligne: l, station: s, gps: userLat+","+userLon })})
-            .then(() => { alert("✅ ENREGISTRÉ"); close_m(btn.closest('.modal').id); });
+            const payload = { type: action, chef: loggedInUser, service: serv, ligne: l, station: s, gps: userLat+","+userLon };
+            envoyerOuStocker(payload, btn.closest('.modal').id);
         }, () => alert("GPS indisponible ! Activez la localisation."));
     }
 </script>
-    <script>
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('Service Worker enregistré !', reg))
-        .catch(err => console.log('Erreur SW:', err));
-    });
-  }
+
+<script>
+    // Enregistrement Service Worker
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js')
+            .then(reg => console.log('Service Worker enregistré !', reg))
+            .catch(err => console.log('Erreur SW:', err));
+        });
+    }
 </script>
 </body>
 </html>
