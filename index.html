@@ -334,7 +334,7 @@
         navigator.geolocation.getCurrentPosition(pos => {
             if (checkGPS) {
                 const dist = getDistance(pos.coords.latitude, pos.coords.longitude, stationsData[lastLigne][lastStation][0], stationsData[lastLigne][lastStation][1]);
-                if (dist > 500) return alert("Trop loin !");
+                if (dist > 80) return alert("Trop loin !");
             }
             envoyerOuStocker({ type: action, chef: loggedInUser, service: serv, ligne: lastLigne, station: lastStation, gps: pos.coords.latitude+","+pos.coords.longitude }, btn.closest('.modal').id);
         }, () => alert("GPS requis."));
