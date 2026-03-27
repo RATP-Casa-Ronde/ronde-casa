@@ -125,11 +125,14 @@
 <div id="modalTerrain" class="modal"><div class="modal-content">
     <div class="modal-header">
         <button class="btn-back" onclick="close_m('modalTerrain')">← Précédent</button>
-        <span style="font-weight: 700; color: var(--color-ronde);">RONDE GPS</span>
+        <span style="font-weight: 700; color: var(--color-ronde);">CONTRÔLEUR DE RONDE</span>
     </div>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
     <label>Station</label><select class="sel-station"></select>
-    <div style="margin-top: 20px;">
+    
+    <div id="timerDisplay" style="text-align:center; padding: 15px; margin-top: 10px; font-weight: 600; border-radius: 10px; background: #f8f9fa;"></div>
+
+    <div style="margin-top: 10px;">
         <button class="btn-submit bg-ronde" onclick="validerRonde('ARRIVEE')">ARRIVÉE EN STATION</button>
         <button class="btn-submit btn-depart" onclick="validerRonde('DEPART')">DÉPART DE STATION</button>
     </div>
