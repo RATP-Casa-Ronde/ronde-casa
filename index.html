@@ -119,9 +119,39 @@
         <div class="menu-item item-ronde" onclick="openAndPreFill('modalTerrain')">🧭 Contrôleur de Ronde</div>
         <div class="menu-item item-controle" onclick="openAndPreFill('modalDaily')">📝 Contrôle Quotidien</div>
         <div class="menu-item item-eval" onclick="openAndPreFill('modalEval')">🎓 Connaissance Réseau</div>
-        <div class="menu-item item-f1f2" onclick="openAndPreFill('modalF1F2')">🛡️ Dispositif F1/F2</div>
+        <div class="menu-item item-f1f2" onclick="openAndPreFill('modalF1F2')">🛡️ Dispositif (F1/F2/Match)</div>
     </div>
 </div>
+
+<div id="modalF1F2" class="modal"><div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-back" onclick="close_m('modalF1F2')">← Précédent</button>
+        <span style="font-weight:700; color:var(--color-f1f2);">DISPOSITIF</span>
+    </div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    
+    <label>Type de Dispositif</label>
+    <select id="typeF1F2">
+        <option value="F1">F1</option>
+        <option value="F2">F2</option>
+        <option value="Match">Match</option>
+        <option value="Evènement">Evènement</option>
+    </select>
+
+    <div style="display: flex; gap: 10px;">
+        <div style="flex: 1;">
+            <label>Heure Début</label>
+            <input type="time" id="hDebutF1F2">
+        </div>
+        <div style="flex: 1;">
+            <label>Heure Fin</label>
+            <input type="time" id="hFinF1F2">
+        </div>
+    </div>
+
+    <button class="btn-submit bg-f1f2" onclick="validerF1F2()">VALIDER DISPOSITIF</button>
+</div></div>
 
 <div id="modalTerrain" class="modal"><div class="modal-content">
     <div class="modal-header">
@@ -135,22 +165,6 @@
         <button class="btn-submit bg-ronde" onclick="validerRonde('ARRIVEE')">ARRIVÉE EN STATION</button>
         <button class="btn-submit btn-depart" onclick="validerRonde('DEPART')">DÉPART DE STATION</button>
     </div>
-</div></div>
-
-<div id="modalF1F2" class="modal"><div class="modal-content">
-    <div class="modal-header">
-        <button class="btn-back" onclick="close_m('modalF1F2')">← Précédent</button>
-        <span style="font-weight:700; color:var(--color-f1f2);">DISPOSITIF F1/F2</span>
-    </div>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
-    <label>Station</label><select class="sel-station"></select>
-    <label>Agent</label><input type="text" id="agentF1F2" class="mem-agent" placeholder="Nom de l'agent">
-    <label>Type de Dispositif</label>
-    <select id="typeF1F2">
-        <option value="F1">F1</option>
-        <option value="F2">F2</option>
-    </select>
-    <button class="btn-submit bg-f1f2" onclick="validerF1F2()">VALIDER DISPOSITIF</button>
 </div></div>
 
 <div id="modalPresence" class="modal"><div class="modal-content">
@@ -241,8 +255,11 @@
     function openAndPreFill(id) {
         openModal(id);
         const modal = document.getElementById(id);
-        const timeInput = modal.querySelector('input[type="time"]');
-        if(timeInput) timeInput.value = new Date().toTimeString().slice(0,5);
+        const timeInputs = modal.querySelectorAll('input[type="time"]');
+        if(timeInputs) {
+            const now = new Date().toTimeString().slice(0,5);
+            timeInputs.forEach(ti => ti.value = now);
+        }
         if(lastLigne) {
             const lSel = modal.querySelector('.sel-ligne');
             if(lSel) { lSel.value = lastLigne; updateStations(lSel); if(lastStation) modal.querySelector('.sel-station').value = lastStation; }
@@ -323,11 +340,22 @@
         store.add(data); alert("⚠️ Sauvegardé localement (Hors-ligne)"); close_m(modalId);
     }
 
+    // DISPOSITIF MIS À JOUR SANS CHAMP AGENT
     function validerF1F2() {
-        const ag = document.getElementById('agentF1F2').value, type = document.getElementById('typeF1F2').value;
-        if(!ag || !lastLigne || !lastStation) return alert("Veuillez remplir tous les champs.");
-        lastAgent = ag;
-        envoyerOuStocker({ type: "DISPOSITIF " + type, chef: loggedInUser, agent: ag, ligne: lastLigne, station: lastStation }, 'modalF1F2');
+        const type = document.getElementById('typeF1F2').value;
+        const hD = document.getElementById('hDebutF1F2').value;
+        const hF = document.getElementById('hFinF1F2').value;
+
+        if(!lastLigne || !lastStation || !hD || !hF) return alert("Veuillez remplir tous les champs.");
+        
+        envoyerOuStocker({ 
+            type: "DISPOSITIF " + type, 
+            chef: loggedInUser, 
+            ligne: lastLigne, 
+            station: lastStation,
+            heureDebut: hD,
+            heureFin: hF
+        }, 'modalF1F2');
     }
 
     function validerControleLibre() {
