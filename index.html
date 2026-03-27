@@ -5,12 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GESTION TERRITOIRE V4 - PRO</title>
-    
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="logo_ratp_dev_casa.png">
     <meta name="theme-color" content="#004578">
-
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -20,130 +18,125 @@
             --color-presence: #27ae60; --color-ronde: #2980b9; --color-controle: #d35400;
             --color-eval: #8e44ad; --color-recap: #2c3e50;
         }
-
         body { font-family: 'Poppins', sans-serif; background: #f4f7f9; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-
         .header-brand { background: white; width: 100%; padding: 15px 0; display: flex; justify-content: center; align-items: center; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
         .logo-ratp { height: 110px; width: auto; object-fit: contain; }
         .logo-casa { height: 45px; width: auto; object-fit: contain; }
-
         .main-container { width: 90%; max-width: 450px; display: flex; flex-direction: column; gap: 20px; }
-
         .login-card { background: var(--grad-turquoise); padding: 35px 25px; border-radius: 24px; box-shadow: 0 20px 40px rgba(29, 209, 161, 0.25); text-align: center; }
         .login-card h2 { color: white; margin-bottom: 25px; font-weight: 700; font-size: 1.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-        .login-card input { width: 100%; padding: 14px; border-radius: 12px; border: none; background: rgba(255, 255, 255, 0.9); margin-top: 10px; box-sizing: border-box; }
-
-        .btn-login { background: var(--grad-blue); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; margin-top: 20px; cursor: pointer; }
-
-        .dashboard-info { display: none; background: var(--grad-turquoise); color: white; padding: 25px; border-radius: 20px; position: relative; width: 100%; box-sizing: border-box; box-shadow: 0 10px 20px rgba(29, 209, 161, 0.3); }
-        .btn-logout-top { position: absolute; right: 15px; top: 15px; background: rgba(255,255,255,0.3); border: none; color: white; padding: 5px 10px; border-radius: 8px; }
-
+        .input-group { margin-bottom: 15px; text-align: left; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 600; color: white; margin-bottom: 5px; margin-left: 5px; }
+        .login-card input { width: 100%; padding: 14px 18px; border-radius: 12px; border: none; background: rgba(255, 255, 255, 0.9); font-size: 1rem; box-sizing: border-box; }
+        .btn-login { background: var(--grad-blue); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 15px rgba(0,69,120,0.3); }
+        .dashboard-info { display: none; background: var(--grad-turquoise); color: white; padding: 25px; border-radius: 20px; margin-bottom: 15px; position: relative; width: 100%; box-sizing: border-box; }
+        .btn-logout-top { position: absolute; right: 15px; top: 15px; background: rgba(255,255,255,0.3); border: none; color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.7rem; }
         .menu-grid { display: none; grid-template-columns: 1fr; gap: 15px; width: 100%; }
-        .menu-item { background: white; padding: 22px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); cursor: pointer; border-left: 6px solid #ccc; }
+        .menu-item { background: white; padding: 22px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: var(--text-dark); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; cursor: pointer; border-left: 6px solid #ccc; }
         .item-presence { border-left-color: var(--color-presence); }
         .item-ronde { border-left-color: var(--color-ronde); }
         .item-controle { border-left-color: var(--color-controle); }
         .item-eval { border-left-color: var(--color-eval); }
         .item-recap { border-left-color: var(--color-recap); }
-
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: flex-end; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: flex-end; }
         .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 30px 30px 0 0; padding: 25px; max-height: 90vh; overflow-y: auto; box-sizing: border-box; }
-        
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f4f4f4; padding-bottom: 15px; }
         .btn-back { background: #eee; border: none; padding: 8px 15px; border-radius: 10px; font-weight: 600; cursor: pointer; }
-
-        label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 0.85rem; }
-        select, input { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 1rem; box-sizing: border-box; }
-        .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 700; margin-top: 15px; cursor: pointer; }
-        
-        /* Styles spécifiques pour le double bouton de ronde */
-        .btn-ronde-arr { background: var(--color-ronde); margin-bottom: 10px; }
-        .btn-ronde-dep { background: #2c3e50; }
-        .timer-msg { text-align: center; color: #e74c3c; font-size: 0.8rem; margin-top: 10px; font-weight: 600; }
+        label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 0.85rem; color: #444; }
+        select, input[type="time"], input[type="text"] { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 1rem; box-sizing: border-box;}
+        .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 700; margin-top: 25px; cursor: pointer;}
+        .bg-presence { background: var(--color-presence); }
+        .bg-ronde { background: var(--color-ronde); }
+        .bg-controle { background: var(--color-controle); }
+        .bg-eval { background: var(--color-eval); }
     </style>
 </head>
 <body>
 
 <div class="header-brand">
-    <img src="logo_ratp_dev_casa.png" class="logo-ratp">
-    <img src="logo_casa_group.png" class="logo-casa">
+    <img src="logo_ratp_dev_casa.png" alt="RATP Dev" class="logo-ratp">
+    <img src="logo_casa_group.png" alt="Casa Group" class="logo-casa">
 </div>
 
 <div class="main-container">
     <div id="authSection" class="login-card">
         <h2>PORTAIL CHEF DE ZONE</h2>
-        <input type="text" id="loginMat" placeholder="RATPDEV_XXXX">
-        <input type="password" id="loginPass" placeholder="••••••••">
+        <div class="input-group">
+            <label>Identifiant (Matricule)</label>
+            <input type="text" id="loginMat" placeholder="Ex: RATPDEV_1234">
+        </div>
+        <div class="input-group">
+            <label>Mot de passe</label>
+            <input type="password" id="loginPass" placeholder="••••••••">
+        </div>
         <button class="btn-login" onclick="connexionPro()">SE CONNECTER</button>
     </div>
 
     <div id="dashboard" class="dashboard-info">
         <button class="btn-logout-top" onclick="location.reload()">Quitter</button>
         <h3>Tableau de Bord</h3>
-        <span id="userName">Chef de Zone</span>
+        <span id="userName" style="font-weight: 300;">Chargement...</span>
     </div>
 
     <div id="mainMenu" class="menu-grid">
         <div class="menu-item item-presence" onclick="openAndPreFill('modalPresence')">📌 Pointage Présence</div>
-        <div class="menu-item item-ronde" onclick="openAndPreFill('modalTerrain')">🧭 Contrôleur de Ronde (15min)</div>
+        <div class="menu-item item-ronde" onclick="openAndPreFill('modalTerrain')">🧭 Contrôleur de Ronde</div>
         <div class="menu-item item-controle" onclick="openAndPreFill('modalDaily')">📝 Contrôle Quotidien</div>
         <div class="menu-item item-eval" onclick="openAndPreFill('modalEval')">🎓 Connaissance Réseau</div>
         <div class="menu-item item-recap" onclick="openModal('modalRecap')">📊 Récapitulatif Direct</div>
     </div>
 </div>
 
-<div id="modalTerrain" class="modal"><div class="modal-content">
-    <div class="modal-header">
-        <button class="btn-back" onclick="close_m('modalTerrain')">← Précédent</button>
-        <span style="font-weight: 700; color: var(--color-ronde);">RONDE SÉCURISÉE</span>
-    </div>
-    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
-    <label>Station</label><select class="sel-station"></select>
-    
-    <button class="btn-submit btn-ronde-arr" onclick="validerArrivee(this)">1. TAGUER L'ARRIVÉE</button>
-    <button class="btn-submit btn-ronde-dep" onclick="validerDepart(this)">2. TAGUER LE DÉPART</button>
-    
-    <div id="timerDisplay" class="timer-msg"></div>
-</div></div>
-
 <div id="modalPresence" class="modal"><div class="modal-content">
-    <div class="modal-header"><button class="btn-back" onclick="close_m('modalPresence')">←</button><span>PRÉSENCE</span></div>
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalPresence')">← Retour</button><span style="color: var(--color-presence);">PRÉSENCE</span></div>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
     <label>Station</label><select class="sel-station"></select>
-    <button class="btn-submit" style="background:var(--color-presence)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE', true)">PRISE DE SERVICE</button>
-    <button class="btn-submit" style="background:#c0392b" onclick="validerGeneric(this, 'FIN DE SERVICE', 'MATIN', true)">FIN DE SERVICE</button>
+    <button class="btn-submit bg-presence" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE', true)">PRISE DE SERVICE</button>
+    <button class="btn-submit" style="background:#c0392b; margin-top:10px;" onclick="validerGeneric(this, 'FIN DE SERVICE', 'MATIN', true)">FIN DE SERVICE</button>
 </div></div>
 
 <div id="modalDaily" class="modal"><div class="modal-content">
-    <div class="modal-header"><button class="btn-back" onclick="close_m('modalDaily')">←</button><span>CONTRÔLE</span></div>
-    <label>Heure</label><input type="time" id="heureCtrl">
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalDaily')">← Retour</button><span style="color: var(--color-controle);">CONTRÔLE</span></div>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
     <label>Station</label><select class="sel-station"></select>
     <label>Agent</label><input type="text" id="nomAgentDaily" class="mem-agent">
-    <label>Prestataire</label><select id="presDaily"><option>G4S</option><option>RMO</option><option>RDCA</option></select>
-    <button class="btn-submit" style="background:var(--color-controle)" onclick="validerControleLibre()">ENVOYER</button>
+    <label>Prestataire</label><select id="presDaily" class="mem-pres"><option value="G4S">G4S</option><option value="RMO">RMO</option><option value="RDCA">RDCA</option></select>
+    <button class="btn-submit bg-controle" onclick="validerControleLibre()">ENVOYER LE RAPPORT</button>
 </div></div>
 
-<div id="modalRecap" class="modal"><div class="modal-content" style="height:90vh"><button onclick="close_m('modalRecap')">Fermer</button><iframe src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe></div></div>
+<div id="modalTerrain" class="modal"><div class="modal-content">
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalTerrain')">← Retour</button><span style="color: var(--color-ronde);">RONDE GPS</span></div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <button class="btn-submit bg-ronde" onclick="validerGeneric(this, 'TAGUER', 'N/A', true)">TAGUER LA STATION</button>
+</div></div>
+
+<div id="modalEval" class="modal"><div class="modal-content">
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalEval')">← Retour</button><span style="color: var(--color-eval);">ÉVALUATION</span></div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <label>Agent</label><input type="text" id="nomAgentEval" class="mem-agent">
+    <label>Prestataire</label><select id="presEval" class="mem-pres"><option value="G4S">G4S</option><option value="RMO">RMO</option><option value="RDCA">RDCA</option></select>
+    <label>Q1: Tarifs/Corr.</label><select id="q1Eval"><option value="Maîtrise">Maîtrise</option><option value="Non Maîtrise">Non Maîtrise</option></select>
+    <button class="btn-submit bg-eval" onclick="validerConnaissance()">VALIDER L'ÉVALUATION</button>
+</div></div>
+
+<div id="modalRecap" class="modal"><div class="modal-content" style="height:90vh; border-radius:0;">
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalRecap')">← Retour</button><span>RÉCAPITULATIF</span></div>
+    <iframe src="https://docs.google.com/spreadsheets/d/1_TNVG7NIdZ-vWqA_v8E4WbLhG7-l8mR6-Yp1E6s-4Xw/preview" style="width:100%;height:100%;border:none;"></iframe>
+</div></div>
 
 <script>
-    const SCRIPT_URL = "VOTRE_URL_ICI";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec";
+    
+    // DATA & STATIONS
     const chefsData = {"1436":"Redouane Zaoui", "355":"Mouhcin RACHDAOUI", "90":"Fouad MAHMAH", "72":"Zakia AMMARI", "760":"Monsif MARZOUK", "591":"Hassan MOUTTAQUINE", "85":"El mostafa ERRAHMOUNI", "86":"Youssef ABOUHILAL", "506":"Anass CHOUKRI", "447":"Rachid BAZZAZ", "185":"Aicha ESSAHMI", "274":"Youssef EZZAMANIDI", "1061":"Ayoub AQASBY", "84":"Mohamed FRIMAN", "74":"Ouissal NASSOUHE", "81":"Mohamed REGRAGUI", "173":"Taha NAJHI", "534":"Mohamed CHAGUE", "430":"Mohamed SADOK", "518":"Samir HOUD", "346":"Youness MAATOUS", "254":"Azddine GOUTE", "643":"Nourddine KARDANE", "1137":"Abdelilah HARIRI", "193":"Bader HAMDA", "712":"Abdelkader OUELDBA", "820":"Samir AKLIA", "262":"Zakaria LAHMITI", "411":"Elbouazzaoui ERRAKI", "147":"Hicham ZAHIDI", "91":"Mounsif FOUAD", "82":"Rachid EL HAFYANI", "422":"El Mehdi EL MISSIOUI", "1386":"Fahd CHAHTI", "687":"Amine MOUSSADAK", "549":"Wadii LARHA", "708":"Ouahid LAYLI", "77":"Siham KASSEMI", "1063":"Aziz DOUMI", "654":"Abderrahman BECHTAOUI"};
-    const stationsData = { "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] }, "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] } };
+    const stationsData = { "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] }, "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] }, "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "10 Mars": [33.5518,-7.5509], "Abdelkader Essahraoui": [33.5557,-7.5475], "Idriss El Allam": [33.5596,-7.5508], "Hay Lalla Meriem": [33.5572,-7.5580], "Jardin Alesco": [33.5508,-7.5686], "Abdessalam Ennaciri": [33.5485,-7.5725], "6 Novembre": [33.5466,-7.5756], "Bd Mohammed VI": [33.5435,-7.5815], "Dar Attouzani": [33.5489,-7.5865], "Afriquia": [33.5546,-7.5923], "Abou Chouaïb Doukali": [33.5615,-7.5947], "Derb Chorfa": [33.5664,-7.5956], "Derb Tolba": [33.5710,-7.5967], "Garage Allal": [33.5756,-7.5989], "Habous": [33.5785,-7.6005], "Mohammed Zerktouni": [33.5926,-7.6086], "Place de la Victoire": [33.5878,-7.6082], "Mohammed Smiha": [33.5926,-7.6086], "Casa Port Terminus": [33.5979,-7.6110] }, "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Zone Industrielle": [33.5707,-7.5239], "Moulay Rachid": [33.5714,-7.5312], "Mohammed Jaudar": [33.5684,-7.5361], "Faculté Ben Msik": [33.5660,-7.5429], "Hay El Falah": [33.5633,-7.5476], "Idriss El Harti": [33.5614,-7.5509], "Mohammed Bouziane": [33.5635,-7.5542], "Hay Assalama": [33.5676,-7.5583], "Boulevard du Nil": [33.5664,-7.5647], "Chtaiba": [33.5651,-7.5707], "Hay Tissir": [33.5723,-7.5805], "Gare Oulad Ziane": [33.5758,-7.5856], "Ain Borja": [33.5802,-7.5917], "Ifni": [33.5846,-7.5980], "La Gironde": [33.5873,-7.6009], "Jaber Ibn Hayane": [33.5887,-7.6076], "Mers Sultan": [33.5876,-7.6158], "Parc de la ligue arabe Terminus": [33.5879,-7.6217] }, "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Sbata": [33.5385,-7.5547], "Stade Tessema": [33.5410,-7.5587], "Al Joulane": [33.5439,-7.5621], "Lahrizi": [33.5400,-7.5684], "Jardin Sunday": [33.5365,-7.5741], "Amgala": [33.5399,-7.5790], "Al Qods": [33.5438,-7.5819], "Sefrou": [33.5424,-7.5885], "Taza": [33.5420,-7.5899], "Al Inara": [33.5396,-7.5992], "Oulad Haddou": [33.5372,-7.6052], "Hay Chrifa": [33.5350,-7.6098], "Taddart": [33.5323,-7.6166], "Azzohour": [33.5306,-7.6229], "Californie": [33.5313,-7.6305], "Casa Nearshore": [33.5302,-7.6387], "Al Moustakbal": [33.5315,-7.6467], "Sidi Maarouf": [33.5329,-7.6512], "Omar El Khayam Terminus": [33.5402,-7.6669] }, "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "La Ferme": [33.5225,-7.7511], "Ouled Ahmed": [33.5248,-7.7461], "Les Ecoles": [33.5265,-7.7398], "Oued Sbou": [33.5285,-7.7338], "Errahma": [33.5315,-7.7287], "Les Jardins D’Errahma": [33.5383,-7.7178], "La Perception": [33.5379,-7.7186], "La Rocade": [33.5438,-7.7092], "Abouab Oulfa": [33.5462,-7.7049], "Moulay Thami": [33.5484,-7.7010], "Essafa": [33.5509,-7.6962], "Haj Fateh": [33.5533,-7.6898], "Moulouya": [33.5563,-7.6835], "Oued Beht": [33.5583,-7.6794], "Oued Laou": [33.5599,-7.6746], "Oued Oum Rabia": [33.5614,-7.6694], "Les Musées": [33.5633,-7.6649], "Aéropostale": [33.5650,-7.6605], "C.I.L.": [33.5673,-7.6562], "Yaacoub Al Mansour": [33.5694,-7.6527], "Oulmes Terminus": [33.5715,-7.6486] } };
 
     let loggedInUser = "";
-    let lastLigne = "";
-    let lastStation = "";
+    let lastLigne = "", lastStation = "", lastAgent = "", lastPres = "G4S";
 
-    // GESTION HORS LIGNE (INDEXEDDB)
-    let db;
-    const dbReq = indexedDB.open("RondeCasaDB", 1);
-    dbReq.onupgradeneeded = (e) => {
-        db = e.target.result;
-        if (!db.objectStoreNames.contains("rapports")) db.createObjectStore("rapports", { autoIncrement: true });
-    };
-    dbReq.onsuccess = (e) => { db = e.target.result; };
-
+    // CORE FUNCTIONS
     function connexionPro() {
         const mat = document.getElementById('loginMat').value.replace("RATPDEV_", "");
         if (chefsData[mat]) {
@@ -153,13 +146,13 @@
             document.getElementById('mainMenu').style.display = 'grid';
             document.getElementById('userName').innerText = loggedInUser;
             remplirLignes();
-        } else { alert("Matricule inconnu"); }
+        } else { alert("Matricule inconnu."); }
     }
 
     function remplirLignes() {
         document.querySelectorAll('.sel-ligne').forEach(s => {
             s.innerHTML = '<option value="">-- Ligne --</option>';
-            for (let l in stationsData) { s.innerHTML += `<option value="${l}">${l}</option>`; }
+            Object.keys(stationsData).forEach(l => s.innerHTML += `<option value="${l}">${l}</option>`);
         });
     }
 
@@ -168,65 +161,59 @@
         const sSelect = el.closest('.modal-content').querySelector('.sel-station');
         sSelect.innerHTML = '<option value="">-- Station --</option>';
         if(stationsData[lastLigne]) {
-            Object.keys(stationsData[lastLigne]).forEach(st => { sSelect.innerHTML += `<option value="${st}">${st}</option>`; });
+            Object.keys(stationsData[lastLigne]).forEach(st => sSelect.innerHTML += `<option value="${st}">${st}</option>`);
         }
     }
 
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function close_m(id) { document.getElementById(id).style.display = 'none'; }
-    function openAndPreFill(id) { openModal(id); }
 
-    // LOGIQUE SPÉCIFIQUE RONDE 15 MIN
-    function validerArrivee(btn) {
-        lastStation = btn.closest('.modal-content').querySelector('.sel-station').value;
-        if(!lastLigne || !lastStation) return alert("Sélectionnez Ligne et Station !");
-        
-        const key = "arr_" + lastLigne + "_" + lastStation;
-        localStorage.setItem(key, new Date().getTime()); // Sauvegarde l'heure d'arrivée
-        
-        validerGeneric(btn, 'ARRIVÉE STATION', 'N/A', true);
-        document.getElementById('timerDisplay').innerText = "⏱️ Arrivée enregistrée. Attendez 15 min avant de taguer le départ.";
-    }
-
-    function validerDepart(btn) {
-        lastStation = btn.closest('.modal-content').querySelector('.sel-station').value;
-        const key = "arr_" + lastLigne + "_" + lastStation;
-        const arriveeTime = localStorage.getItem(key);
-
-        if(!arriveeTime) return alert("❌ Vous devez d'abord taguer l'ARRIVÉE !");
-
-        const maintenant = new Date().getTime();
-        const diffMinutes = (maintenant - arriveeTime) / 60000;
-
-        if(diffMinutes < 15) {
-            const restant = Math.ceil(15 - diffMinutes);
-            document.getElementById('timerDisplay').innerText = "🛑 Trop tôt ! Il reste encore " + restant + " minutes.";
-            return alert("⏳ Patience ! Il reste encore " + restant + " minutes de présence requise.");
+    function openAndPreFill(id) {
+        openModal(id);
+        const m = document.getElementById(id);
+        if(lastLigne) {
+            const ls = m.querySelector('.sel-ligne');
+            if(ls) { ls.value = lastLigne; updateStations(ls); }
+            if(lastStation) { m.querySelector('.sel-station').value = lastStation; }
         }
-
-        validerGeneric(btn, 'DÉPART STATION', 'N/A', true);
-        localStorage.removeItem(key); // On nettoie pour la prochaine fois
-        document.getElementById('timerDisplay').innerText = "";
+        m.querySelectorAll('.mem-agent').forEach(i => i.value = lastAgent);
     }
 
-    // ENVOI GÉNÉRIQUE AVEC SUPPORT HORS-LIGNE
-    function validerGeneric(btn, action, serv, checkGPS) {
-        lastStation = btn.closest('.modal-content').querySelector('.sel-station').value;
-        if(!lastLigne || !lastStation) return alert("Sélectionnez Ligne et Station !");
+    // TRANSMISSION
+    function envoyerOuStocker(data, modalId) {
+        if (navigator.onLine) {
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
+            .then(() => { alert("✅ RÉUSSI"); close_m(modalId); });
+        } else { alert("☁️ MODE HORS-LIGNE (Non envoyé)"); }
+    }
 
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const data = { type: action, chef: loggedInUser, service: serv, ligne: lastLigne, station: lastStation, gps: pos.coords.latitude+","+pos.coords.longitude };
-            
-            if (navigator.onLine) {
-                fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
-                .then(() => { alert("✅ Transmis : " + action); close_m(btn.closest('.modal').id); });
-            } else {
-                const trans = db.transaction("rapports", "readwrite");
-                trans.objectStore("rapports").add(data);
-                alert("📶 Mode Hors-ligne : Sauvegardé localement.");
-                close_m(btn.closest('.modal').id);
-            }
+    function validerConnaissance() {
+        const modal = document.getElementById('modalEval');
+        const l = modal.querySelector('.sel-ligne').value;
+        const s = modal.querySelector('.sel-station').value;
+        const ag = document.getElementById('nomAgentEval').value;
+        if(!l || !s || !ag) return alert("Champs manquants !");
+        
+        envoyerOuStocker({
+            type: "CONNAISSANCE_RESEAU", targetSheet: "Feuille 3", chef: loggedInUser,
+            agent: ag, prestataire: document.getElementById('presEval').value,
+            ligne: l, station: s, q1: document.getElementById('q1Eval').value
+        }, 'modalEval');
+    }
+
+    function validerGeneric(btn, action, serv, checkGPS) {
+        const m = btn.closest('.modal-content');
+        const l = m.querySelector('.sel-ligne').value, s = m.querySelector('.sel-station').value;
+        if(!l || !s) return alert("Sélectionnez Ligne/Station");
+        
+        navigator.geolocation.getCurrentPosition(pos => {
+            envoyerOuStocker({ type: action, chef: loggedInUser, service: serv, ligne: l, station: s, gps: pos.coords.latitude+","+pos.coords.longitude }, btn.closest('.modal').id);
         }, () => alert("GPS requis."));
+    }
+
+    function validerControleLibre() {
+        const ag = document.getElementById('nomAgentDaily').value;
+        envoyerOuStocker({ type: "CONTROLE", chef: loggedInUser, ligne: lastLigne, station: lastStation, agent: ag }, 'modalDaily');
     }
 </script>
 </body>
