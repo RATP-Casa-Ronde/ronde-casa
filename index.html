@@ -1,109 +1,255 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <link rel="manifest" href="manifest.json">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>GESTION TERRITOIRE V4 - PRO</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="logo_ratp_dev_casa.png">
+    <meta name="theme-color" content="#004578">
+
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #004578; --accent: #E2B007; --glass: rgba(255, 255, 255, 0.95);
-            --text-dark: #1a1a1a; --grad-blue: linear-gradient(135deg, #004578 0%, #002a4a 100%);
+            --primary: #004578;
+            --accent: #E2B007;
+            --glass: rgba(255, 255, 255, 0.95);
+            --text-dark: #1a1a1a;
+            --grad-blue: linear-gradient(135deg, #004578 0%, #002a4a 100%);
             --grad-turquoise: linear-gradient(135deg, #48dbfb 0%, #1dd1a1 100%);
-            --color-presence: #27ae60; --color-ronde: #2980b9; --color-controle: #d35400;
-            --color-eval: #8e44ad; --color-f1f2: #2c3e50;
+            --color-presence: #27ae60;
+            --color-ronde: #2980b9;
+            --color-controle: #d35400;
+            --color-eval: #8e44ad;
+            --color-f1f2: #2c3e50;
         }
+
         body { font-family: 'Poppins', sans-serif; background: #f4f7f9; margin: 0; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .header-brand { background: white; width: 100%; padding: 15px 0; display: flex; justify-content: center; align-items: center; gap: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        .logo-ratp { height: 60px; width: auto; }
-        .logo-casa { height: 45px; width: auto; }
+
+        .header-brand {
+            background: white; width: 100%; padding: 15px 0; display: flex; justify-content: center; align-items: center; gap: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 25px;
+        }
+
+        .logo-container { display: flex; justify-content: center; align-items: center; }
+        .logo-ratp { height: 110px; width: auto; object-fit: contain; }
+        .logo-casa { height: 45px; width: auto; object-fit: contain; }
+
         .main-container { width: 90%; max-width: 450px; display: flex; flex-direction: column; gap: 20px; }
-        .login-card { background: var(--grad-turquoise); padding: 35px 25px; border-radius: 24px; box-shadow: 0 20px 40px rgba(29, 209, 161, 0.25); text-align: center; }
-        .login-card h2 { color: white; margin-bottom: 25px; }
+
+        .login-card { 
+            background: var(--grad-turquoise); padding: 35px 25px; border-radius: 24px; 
+            box-shadow: 0 20px 40px rgba(29, 209, 161, 0.25); text-align: center; 
+        }
+
+        .login-card h2 { color: white; margin-bottom: 25px; font-weight: 700; font-size: 1.4rem; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+
         .input-group { margin-bottom: 15px; text-align: left; }
-        .input-group label { display: block; font-size: 0.75rem; color: white; margin-bottom: 5px; }
-        .login-card input { width: 100%; padding: 14px; border-radius: 12px; border: none; box-sizing: border-box; }
-        .btn-login { background: var(--grad-blue); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; cursor: pointer; }
-        .dashboard-info { display: none; background: var(--grad-turquoise); color: white; padding: 25px; border-radius: 20px; width: 100%; box-sizing: border-box; position: relative; }
-        .menu-grid { display: none; grid-template-columns: 1fr; gap: 15px; width: 100%; margin-top: 20px;}
-        .menu-item { background: white; padding: 22px; border-radius: 18px; display: flex; align-items: center; font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border-left: 6px solid #ccc; cursor: pointer; }
+        .input-group label { display: block; font-size: 0.75rem; font-weight: 600; color: white; margin-bottom: 5px; margin-left: 5px; }
+        .login-card input { width: 100%; padding: 14px 18px; border-radius: 12px; border: none; background: rgba(255, 255, 255, 0.9); font-size: 1rem; box-sizing: border-box; }
+
+        .btn-login { background: var(--grad-blue); color: white; border: none; width: 100%; padding: 16px; border-radius: 12px; font-weight: 600; font-size: 1rem; cursor: pointer; margin-top: 10px; box-shadow: 0 8px 15px rgba(0,69,120,0.3); }
+
+        .dashboard-info { display: none; background: var(--grad-turquoise); color: white; padding: 25px; border-radius: 20px; margin-bottom: 15px; position: relative; width: 100%; box-sizing: border-box; box-shadow: 0 10px 20px rgba(29, 209, 161, 0.3); }
+        .dashboard-info h3 { margin: 0; font-size: 1.1rem; }
+        .btn-logout-top { position: absolute; right: 15px; top: 15px; background: rgba(255,255,255,0.3); border: none; color: white; padding: 5px 10px; border-radius: 8px; font-size: 0.7rem; }
+
+        .menu-grid { display: none; grid-template-columns: 1fr; gap: 15px; width: 100%; }
+        .menu-item { background: white; padding: 22px; border-radius: 18px; display: flex; align-items: center; justify-content: space-between; text-decoration: none; color: var(--text-dark); font-weight: 600; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #f0f0f0; cursor: pointer; border-left: 6px solid #ccc; }
+        .item-presence { border-left-color: var(--color-presence); }
+        .item-ronde { border-left-color: var(--color-ronde); }
+        .item-controle { border-left-color: var(--color-controle); }
+        .item-eval { border-left-color: var(--color-eval); }
+        .item-f1f2 { border-left-color: var(--color-f1f2); }
+
         .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(5px); z-index: 9999; justify-content: center; align-items: flex-end; }
-        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 30px 30px 0 0; padding: 25px; box-sizing: border-box; max-height: 90vh; overflow-y: auto; }
-        label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 0.85rem; }
-        select, input { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; box-sizing: border-box; font-family: inherit; }
-        .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 700; margin-top: 15px; cursor: pointer; }
+        .modal-content { background: white; width: 100%; max-width: 500px; border-radius: 30px 30px 0 0; padding: 25px; max-height: 90vh; overflow-y: auto; animation: slideUp 0.4s ease-out; box-sizing: border-box; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f4f4f4; padding-bottom: 15px; }
+        .btn-back { background: #eee; border: none; padding: 8px 15px; border-radius: 10px; font-weight: 600; cursor: pointer; color: #555; }
+
+        label { display: block; margin: 15px 0 5px; font-weight: 600; font-size: 0.85rem; color: #444; }
+        select, input[type="time"], input[type="text"] { width: 100%; padding: 14px; border: 1.5px solid #eee; border-radius: 12px; font-size: 1rem; box-sizing: border-box;}
+        .btn-submit { width: 100%; padding: 18px; border: none; border-radius: 15px; color: white; font-weight: 700; margin-top: 15px; cursor: pointer;}
+        
+        .bg-presence { background: var(--color-presence); }
+        .bg-ronde { background: var(--color-ronde); }
+        .bg-controle { background: var(--color-controle); }
+        .bg-eval { background: var(--color-eval); }
+        .bg-f1f2 { background: var(--color-f1f2); }
+        .btn-depart { background: #34495e; }
+        
+        .check-card { background: #f8fafc; padding: 15px; border-radius: 12px; margin-top: 10px; }
+        .check-item { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
 <div class="header-brand">
-    <img src="logo_ratp_dev_casa.png" alt="RATP" class="logo-ratp">
-    <img src="logo_casa_group.png" alt="CASA" class="logo-casa">
+    <div class="logo-container" style="flex: 1.5;"><img src="logo_ratp_dev_casa.png" alt="RATP Dev" class="logo-ratp"></div>
+    <div class="logo-container" style="flex: 1;"><img src="logo_casa_group.png" alt="Casa Group" class="logo-casa"></div>
 </div>
 
 <div class="main-container">
     <div id="authSection" class="login-card">
-        <h2>PORTAIL CDZ</h2>
-        <div class="input-group"><label>Matricule</label><input type="text" id="loginMat" placeholder="RATPDEV_1234"></div>
-        <div class="input-group"><label>Mot de passe</label><input type="password" id="loginPass"></div>
+        <h2>PORTAIL CHEF DE ZONE</h2>
+        <div class="input-group">
+            <label>Identifiant (Matricule)</label>
+            <input type="text" id="loginMat" placeholder="Ex: RATPDEV_1234">
+        </div>
+        <div class="input-group">
+            <label>Mot de passe</label>
+            <input type="password" id="loginPass" placeholder="••••••••">
+        </div>
         <button class="btn-login" onclick="connexionPro()">SE CONNECTER</button>
     </div>
 
     <div id="dashboard" class="dashboard-info">
-        <button style="float:right; background:rgba(255,255,255,0.3); border:none; color:white; border-radius:5px;" onclick="location.reload()">Quitter</button>
+        <button class="btn-logout-top" onclick="location.reload()">Quitter</button>
         <h3>Tableau de Bord</h3>
-        <span id="userName">Chef de Zone</span>
+        <span id="userName" style="font-weight: 300;">Chef de Zone</span>
     </div>
 
     <div id="mainMenu" class="menu-grid">
-        <div class="menu-item" style="border-left-color: var(--color-presence)" onclick="openAndPreFill('modalPresence')">📌 Pointage Présence</div>
-        <div class="menu-item" style="border-left-color: var(--color-ronde)" onclick="openAndPreFill('modalTerrain')">🧭 Contrôleur de Ronde</div>
-        <div class="menu-item" style="border-left-color: var(--color-controle)" onclick="openAndPreFill('modalDaily')">📝 Contrôle Quotidien</div>
-        <div class="menu-item" style="border-left-color: var(--color-eval)" onclick="openAndPreFill('modalEval')">🎓 Connaissance Réseau</div>
-        <div class="menu-item" style="border-left-color: var(--color-f1f2)" onclick="openAndPreFill('modalF1F2')">🛡️ Dispositif (F1/F2/Match)</div>
+        <div class="menu-item item-presence" onclick="openAndPreFill('modalPresence')">📌 Pointage Présence</div>
+        <div class="menu-item item-ronde" onclick="openAndPreFill('modalTerrain')">🧭 Contrôleur de Ronde</div>
+        <div class="menu-item item-controle" onclick="openAndPreFill('modalDaily')">📝 Contrôle Quotidien</div>
+        <div class="menu-item item-eval" onclick="openAndPreFill('modalEval')">🎓 Connaissance Réseau</div>
+        <div class="menu-item item-f1f2" onclick="openAndPreFill('modalF1F2')">🛡️ Dispositif F1/F2</div>
     </div>
 </div>
 
-<div id="modalF1F2" class="modal"><div class="modal-content">
-    <div class="modal-header"><button onclick="close_m('modalF1F2')">← Retour</button> <b style="color:var(--color-f1f2)">DISPOSITIF</b></div>
+<div id="modalTerrain" class="modal"><div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-back" onclick="close_m('modalTerrain')">← Précédent</button>
+        <span style="font-weight: 700; color: var(--color-ronde);">CONTRÔLEUR DE RONDE</span>
+    </div>
     <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
     <label>Station</label><select class="sel-station"></select>
-    <label>Type de Dispositif</label>
-    <select id="typeF1F2">
-        <option value="F2">F2</option>
-        <option value="F1">F1</option>
-        <option value="Match">Match</option>
-        <option value="Evènement">Evènement</option>
-    </select>
-    <div style="display:flex; gap:10px;">
-        <div style="flex:1"><label>Heure Début</label><input type="time" id="hDeb"></div>
-        <div style="flex:1"><label>Heure Fin</label><input type="time" id="hFin"></div>
+    <div id="timerDisplay" style="text-align:center; padding: 15px; margin-top: 10px; font-weight: 600; border-radius: 10px; background: #f8f9fa;"></div>
+    <div style="margin-top: 10px;">
+        <button class="btn-submit bg-ronde" onclick="validerRonde('ARRIVEE')">ARRIVÉE EN STATION</button>
+        <button class="btn-submit btn-depart" onclick="validerRonde('DEPART')">DÉPART DE STATION</button>
     </div>
-    <button class="btn-submit" style="background:var(--color-f1f2)" onclick="validerF1F2()">VALIDER</button>
 </div></div>
 
-<div id="modalPresence" class="modal"><div class="modal-content"><label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select><label>Station</label><select class="sel-station"></select><button class="btn-submit" style="background:var(--color-presence)" onclick="validerGeneric(this, 'PRISE DE SERVICE', 'MIXTE', true)">VALIDER PRÉSENCE</button><button onclick="close_m('modalPresence')">Annuler</button></div></div>
-<div id="modalTerrain" class="modal"><div class="modal-content"><label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select><label>Station</label><select class="sel-station"></select><div id="timerDisplay"></div><button class="btn-submit" style="background:var(--color-ronde)" onclick="validerRonde('ARRIVEE')">ARRIVÉE</button><button class="btn-submit" style="background:#34495e" onclick="validerRonde('DEPART')">DÉPART</button><button onclick="close_m('modalTerrain')">Annuler</button></div></div>
-<div id="modalDaily" class="modal"><div class="modal-content"><h3>Contrôle</h3><label>Heure</label><input type="time" id="hCtrl"><label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select><label>Station</label><select class="sel-station"></select><label>Agent</label><input type="text" id="agCtrl"><label>Prestataire</label><select id="prCtrl"><option>G4S</option><option>RMO</option><option>RDCA</option></select><label>Écarts</label><div id="ecartsList"><input type="checkbox" value="Tenue"> Tenue <input type="checkbox" value="Tel"> Téléphone</div><button class="btn-submit" style="background:var(--color-controle)" onclick="validerControleLibre()">ENVOYER</button></div></div>
-<div id="modalEval" class="modal"><div class="modal-content"><h3>Évaluation</h3><label>Agent</label><input type="text" id="agEval"><label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select><label>Station</label><select class="sel-station"></select><label>Q1</label><select id="q1"><option>Maîtrise</option><option>Non Maîtrise</option></select><button class="btn-submit" style="background:var(--color-eval)" onclick="validerConnaissance()">VALIDER</button></div></div>
+<div id="modalF1F2" class="modal"><div class="modal-content">
+    <div class="modal-header">
+        <button class="btn-back" onclick="close_m('modalF1F2')">← Précédent</button>
+        <span style="font-weight:700; color:var(--color-f1f2);">DISPOSITIF F1/F2</span>
+    </div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <label>Agent</label><input type="text" id="agentF1F2" class="mem-agent" placeholder="Nom de l'agent">
+    <label>Type de Dispositif</label>
+    <select id="typeF1F2">
+        <option value="F1">F1</option>
+        <option value="F2">F2</option>
+    </select>
+    <button class="btn-submit bg-f1f2" onclick="validerF1F2()">VALIDER DISPOSITIF</button>
+</div></div>
+
+<div id="modalPresence" class="modal"><div class="modal-content">
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalPresence')">← Précédent</button><span style="font-weight:700; color:var(--color-presence);">PRÉSENCE</span></div>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <button class="btn-submit bg-presence" style="margin-bottom:10px" onclick="validerGeneric(this, 'PRISE DE SERVICE (SERVICE MIXTE)', 'SERVICE MIXTE', true)">PRISE DE SERVICE (SERVICE MIXTE)</button>
+    <button class="btn-submit" style="background:#c0392b; margin-top:0;" onclick="validerGeneric(this, 'FIN DE SERVICE (SERVICE MATIN)', 'SERVICE MATIN', true)">FIN DE SERVICE (SERVICE MATIN)</button>
+</div></div>
+
+<div id="modalDaily" class="modal"><div class="modal-content">
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalDaily')">← Précédent</button><span style="font-weight:700; color:var(--color-controle);">CONTRÔLE</span></div>
+    <label>Heure</label><input type="time" id="heureCtrl">
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <label>Agent</label><input type="text" id="nomAgentDaily" class="mem-agent">
+    <label>Prestataire</label><select id="presDaily" class="mem-pres"><option value="G4S">G4S</option><option value="RMO">RMO</option><option value="RDCA">RDCA</option></select>
+    <label>Écarts</label>
+    <div class="check-card" id="groupEcarts">
+        <label class="check-item"><input type="checkbox" value="Rassemblement"> Rassemblement</label>
+        <label class="check-item"><input type="checkbox" value="Tenue non conforme"> Tenue non conforme</label>
+        <label class="check-item"><input type="checkbox" value="Utilisation du téléphone"> Téléphone</label>
+        <label class="check-item"><input type="checkbox" value="Manque d'escorte"> Manque d'escorte</label>
+    </div>
+    <button class="btn-submit bg-controle" onclick="validerControleLibre()">ENVOYER</button>
+</div></div>
+
+<div id="modalEval" class="modal"><div class="modal-content">
+    <div class="modal-header"><button class="btn-back" onclick="close_m('modalEval')">← Précédent</button><span style="font-weight:700; color:var(--color-eval);">ÉVALUATION</span></div>
+    <label>Agent</label><input type="text" id="nomAgentEval" class="mem-agent">
+    <label>Prestataire</label><select id="presEval" class="mem-pres"><option value="G4S">G4S</option><option value="RMO">RMO</option><option value="RDCA">RDCA</option></select>
+    <label>Ligne</label><select class="sel-ligne" onchange="updateStations(this)"></select>
+    <label>Station</label><select class="sel-station"></select>
+    <label>Q1: Tarification</label><select id="q1Eval"><option value="Maîtrise">Maîtrise</option><option value="non Maîtrise">non Maîtrise</option></select>
+    <label>Q2: Déplacement</label><select id="q2Eval"><option value="Maîtrise">Maîtrise</option><option value="non Maîtrise">non Maîtrise</option></select>
+    <button class="btn-submit bg-eval" onclick="validerConnaissance()">VALIDER ÉVAL</button>
+</div></div>
 
 <script>
-    const SCRIPT_URL = "VOTRE_SCRIPT_URL_ICI"; // <--- REMPLACEZ PAR VOTRE LIEN
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwFzNUINWDDMdQIx_JnBa-X6lIxSr0pZEpw-wZP2_fq6Jp6beQFDhkoVNkuSyP_BS1lDg/exec";
     const chefsData = {"1436":"Redouane Zaoui", "355":"Mouhcin RACHDAOUI", "90":"Fouad MAHMAH", "72":"Zakia AMMARI", "760":"Monsif MARZOUK", "591":"Hassan MOUTTAQUINE", "85":"El mostafa ERRAHMOUNI", "86":"Youssef ABOUHILAL", "506":"Anass CHOUKRI", "447":"Rachid BAZZAZ", "185":"Aicha ESSAHMI", "274":"Youssef EZZAMANIDI", "1061":"Ayoub AQASBY", "84":"Mohamed FRIMAN", "74":"Ouissal NASSOUHE", "81":"Mohamed REGRAGUI", "173":"Taha NAJHI", "534":"Mohamed CHAGUE", "430":"Mohamed SADOK", "518":"Samir HOUD", "346":"Youness MAATOUS", "254":"Azddine GOUTE", "643":"Nourddine KARDANE", "1137":"Abdelilah HARIRI", "193":"Bader HAMDA", "712":"Abdelkader OUELDBA", "820":"Samir AKLIA", "262":"Zakaria LAHMITI", "411":"Elbouazzaoui ERRAKI", "147":"Hicham ZAHIDI", "91":"Mounsif FOUAD", "82":"Rachid EL HAFYANI", "422":"El Mehdi EL MISSIOUI", "1386":"Fahd CHAHTI", "687":"Amine MOUSSADAK", "549":"Wadii LARHA", "708":"Ouahid LAYLI", "77":"Siham KASSEMI", "1063":"Aziz DOUMI", "654":"Abderrahman BECHTAOUI"};
-    const stationsData = { "T1": {"Sidi Moumen": [33.586,-7.501],"Casa Voyageurs":[33.590,-7.592],"Nations Unies":[33.594,-7.618]}, "T2": {"Sidi Bernoussi": [33.610,-7.509],"Ain Diab":[33.587,-7.680]} }; // (Ajoutez vos autres stations ici)
+    const stationsData = { "T1": { "Sidi Moumen Terminus": [33.5866,-7.5019], "Ennassim": [33.5846,-7.5047], "Mohammed Zefzaf": [33.5821,-7.5090], "Centre de Maintenance": [33.5793,-7.5133], "Hôpital Sidi Moumen": [33.5764,-7.5179], "Attacharouk": [33.5740,-7.5244], "Okba Ibn Nafii": [33.5730,-7.5328], "Forces Auxiliaires": [33.5748,-7.5396], "Hay Raja": [33.5766,-7.5482], "Ibn Tachfine": [33.5807,-7.5629], "Hay Mohammadi": [33.5851,-7.5666], "Achouhada": [33.5887,-7.5678], "Ali Yaata": [33.5914,-7.5699], "Grande Ceinture": [33.5906,-7.5729], "Anciens Abattoirs": [33.5911,-7.5794], "Bahmad": [33.5940,-7.5872], "Casa Voyageurs": [33.5906,-7.5923], "Place Al Yassir": [33.5928,-7.5966], "La Résistance": [33.5934,-7.6027], "Mohamed Diouri": [33.5936,-7.6074], "Marché Central": [33.5944,-7.6121], "Place des Nations Unies": [33.5948,-7.6181], "Place Mohammed V": [33.5897,-7.6199], "Avenue Hassan II": [33.5841,-7.6230], "Les Hôpitaux": [33.5799,-7.6248], "Faculté de Médecine": [33.5746,-7.6258], "Abdelmoumen": [33.5708,-7.6259], "Bachkou": [33.5641,-7.6274], "Mekka": [33.5583,-7.6296], "Gare Oasis": [33.5549,-7.6310], "Panoramique": [33.5473,-7.6319], "Technopark": [33.5447,-7.6380], "Zenith": [33.5409,-7.6434], "Gare Casa Sud": [33.5422,-7.6511], "Facultés": [33.5457,-7.6576], "Laymoune": [33.5401,-7.6663], "Lissasfa Terminus": [33.5352,-7.6699] }, "T2": { "Sidi Bernoussi Terminus": [33.6101,-7.5098], "Abi Dar El Ghafari": [33.6066,-7.5180], "Gare De Ain Sbaa": [33.6074,-7.5244], "Préfecture Ain Sbaa": [33.6021,-7.5300], "Al Amane": [33.5991,-7.5329], "Al wifaq": [33.5956,-7.5381], "Dar Laman": [33.5938,-7.5574], "Carrières Centrales": [33.5927,-7.5644], "Kissariat Hay Mohammadi": [33.5871,-7.5636], "Mdakra": [33.5812,-7.5633], "Hay Adil": [33.5792,-7.5681], "Derb Milan": [33.5720,-7.5808], "Hay El Farah": [33.5716,-7.5864], "Derb Sultan": [33.5720,-7.5959], "Place Sraghna": [33.5696,-7.6022], "El Fida": [33.5664,-7.6073], "2 Mars": [33.5690,-7.6125], "Hermitage": [33.5691,-7.6179], "Anoual": [33.5694,-7.6250], "Derb Ghalef": [33.5700,-7.6316], "Riviera": [33.5709,-7.6362], "Ghandi": [33.5685,-7.6449], "Beauséjour": [33.5642,-7.6480], "Anfa Clubs": [33.5610,-7.6531], "Anfa Park": [33.5598,-7.6576], "Place Financière": [33.5623,-7.6609], "Abdellah Ben Cherif": [33.5658,-7.6602], "Cité De L'air": [33.5683,-7.6643], "Sidi Abderrahmane": [33.5722,-7.6695], "Hay Hassani": [33.5765,-7.6729], "Littoral": [33.5809,-7.6748], "Ain Diab Plage Terminus": [33.5876,-7.6809] }, "T3": { "Hay Al Wahda Terminus": [33.5457,-7.5473], "10 Mars": [33.5518,-7.5509], "Abdelkader Essahraoui": [33.5557,-7.5475], "Idriss El Allam": [33.5596,-7.5508], "Hay Lalla Meriem": [33.5572,-7.5580], "Jardin Alesco": [33.5508,-7.5686], "Abdessalam Ennaciri": [33.5485,-7.5725], "6 Novembre": [33.5466,-7.5756], "Bd Mohammed VI": [33.5435,-7.5815], "Dar Attouzani": [33.5489,-7.5865], "Afriquia": [33.5546,-7.5923], "Abou Chouaïb Doukali": [33.5615,-7.5947], "Derb Chorfa": [33.5664,-7.5956], "Derb Tolba": [33.5710,-7.5967], "Garage Allal": [33.5756,-7.5989], "Habous": [33.5785,-7.6005], "Mohammed Zerktouni": [33.5926,-7.6086], "Place de la Victoire": [33.5878,-7.6082], "Mohammed Smiha": [33.5926,-7.6086], "Casa Port Terminus": [33.5979,-7.6110] }, "T4": { "Mohammed Erradi Terminus": [33.5691,-7.5179], "Zone Industrielle": [33.5707,-7.5239], "Moulay Rachid": [33.5714,-7.5312], "Mohammed Jaudar": [33.5684,-7.5361], "Faculté Ben Msik": [33.5660,-7.5429], "Hay El Falah": [33.5633,-7.5476], "Idriss El Harti": [33.5614,-7.5509], "Mohammed Bouziane": [33.5635,-7.5542], "Hay Assalama": [33.5676,-7.5583], "Boulevard du Nil": [33.5664,-7.5647], "Chtaiba": [33.5651,-7.5707], "Hay Tissir": [33.5723,-7.5805], "Gare Oulad Ziane": [33.5758,-7.5856], "Ain Borja": [33.5802,-7.5917], "Ifni": [33.5846,-7.5980], "La Gironde": [33.5873,-7.6009], "Jaber Ibn Hayane": [33.5887,-7.6076], "Mers Sultan": [33.5876,-7.6158], "Parc de la ligue arabe Terminus": [33.5879,-7.6217] }, "BW1": { "Salmia 2 Terminus": [33.5371,-7.5508], "Sbata": [33.5385,-7.5547], "Stade Tessema": [33.5410,-7.5587], "Al Joulane": [33.5439,-7.5621], "Lahrizi": [33.5400,-7.5684], "Jardin Sunday": [33.5365,-7.5741], "Amgala": [33.5399,-7.5790], "Al Qods": [33.5438,-7.5819], "Sefrou": [33.5424,-7.5885], "Taza": [33.5420,-7.5899], "Al Inara": [33.5396,-7.5992], "Oulad Haddou": [33.5372,-7.6052], "Hay Chrifa": [33.5350,-7.6098], "Taddart": [33.5323,-7.6166], "Azzohour": [33.5306,-7.6229], "Californie": [33.5313,-7.6305], "Casa Nearshore": [33.5302,-7.6387], "Al Moustakbal": [33.5315,-7.6467], "Sidi Maarouf": [33.5329,-7.6512], "Omar El Khayam Terminus": [33.5402,-7.6669] }, "BW2": { "Ouled Azzouz Terminus": [33.5185,-7.7576], "La Ferme": [33.5225,-7.7511], "Ouled Ahmed": [33.5248,-7.7461], "Les Ecoles": [33.5265,-7.7398], "Oued Sbou": [33.5285,-7.7338], "Errahma": [33.5315,-7.7287], "Les Jardins D’Errahma": [33.5383,-7.7178], "La Perception": [33.5379,-7.7186], "La Rocade": [33.5438,-7.7092], "Abouab Oulfa": [33.5462,-7.7049], "Moulay Thami": [33.5484,-7.7010], "Essafa": [33.5509,-7.6962], "Haj Fateh": [33.5533,-7.6898], "Moulouya": [33.5563,-7.6835], "Oued Beht": [33.5583,-7.6794], "Oued Laou": [33.5599,-7.6746], "Oued Oum Rabia": [33.5614,-7.6694], "Les Musées": [33.5633,-7.6649], "Aéropostale": [33.5650,-7.6605], "C.I.L.": [33.5673,-7.6562], "Yaacoub Al Mansour": [33.5694,-7.6527], "Oulmes Terminus": [33.5715,-7.6486] } };
 
-    let loggedInUser = "", lastLigne = "", lastStation = "";
+    let lastLigne = "", lastStation = "", lastAgent = "", lastPres = "G4S", loggedInUser = "", db;
+
+    // IndexedDB
+    const dbReq = indexedDB.open("RondeCasaDB", 1);
+    dbReq.onupgradeneeded = (e) => {
+        db = e.target.result;
+        if (!db.objectStoreNames.contains("rapports")) db.createObjectStore("rapports", { autoIncrement: true });
+    };
+    dbReq.onsuccess = (e) => { db = e.target.result; forceSync(); };
+
+    function forceSync() {
+        if (!navigator.onLine || !db) return;
+        const store = db.transaction("rapports", "readwrite").objectStore("rapports");
+        const all = store.getAll();
+        all.onsuccess = () => {
+            if (all.result.length > 0) {
+                all.result.forEach(r => fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(r) }));
+                db.transaction("rapports", "readwrite").objectStore("rapports").clear();
+                alert("📶 Synchro réussie.");
+            }
+        };
+    }
 
     function connexionPro() {
-        const mat = document.getElementById('loginMat').value.replace("RATPDEV_", "");
-        if (chefsData[mat]) {
-            loggedInUser = chefsData[mat];
-            document.getElementById('authSection').style.display='none';
-            document.getElementById('dashboard').style.display='block';
-            document.getElementById('mainMenu').style.display='grid';
-            document.getElementById('userName').innerText = loggedInUser;
-            remplirLignes();
-        } else alert("Matricule inconnu");
+        const matInput = document.getElementById('loginMat').value;
+        const passInput = document.getElementById('loginPass').value;
+        if (matInput.startsWith("RATPDEV_")) {
+            let mat = matInput.replace("RATPDEV_", "");
+            if (chefsData[mat] && passInput.length >= 3) {
+                loggedInUser = chefsData[mat];
+                document.getElementById('authSection').style.display = 'none';
+                document.getElementById('dashboard').style.display = 'block';
+                document.getElementById('mainMenu').style.display = 'grid';
+                document.getElementById('userName').innerText = loggedInUser;
+                remplirLignes();
+                return;
+            }
+        }
+        alert("Erreur d'authentification.");
+    }
+
+    function openModal(id) { document.getElementById(id).style.display = 'flex'; }
+    function close_m(id) { document.getElementById(id).style.display = 'none'; }
+
+    function openAndPreFill(id) {
+        openModal(id);
+        const modal = document.getElementById(id);
+        const timeInput = modal.querySelector('input[type="time"]');
+        if(timeInput) timeInput.value = new Date().toTimeString().slice(0,5);
+        if(lastLigne) {
+            const lSel = modal.querySelector('.sel-ligne');
+            if(lSel) { lSel.value = lastLigne; updateStations(lSel); if(lastStation) modal.querySelector('.sel-station').value = lastStation; }
+        }
+        modal.querySelectorAll('.mem-agent').forEach(i => i.value = lastAgent);
+        modal.querySelectorAll('.mem-pres').forEach(s => s.value = lastPres);
+        if(id === 'modalTerrain') startTimerUpdate();
     }
 
     function remplirLignes() {
@@ -115,39 +261,100 @@
 
     function updateStations(el) {
         lastLigne = el.value;
-        const sSel = el.closest('.modal-content').querySelector('.sel-station');
-        sSel.innerHTML = '<option value="">-- Station --</option>';
-        if(stationsData[lastLigne]) Object.keys(stationsData[lastLigne]).forEach(st => sSel.innerHTML += `<option value="${st}">${st}</option>`);
-        sSel.onchange = (e) => { lastStation = e.target.value; };
+        const sSelect = el.closest('.modal-content').querySelector('.sel-station');
+        sSelect.innerHTML = '<option value="">-- Station --</option>';
+        if(stationsData[el.value]) Object.keys(stationsData[el.value]).forEach(st => sSelect.innerHTML += `<option value="${st}">${st}</option>`);
+        sSelect.onchange = (e) => { lastStation = e.target.value; updateRondeStatus(); };
+        updateRondeStatus();
+    }
+
+    function updateRondeStatus() {
+        const display = document.getElementById('timerDisplay');
+        if (!display) return;
+        if (!lastLigne || !lastStation) { display.innerText = ""; return; }
+        const key = `arrivee_${lastLigne}_${lastStation}`;
+        const t = localStorage.getItem(key);
+        if (!t) { display.innerText = "Statut : Non arrivé"; display.style.color = "red"; }
+        else {
+            const diff = Math.floor((Date.now() - parseInt(t)) / 60000);
+            if (diff < 15) { display.innerText = `⏳ Attente : ${15 - diff} min restantes`; display.style.color = "orange"; }
+            else { display.innerText = "✅ Temps de présence (15 min) validé !"; display.style.color = "green"; }
+        }
+    }
+
+    function startTimerUpdate() { setInterval(updateRondeStatus, 30000); }
+
+    function validerRonde(mode) {
+        if(!lastLigne || !lastStation) return alert("Sélectionnez Ligne/Station");
+        navigator.geolocation.getCurrentPosition(pos => {
+            const dist = getDistance(pos.coords.latitude, pos.coords.longitude, stationsData[lastLigne][lastStation][0], stationsData[lastLigne][lastStation][1]);
+            if (dist > 80) return alert(`Trop loin (${Math.round(dist)}m)`);
+            const key = `arrivee_${lastLigne}_${lastStation}`;
+            if (mode === 'ARRIVEE') {
+                localStorage.setItem(key, Date.now().toString());
+                envoyerOuStocker({ type: "ARRIVÉE STATION", chef: loggedInUser, ligne: lastLigne, station: lastStation, gps: pos.coords.latitude+","+pos.coords.longitude }, 'modalTerrain');
+            } else {
+                const t = localStorage.getItem(key);
+                if (!t) return alert("Taguez l'arrivée d'abord !");
+                if ((Date.now() - parseInt(t)) / 60000 < 15) return alert("Erreur : Minimum 15 minutes requis.");
+                envoyerOuStocker({ type: "DÉPART STATION", chef: loggedInUser, ligne: lastLigne, station: lastStation, gps: pos.coords.latitude+","+pos.coords.longitude }, 'modalTerrain');
+                localStorage.removeItem(key);
+            }
+            updateRondeStatus();
+        }, () => alert("GPS requis."));
+    }
+
+    function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371e3, dLat = (lat2-lat1)*Math.PI/180, dLon = (lon2-lon1)*Math.PI/180;
+        const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLon/2)**2;
+        return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    }
+
+    function envoyerOuStocker(data, modalId) {
+        if (navigator.onLine) {
+            fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
+            .then(() => { alert("✅ TRANSMIS"); close_m(modalId); })
+            .catch(() => stockerLocalement(data, modalId));
+        } else stockerLocalement(data, modalId);
+    }
+
+    function stockerLocalement(data, modalId) {
+        const store = db.transaction("rapports", "readwrite").objectStore("rapports");
+        store.add(data); alert("⚠️ Sauvegardé localement (Hors-ligne)"); close_m(modalId);
     }
 
     function validerF1F2() {
-        const type = document.getElementById('typeF1F2').value;
-        const hD = document.getElementById('hDeb').value;
-        const hF = document.getElementById('hFin').value;
-        if(!lastLigne || !lastStation || !hD || !hF) return alert("Champs obligatoires !");
-        
-        envoyer({ type: "DISPOSITIF " + type, chef: loggedInUser, ligne: lastLigne, station: lastStation, heureDebut: hD, heureFin: hF }, 'modalF1F2');
+        const ag = document.getElementById('agentF1F2').value, type = document.getElementById('typeF1F2').value;
+        if(!ag || !lastLigne || !lastStation) return alert("Veuillez remplir tous les champs.");
+        lastAgent = ag;
+        envoyerOuStocker({ type: "DISPOSITIF " + type, chef: loggedInUser, agent: ag, ligne: lastLigne, station: lastStation }, 'modalF1F2');
     }
 
     function validerControleLibre() {
-        const h = document.getElementById('hCtrl').value, ag = document.getElementById('agCtrl').value;
-        if(!h || !ag) return alert("Remplir l'agent et l'heure");
-        envoyer({ type: "CONTROLE", chef: loggedInUser, heure: h, ligne: lastLigne, station: lastStation, agent: ag, prestataire: document.getElementById('prCtrl').value, ecarts: "Check manuel" }, 'modalDaily');
+        const h = document.getElementById('heureCtrl').value, ag = document.getElementById('nomAgentDaily').value, pr = document.getElementById('presDaily').value;
+        if(!h || !lastLigne || !lastStation || !ag) return alert("Champs vides !");
+        lastAgent = ag; lastPres = pr;
+        const ec = Array.from(document.querySelectorAll('#groupEcarts input:checked')).map(b => b.value).join(', ');
+        envoyerOuStocker({ type: "CONTROLE", chef: loggedInUser, heure: h, ligne: lastLigne, station: lastStation, agent: ag, prestataire: pr, ecarts: ec || "Aucun" }, 'modalDaily');
     }
 
     function validerConnaissance() {
-        const ag = document.getElementById('agEval').value;
-        envoyer({ type: "EVALUATION", chef: loggedInUser, agent: ag, prestataire: "RMO", ligne: lastLigne, station: lastStation, q1: document.getElementById('q1').value, q2: "Maîtrise" }, 'modalEval');
+        const ag = document.getElementById('nomAgentEval').value, pr = document.getElementById('presEval').value;
+        if(!ag || !lastLigne || !lastStation) return alert("Champs vides !");
+        lastAgent = ag; lastPres = pr;
+        envoyerOuStocker({ type: "EVALUATION", chef: loggedInUser, agent: ag, prestataire: pr, ligne: lastLigne, station: lastStation, q1: document.getElementById('q1Eval').value, q2: document.getElementById('q2Eval').value }, 'modalEval');
     }
 
-    function envoyer(data, mid) {
-        fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(data) })
-        .then(() => { alert("Transmis !"); close_m(mid); });
+    function validerGeneric(btn, action, serv, checkGPS) {
+        if(!lastLigne || !lastStation) return alert("Sélectionnez Ligne/Station");
+        navigator.geolocation.getCurrentPosition(pos => {
+            if (checkGPS) {
+                const dist = getDistance(pos.coords.latitude, pos.coords.longitude, stationsData[lastLigne][lastStation][0], stationsData[lastLigne][lastStation][1]);
+                if (dist > 80) return alert("Trop loin !");
+            }
+            envoyerOuStocker({ type: action, chef: loggedInUser, service: serv, ligne: lastLigne, station: lastStation, gps: pos.coords.latitude+","+pos.coords.longitude }, btn.closest('.modal').id);
+        }, () => alert("GPS requis."));
     }
-
-    function openAndPreFill(id) { document.getElementById(id).style.display='flex'; }
-    function close_m(id) { document.getElementById(id).style.display='none'; }
 </script>
 </body>
 </html>
